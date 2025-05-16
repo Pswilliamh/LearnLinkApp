@@ -15,7 +15,7 @@ import {
   GraduationCap,
   CalendarDays,
   Lightbulb,
-  Info, // Added Info icon
+  Info,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -80,41 +80,44 @@ export default function HomePage() {
 
   return (
     <div className="space-y-12">
-      <section className="text-center py-8 bg-card rounded-lg shadow-lg">
-        <h1 className="text-5xl font-bold text-card-foreground mb-4">Welcome to LearnLink!</h1>
-        <p className="text-xl text-muted-foreground mb-6 max-w-2xl mx-auto">
-          Your fun and engaging journey to mastering English starts here. Explore letters, words, sentences, and more!
-        </p>
-        
-        {wordOfTheDay && (
-          <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-6 border-2 border-accent">
-            <CardHeader>
-              <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
-                <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-left space-y-4 p-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-4xl font-bold text-secondary-foreground">{wordOfTheDay.word}</h3>
-                <Button variant="ghost" size="icon" onClick={() => speakText(wordOfTheDay.word)} className="text-accent hover:text-accent/80">
-                  <Volume2 className="h-7 w-7" />
-                </Button>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-accent">Definition (English):</p>
-                <p className="text-secondary-foreground text-lg">{wordOfTheDay.definition}</p>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-accent">Example Sentence (English):</p>
-                <p className="text-secondary-foreground italic text-lg">"{wordOfTheDay.exampleSentence}"</p>
-              </div>
-               <div>
-                <p className="text-sm font-semibold text-accent">Translation (Bahasa Indonesia):</p>
-                <p className="text-secondary-foreground text-lg">{wordOfTheDay.translationBahasa}</p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+      <section className="py-8 bg-card rounded-lg shadow-lg">
+        <CardHeader className="text-center pb-2"> {/* Adjusted padding */}
+            <h1 className="text-5xl font-bold text-card-foreground mb-3">Welcome to LearnLink!</h1>
+            <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
+            Your fun and engaging journey to mastering English starts here. Explore letters, words, sentences, and more!
+            </p>
+        </CardHeader>
+        <CardContent className="pt-0"> {/* Adjusted padding */}
+            {wordOfTheDay && (
+            <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-4 border-2 border-accent"> {/* Added border-accent */}
+                <CardHeader className="pb-3 pt-4">
+                <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
+                    <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
+                </CardTitle>
+                </CardHeader>
+                <CardContent className="text-left space-y-3 p-5">
+                <div className="flex items-center justify-between">
+                    <h3 className="text-4xl font-bold text-secondary-foreground">{wordOfTheDay.word}</h3>
+                    <Button variant="ghost" size="icon" onClick={() => speakText(wordOfTheDay.word)} className="text-accent hover:text-accent/80">
+                    <Volume2 className="h-7 w-7" />
+                    </Button>
+                </div>
+                <div>
+                    <p className="text-sm font-semibold text-accent">Definition (English):</p>
+                    <p className="text-secondary-foreground text-lg">{wordOfTheDay.definition}</p>
+                </div>
+                <div>
+                    <p className="text-sm font-semibold text-accent">Example Sentence (English):</p>
+                    <p className="text-secondary-foreground italic text-lg">"{wordOfTheDay.exampleSentence}"</p>
+                </div>
+                <div>
+                    <p className="text-sm font-semibold text-accent">Translation (Bahasa Indonesia):</p>
+                    <p className="text-secondary-foreground text-lg">{wordOfTheDay.translationBahasa}</p>
+                </div>
+                </CardContent>
+            </Card>
+            )}
+        </CardContent>
       </section>
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
