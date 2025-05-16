@@ -35,6 +35,7 @@ export async function identifyObject(input: IdentifyObjectInput): Promise<Identi
 
 const prompt = ai.definePrompt({
   name: 'identifyObjectPrompt',
+  model: 'googleai/gemini-1.5-flash-latest', // Added model here
   input: {schema: IdentifyObjectInputSchema},
   output: {schema: IdentifyObjectOutputSchema},
   prompt: `You are an expert object identifier. Analyze the provided image.
@@ -59,3 +60,4 @@ const identifyObjectFlow = ai.defineFlow(
     return output;
   }
 );
+
