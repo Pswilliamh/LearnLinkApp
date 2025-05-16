@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { ImageUp, Wand2, Loader2, AlertCircle, Languages } from 'lucide-react';
+import { ImageUp, Wand2, Loader2, AlertCircle, Languages, Volume2 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { identifyObject, IdentifyObjectOutput } from '@/ai/flows/identify-object-flow';
@@ -69,6 +69,20 @@ export default function IdentifyObjectPage() {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handlePronounceObjectName = (textToSpeak: string) => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.lang = 'en-US';
+      window.speechSynthesis.speak(utterance);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Pronunciation Failed",
+        description: "Speech synthesis is not supported in your browser.",
+      });
     }
   };
   
@@ -145,7 +159,20 @@ export default function IdentifyObjectPage() {
       {result && !isLoading && (
         <Card className="shadow-md mt-8">
           <CardHeader>
-            <CardTitle className="text-2xl text-primary">Identification Result: <span className="text-accent">{result.objectName}</span></CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-2xl text-primary">
+                Identification Result: <span className="text-accent">{result.objectName}</span>
+              </CardTitle>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => handlePronounceObjectName(result.objectName)}
+                aria-label={`Pronounce ${result.objectName}`}
+                className="text-primary hover:text-accent"
+              >
+                <Volume2 className="h-6 w-6" />
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="space-y-6">
             <div>
