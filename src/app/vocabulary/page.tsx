@@ -15,12 +15,12 @@ type VocabularyItem = {
 };
 
 const vocabularyList: VocabularyItem[] = [
-  { word: 'Apple', translation: 'Apel', imageSrc: 'https://placehold.co/300x200/FFC107/3B5998?text=Apple', imageHint: 'red apple', exampleSentence: 'I eat an apple every day.' },
-  { word: 'Book', translation: 'Buku', imageSrc: 'https://placehold.co/300x200/FFC107/3B5998?text=Book', imageHint: 'open book', exampleSentence: 'This is an interesting book.' },
-  { word: 'Cat', translation: 'Kucing', imageSrc: 'https://placehold.co/300x200/FFC107/3B5998?text=Cat', imageHint: 'cute cat', exampleSentence: 'The cat is sleeping on the mat.' },
-  { word: 'Dog', translation: 'Anjing', imageSrc: 'https://placehold.co/300x200/FFC107/3B5998?text=Dog', imageHint: 'friendly dog', exampleSentence: 'My dog loves to play fetch.' },
-  { word: 'House', translation: 'Rumah', imageSrc: 'https://placehold.co/300x200/FFC107/3B5998?text=House', imageHint: 'cozy house', exampleSentence: 'This is our new house.' },
-  { word: 'School', translation: 'Sekolah', imageSrc: 'https://placehold.co/300x200/FFC107/3B5998?text=School', imageHint: 'school building', exampleSentence: 'Children go to school to learn.' },
+  { word: 'Apple', translation: 'Apel', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'red apple', exampleSentence: 'I eat an apple every day.' },
+  { word: 'Book', translation: 'Buku', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'open book', exampleSentence: 'This is an interesting book.' },
+  { word: 'Cat', translation: 'Kucing', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'cute cat', exampleSentence: 'The cat is sleeping on the mat.' },
+  { word: 'Dog', translation: 'Anjing', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'friendly dog', exampleSentence: 'My dog loves to play fetch.' },
+  { word: 'House', translation: 'Rumah', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'cozy house', exampleSentence: 'This is our new house.' },
+  { word: 'School', translation: 'Sekolah', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'school building', exampleSentence: 'Children go to school to learn.' },
 ];
 
 export default function VocabularyPage() {
@@ -63,6 +63,7 @@ export default function VocabularyPage() {
               width={300} 
               height={200} 
               className="w-full h-48 object-cover"
+              unoptimized={true}
             />
             <CardHeader className="flex-grow">
               <CardTitle className="text-2xl text-primary">{item.word}</CardTitle>
