@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, Rocket, ScanSearch } from 'lucide-react';
+import { BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, Rocket, ScanSearch, GraduationCap } from 'lucide-react';
 
 const navItems = [
   { href: '/alphabet', label: 'Alphabet', icon: SpellCheck },
@@ -10,6 +10,7 @@ const navItems = [
   { href: '/pronunciation', label: 'Pronunciation', icon: Volume2 },
   { href: '/translation', label: 'Translation', icon: Languages },
   { href: '/identify-object', label: 'Identify Object', icon: ScanSearch },
+  { href: '/advanced-learner', label: 'Advanced', icon: GraduationCap },
 ];
 
 export function Header() {
@@ -40,3 +41,5 @@ export function Header() {
     </header>
   );
 }
+
+    
