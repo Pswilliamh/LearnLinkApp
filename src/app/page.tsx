@@ -1,7 +1,8 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2 } from 'lucide-react';
+import { ArrowRight, BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, ScanSearch } from 'lucide-react';
 import Image from 'next/image';
 
 const learningSections = [
@@ -10,6 +11,7 @@ const learningSections = [
   { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: 'https://placehold.co/600x400/E6F2FF/3B5998?text=Sentences', imageHint: 'building blocks' },
   { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: 'https://placehold.co/600x400/E6F2FF/3B5998?text=Audio', imageHint: 'sound waves' },
   { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: 'https://placehold.co/600x400/E6F2FF/3B5998?text=Translate', imageHint: 'global communication' },
+  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: 'https://placehold.co/600x400/FFC107/3B5998?text=Identify', imageHint: 'magnifying glass' },
 ];
 
 export default function HomePage() {
