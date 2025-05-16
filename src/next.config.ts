@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'placehold.co',
         port: '',
-        pathname: '/**',
+        pathname: '/*x*.png', // More specific pattern for WIDTHxHEIGHT.png
       },
     ],
   },
