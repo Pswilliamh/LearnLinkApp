@@ -15,19 +15,21 @@ import {
   GraduationCap,
   CalendarDays,
   Lightbulb,
+  Info, // Added Info icon
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
 
 const learningSections = [
-  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: 'https://placehold.co/600x400/3B5998/FFFFFF?text=A+B+C', imageHint: 'alphabet blocks' },
-  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: 'https://placehold.co/600x400/3B5998/FFFFFF?text=Words', imageHint: 'picture book' },
-  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: 'https://placehold.co/600x400/3B5998/FFFFFF?text=Sentences', imageHint: 'building blocks' },
-  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: 'https://placehold.co/600x400/3B5998/FFFFFF?text=Audio', imageHint: 'sound waves' },
-  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: 'https://placehold.co/600x400/3B5998/FFFFFF?text=Translate', imageHint: 'global communication' },
-  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: 'https://placehold.co/600x400/FFC107/3B5998?text=Identify', imageHint: 'magnifying glass' },
-  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: 'https://placehold.co/600x400/3B5998/FFC107?text=Advanced', imageHint: 'graduation cap' },
+  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: 'https://placehold.co/600x400/220_40_20/FFFFFF?text=A+B+C', imageHint: 'alphabet blocks' },
+  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: 'https://placehold.co/600x400/220_40_20/FFFFFF?text=Words', imageHint: 'picture book' },
+  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: 'https://placehold.co/600x400/220_40_20/FFFFFF?text=Sentences', imageHint: 'building blocks' },
+  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: 'https://placehold.co/600x400/220_40_20/FFFFFF?text=Audio', imageHint: 'sound waves' },
+  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: 'https://placehold.co/600x400/220_40_20/FFFFFF?text=Translate', imageHint: 'global communication' },
+  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: 'https://placehold.co/600x400/45_85_60/220_40_10?text=Identify', imageHint: 'magnifying glass' },
+  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: 'https://placehold.co/600x400/220_40_20/45_85_60?text=Advanced', imageHint: 'graduation cap' },
+  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://tinyurl.com/embassy-gov', icon: Info, image: 'https://placehold.co/600x400/000000/FFFFFF?text=Logo', imageHint: 'embassy logo', external: true, buttonText: 'Visit Website' },
 ];
 
 interface WordOfTheDayItem {
@@ -80,12 +82,12 @@ export default function HomePage() {
     <div className="space-y-12">
       <section className="text-center py-8 bg-card rounded-lg shadow-lg">
         <h1 className="text-5xl font-bold text-card-foreground mb-4">Welcome to LearnLink!</h1>
-        <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+        <p className="text-xl text-muted-foreground mb-6 max-w-2xl mx-auto">
           Your fun and engaging journey to mastering English starts here. Explore letters, words, sentences, and more!
         </p>
         
         {wordOfTheDay && (
-          <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-6 mb-8"> {/* Adjusted mt and mb */}
+          <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-6 border-2 border-accent">
             <CardHeader>
               <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
                 <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
@@ -136,11 +138,19 @@ export default function HomePage() {
                   height={400} 
                   className="rounded-md object-cover aspect-video" 
                 />
-                <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                  <Link href={section.href}>
-                    Start Learning <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
+                {section.external ? (
+                  <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                    <a href={section.href} target="_blank" rel="noopener noreferrer">
+                      {section.buttonText || 'Learn More'} <ArrowRight className="ml-2 h-4 w-4" />
+                    </a>
+                  </Button>
+                ) : (
+                  <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                    <Link href={section.href}>
+                      Start Learning <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                )}
               </CardContent>
             </Card>
           );
