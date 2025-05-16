@@ -7,7 +7,7 @@
     --background: 220 40% 15%; /* Navy Blue */
     --foreground: 45 85% 60%;  /* Gold */
 
-    --card: 210 55% 50%;         /* Lighter Blue */
+    --card: 220 40% 20%;         /* Navy Blue (Same as primary/header) */
     --card-foreground: 0 0% 98%; /* White text for cards */
 
     --popover: 220 40% 20%;       /* Slightly Lighter Navy for popovers */

@@ -1,9 +1,13 @@
 
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, ScanSearch, GraduationCap } from 'lucide-react';
+import { ArrowRight, BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, ScanSearch, GraduationCap, CalendarDays, Lightbulb } from 'lucide-react';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { useToast } from "@/hooks/use-toast";
 
 const learningSections = [
   { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: 'https://placehold.co/600x400/E6F2FF/3B5998?text=A+B+C', imageHint: 'alphabet blocks' },
@@ -15,11 +19,57 @@ const learningSections = [
   { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: 'https://placehold.co/600x400/3B5998/FFC107?text=Advanced', imageHint: 'graduation cap' },
 ];
 
+interface WordOfTheDayItem {
+  word: string;
+  definition: string;
+  exampleSentence: string;
+  translationBahasa: string;
+}
+
+const dailyWordsList: WordOfTheDayItem[] = [
+  { word: 'Kindness', definition: 'The quality of being friendly, generous, and considerate.', exampleSentence: 'Show kindness to everyone you meet.', translationBahasa: 'Kebaikan' },
+  { word: 'Explore', definition: 'To travel through an unfamiliar area in order to learn about it.', exampleSentence: 'They decided to explore the new island.', translationBahasa: 'Menjelajahi' },
+  { word: 'Curious', definition: 'Eager to know or learn something.', exampleSentence: 'The cat was curious about the open box.', translationBahasa: 'Penasaran' },
+  { word: 'Courage', definition: 'The ability to do something that frightens one; bravery.', exampleSentence: 'She showed great courage in a difficult situation.', translationBahasa: 'Keberanian' },
+  { word: 'Imagine', definition: 'To form a mental image or concept of.', exampleSentence: 'Imagine a world full of peace and joy.', translationBahasa: 'Membayangkan' },
+  { word: 'Gratitude', definition: 'The quality of being thankful; readiness to show appreciation for and to return kindness.', exampleSentence: 'He expressed his gratitude for their help.', translationBahasa: 'Rasa Syukur' },
+  { word: 'Knowledge', definition: 'Facts, information, and skills acquired through experience or education.', exampleSentence: 'Knowledge is power.', translationBahasa: 'Pengetahuan' },
+];
+
 export default function HomePage() {
+  const [wordOfTheDay, setWordOfTheDay] = useState<WordOfTheDayItem | null>(null);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const today = new Date();
+    // Use day of the year to pick a word, ensuring it changes daily and cycles through the list
+    const startOfYear = new Date(today.getFullYear(), 0, 0);
+    const diff = today.getTime() - startOfYear.getTime();
+    const oneDay = 1000 * 60 * 60 * 24;
+    const dayOfYear = Math.floor(diff / oneDay);
+    
+    setWordOfTheDay(dailyWordsList[dayOfYear % dailyWordsList.length]);
+  }, []);
+
+  const speakText = (text: string, lang: 'en-US' | 'id-ID' = 'en-US') => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Pronunciation Failed",
+        description: "Speech synthesis is not supported in your browser.",
+      });
+    }
+  };
+
   return (
     <div className="space-y-12">
       <section className="text-center py-12 bg-card rounded-lg shadow-lg">
-        <h1 className="text-5xl font-bold text-primary mb-4">Welcome to LearnLink!</h1>
+        <h1 className="text-5xl font-bold text-primary-foreground mb-4">Welcome to LearnLink!</h1>
         <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
           Your fun and engaging journey to mastering English starts here. Explore letters, words, sentences, and more!
         </p>
@@ -29,19 +79,49 @@ export default function HomePage() {
           data-ai-hint="children learning"
           width={800} 
           height={300} 
-          className="rounded-lg mx-auto shadow-md" 
+          className="rounded-lg mx-auto shadow-md mb-10" 
         />
+
+        {wordOfTheDay && (
+          <Card className="max-w-2xl mx-auto bg-secondary shadow-xl my-8">
+            <CardHeader>
+              <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
+                <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="text-left space-y-4 p-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-4xl font-bold text-primary-foreground">{wordOfTheDay.word}</h3>
+                <Button variant="ghost" size="icon" onClick={() => speakText(wordOfTheDay.word)} className="text-accent hover:text-accent/80">
+                  <Volume2 className="h-7 w-7" />
+                </Button>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-accent">Definition (English):</p>
+                <p className="text-primary-foreground text-lg">{wordOfTheDay.definition}</p>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-accent">Example Sentence (English):</p>
+                <p className="text-primary-foreground italic text-lg">"{wordOfTheDay.exampleSentence}"</p>
+              </div>
+               <div>
+                <p className="text-sm font-semibold text-accent">Translation (Bahasa Indonesia):</p>
+                <p className="text-primary-foreground text-lg">{wordOfTheDay.translationBahasa}</p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </section>
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {learningSections.map((section) => (
-          <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1">
+          <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground">
             <CardHeader>
               <div className="flex items-center gap-3 mb-2">
                 <section.icon className="h-10 w-10 text-accent" />
-                <CardTitle className="text-2xl text-primary">{section.title}</CardTitle>
+                <CardTitle className="text-2xl text-primary-foreground">{section.title}</CardTitle>
               </div>
-              <CardDescription>{section.description}</CardDescription>
+              <CardDescription className="text-muted-foreground">{section.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Image 
@@ -64,5 +144,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-    
