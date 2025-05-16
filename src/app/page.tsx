@@ -22,14 +22,14 @@ import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
 
 const learningSections = [
-  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: 'https://placehold.co/600x400/220_40_20/FFFFFF?text=A+B+C', imageHint: 'alphabet blocks' },
-  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: 'https://placehold.co/600x400/220_40_20/FFFFFF?text=Words', imageHint: 'picture book' },
-  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: 'https://placehold.co/600x400/220_40_20/FFFFFF?text=Sentences', imageHint: 'building blocks' },
-  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: 'https://placehold.co/600x400/220_40_20/FFFFFF?text=Audio', imageHint: 'sound waves' },
-  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: 'https://placehold.co/600x400/220_40_20/FFFFFF?text=Translate', imageHint: 'global communication' },
-  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: 'https://placehold.co/600x400/45_85_60/220_40_10?text=Identify', imageHint: 'magnifying glass' },
-  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: 'https://placehold.co/600x400/220_40_20/45_85_60?text=Advanced', imageHint: 'graduation cap' },
-  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://tinyurl.com/embassy-gov', icon: Info, image: 'https://placehold.co/600x400/000000/FFFFFF?text=Logo', imageHint: 'embassy logo', external: true, buttonText: 'Visit Website' },
+  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: 'https://placehold.co/600x400.png', imageHint: 'alphabet blocks' },
+  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: 'https://placehold.co/600x400.png', imageHint: 'picture book' },
+  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: 'https://placehold.co/600x400.png', imageHint: 'building blocks' },
+  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: 'https://placehold.co/600x400.png', imageHint: 'sound waves' },
+  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: 'https://placehold.co/600x400.png', imageHint: 'global communication' },
+  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: 'https://placehold.co/600x400.png', imageHint: 'magnifying glass' },
+  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: 'https://placehold.co/600x400.png', imageHint: 'graduation cap' },
+  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://tinyurl.com/embassy-gov', icon: Info, image: 'https://placehold.co/600x400.png', imageHint: 'embassy logo', external: true, buttonText: 'Visit Website' },
 ];
 
 interface WordOfTheDayItem {
@@ -81,15 +81,15 @@ export default function HomePage() {
   return (
     <div className="space-y-12">
       <section className="py-8 bg-card rounded-lg shadow-lg">
-        <CardHeader className="text-center pb-2"> {/* Adjusted padding */}
+        <CardHeader className="text-center pb-2">
             <h1 className="text-5xl font-bold text-card-foreground mb-3">Welcome to LearnLink!</h1>
             <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
             Your fun and engaging journey to mastering English starts here. Explore letters, words, sentences, and more!
             </p>
         </CardHeader>
-        <CardContent className="pt-0"> {/* Adjusted padding */}
+        <CardContent className="pt-0">
             {wordOfTheDay && (
-            <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-4 border-2 border-accent"> {/* Added border-accent */}
+            <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-4 border-2 border-accent">
                 <CardHeader className="pb-3 pt-4">
                 <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
                     <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
