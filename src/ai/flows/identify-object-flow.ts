@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview An AI agent for identifying objects in images.
