@@ -4,45 +4,45 @@
 
 @layer base {
   :root {
-    --background: 210 100% 95%; /* Light blue #E6F2FF */
-    --foreground: 221 44% 20%; /* Darker navy for text on light blue */
+    --background: 220 40% 15%; /* Navy Blue */
+    --foreground: 45 85% 60%;  /* Gold */
 
-    --card: 0 0% 100%; /* White */
-    --card-foreground: 221 44% 20%; /* Darker navy for text on card */
+    --card: 210 55% 50%;         /* Lighter Blue */
+    --card-foreground: 0 0% 98%; /* White text for cards */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 221 44% 20%;
+    --popover: 220 40% 20%;       /* Slightly Lighter Navy for popovers */
+    --popover-foreground: 0 0% 98%; /* White text for popovers */
 
-    --primary: 221 44% 41%; /* Soft navy blue #3B5998 */
-    --primary-foreground: 210 40% 98%; /* Light color for text on primary */
+    --primary: 220 40% 20%;         /* Navy Blue (e.g., header background) */
+    --primary-foreground: 0 0% 98%; /* White (e.g., header text) */
 
-    --secondary: 210 100% 85%; /* Lighter shade of background blue */
-    --secondary-foreground: 221 44% 30%;
+    --secondary: 220 40% 25%;       /* Medium Navy */
+    --secondary-foreground: 45 85% 60%;/* Gold text on secondary */
 
-    --muted: 210 100% 88%;
-    --muted-foreground: 221 44% 45%;
+    --muted: 220 40% 30%;           /* Darker Navy/Muted Blue */
+    --muted-foreground: 210 30% 70%; /* Lighter, desaturated blue/grey for muted text */
 
-    --accent: 45 100% 51%; /* Golden yellow #FFC107 */
-    --accent-foreground: 221 44% 20%; /* Dark color for text on accent */
+    --accent: 45 85% 60%;           /* Gold */
+    --accent-foreground: 220 40% 10%; /* Darkest Navy/Black for text on gold accent */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%; /* Standard red */
+    --destructive-foreground: 0 0% 98%; /* White text on red */
 
-    --border: 221 44% 80%; /* Lighter navy for borders */
-    --input: 221 44% 85%;
-    --ring: 45 100% 51%; /* Accent color for rings */
+    --border: 220 40% 35%;          /* Muted Navy border */
+    --input: 220 40% 22%;           /* Input field background - slightly lighter navy */
+    --ring: 45 85% 60%;             /* Gold for focus rings */
 
     --radius: 0.5rem;
 
-    --chart-1: 221 44% 41%;
-    --chart-2: 45 100% 51%;
-    --chart-3: 210 80% 60%;
-    --chart-4: 30 90% 60%;
-    --chart-5: 180 70% 50%;
+    --chart-1: 220 40% 20%; /* Primary Navy */
+    --chart-2: 45 85% 60%;  /* Accent Gold */
+    --chart-3: 210 55% 60%; /* Lighter blue variant */
+    --chart-4: 30 90% 60%;  /* An orange as complementary */
+    --chart-5: 180 70% 50%; /* A teal as complementary */
   }
 
   .dark {
-    /* Define dark mode colors if needed in the future, for now, keeping it light for children */
+    /* Keeping existing dark mode values, can be adjusted later if needed */
     --background: 221 44% 15%;
     --foreground: 210 40% 98%;
 
