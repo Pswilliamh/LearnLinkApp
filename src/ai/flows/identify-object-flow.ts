@@ -3,7 +3,7 @@
 /**
  * @fileOverview An AI agent for identifying objects in images.
  *
- * - identifyObject - A function that identifies an object in a photo, provides its definition, and example sentences.
+ * - identifyObject - A function that identifies an object in a photo, provides its definition, example sentences, and their Bahasa Indonesia translations.
  * - IdentifyObjectInput - The input type for the identifyObject function.
  * - IdentifyObjectOutput - The return type for the identifyObject function.
  */
@@ -22,10 +22,14 @@ export type IdentifyObjectInput = z.infer<typeof IdentifyObjectInputSchema>;
 
 const IdentifyObjectOutputSchema = z.object({
   objectName: z.string().describe('The name of the primary object identified in the photo.'),
-  definition: z.string().describe('A concise definition of the identified object.'),
+  definition: z.string().describe('A concise definition of the identified object in English.'),
   exampleSentences: z
     .array(z.string())
-    .describe('Three example sentences using the name of the identified object.'),
+    .describe('Three example sentences using the name of the identified object in English.'),
+  bahasaDefinition: z.string().describe('The concise definition of the identified object, translated into Bahasa Indonesia.'),
+  bahasaExampleSentences: z
+    .array(z.string())
+    .describe('The three example sentences, translated into Bahasa Indonesia.'),
 });
 export type IdentifyObjectOutput = z.infer<typeof IdentifyObjectOutputSchema>;
 
@@ -35,13 +39,16 @@ export async function identifyObject(input: IdentifyObjectInput): Promise<Identi
 
 const prompt = ai.definePrompt({
   name: 'identifyObjectPrompt',
-  model: 'googleai/gemini-1.5-flash-latest', // Added model here
+  model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: IdentifyObjectInputSchema},
   output: {schema: IdentifyObjectOutputSchema},
-  prompt: `You are an expert object identifier. Analyze the provided image.
-Identify the primary object in the image.
-Provide a concise definition for this object.
-Provide three distinct and grammatically correct example sentences using the object's name.
+  prompt: `You are an expert object identifier and English-to-Bahasa Indonesia translator.
+Analyze the provided image.
+1. Identify the primary object in the image.
+2. Provide a concise definition for this object in English.
+3. Provide three distinct and grammatically correct example sentences in English using the object's name.
+4. Translate the English definition from step 2 into Bahasa Indonesia.
+5. Translate the three English example sentences from step 3 into Bahasa Indonesia.
 
 Image: {{media url=photoDataUri}}`,
 });
@@ -60,4 +67,3 @@ const identifyObjectFlow = ai.defineFlow(
     return output;
   }
 );
-

@@ -5,11 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { ImageUp, Wand2, Loader2, AlertCircle } from 'lucide-react';
+import { ImageUp, Wand2, Loader2, AlertCircle, Languages } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { identifyObject, IdentifyObjectOutput } from '@/ai/flows/identify-object-flow';
 import { useToast } from "@/hooks/use-toast";
+import { Separator } from '@/components/ui/separator';
 
 
 export default function IdentifyObjectPage() {
@@ -71,7 +72,6 @@ export default function IdentifyObjectPage() {
     }
   };
   
-  // useEffect for client-side only logic (if any needed beyond event handlers)
   useEffect(() => {
     // For example, could be used to reset state if the component unmounts/remounts under certain conditions
   }, []);
@@ -83,7 +83,7 @@ export default function IdentifyObjectPage() {
           <CardTitle className="text-3xl text-primary flex items-center gap-2">
             <ImageUp className="h-8 w-8" /> Object Identifier
           </CardTitle>
-          <CardDescription>Upload an image and let our AI identify the object, provide its definition, and give example sentences.</CardDescription>
+          <CardDescription>Upload an image and let our AI identify the object, provide its definition, example sentences, and translations to Bahasa Indonesia.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div>
@@ -133,7 +133,7 @@ export default function IdentifyObjectPage() {
         </CardFooter>
       </Card>
 
-      {isLoading && !result && ( // Show loading card only if not already showing results (to avoid flash if API is fast)
+      {isLoading && !result && ( 
         <Card className="shadow-md">
           <CardContent className="p-6 text-center">
             <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto" />
@@ -145,18 +145,37 @@ export default function IdentifyObjectPage() {
       {result && !isLoading && (
         <Card className="shadow-md mt-8">
           <CardHeader>
-            <CardTitle className="text-2xl text-primary">Identification Result</CardTitle>
+            <CardTitle className="text-2xl text-primary">Identification Result: <span className="text-accent">{result.objectName}</span></CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6">
             <div>
-              <h3 className="text-xl font-semibold text-accent">{result.objectName}</h3>
+              <h3 className="text-xl font-semibold text-foreground">Definition (English)</h3>
               <p className="text-muted-foreground mt-1">{result.definition}</p>
             </div>
             <div>
-              <h4 className="font-semibold text-foreground">Example Sentences:</h4>
+              <h4 className="font-semibold text-foreground">Example Sentences (English):</h4>
               <ul className="list-disc pl-5 space-y-1 text-muted-foreground mt-1">
                 {result.exampleSentences.map((sentence, index) => (
-                  <li key={index}>{sentence}</li>
+                  <li key={`en-${index}`}>{sentence}</li>
+                ))}
+              </ul>
+            </div>
+
+            <Separator className="my-6" />
+
+            <div>
+              <h3 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                <Languages className="h-5 w-5 text-primary" /> Definition (Bahasa Indonesia)
+              </h3>
+              <p className="text-muted-foreground mt-1">{result.bahasaDefinition}</p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-foreground flex items-center gap-2">
+                <Languages className="h-5 w-5 text-primary" /> Example Sentences (Bahasa Indonesia):
+              </h4>
+              <ul className="list-disc pl-5 space-y-1 text-muted-foreground mt-1">
+                {result.bahasaExampleSentences.map((sentence, index) => (
+                  <li key={`id-${index}`}>{sentence}</li>
                 ))}
               </ul>
             </div>
