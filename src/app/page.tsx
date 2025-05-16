@@ -15,7 +15,7 @@ import {
   GraduationCap,
   CalendarDays,
   Lightbulb,
-} from 'lucide-react'; // Ensured all used icons are explicitly imported
+} from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
@@ -78,22 +78,14 @@ export default function HomePage() {
 
   return (
     <div className="space-y-12">
-      <section className="text-center py-12 bg-card rounded-lg shadow-lg">
+      <section className="text-center py-8 bg-card rounded-lg shadow-lg">
         <h1 className="text-5xl font-bold text-card-foreground mb-4">Welcome to LearnLink!</h1>
         <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
           Your fun and engaging journey to mastering English starts here. Explore letters, words, sentences, and more!
         </p>
-        <Image 
-          src="https://placehold.co/800x300/3B5998/FFC107?text=Learn+English+Fun!" 
-          alt="Happy students learning English"
-          data-ai-hint="children learning"
-          width={800} 
-          height={300} 
-          className="rounded-lg mx-auto shadow-md mb-10" 
-        />
-
+        
         {wordOfTheDay && (
-          <Card className="max-w-2xl mx-auto bg-secondary shadow-xl my-8">
+          <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-6 mb-8"> {/* Adjusted mt and mb */}
             <CardHeader>
               <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
                 <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
@@ -125,7 +117,7 @@ export default function HomePage() {
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {learningSections.map((section) => {
-          const IconComponent = section.icon; // Assign to a variable for JSX
+          const IconComponent = section.icon; 
           return (
             <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground">
               <CardHeader>
