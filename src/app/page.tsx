@@ -4,17 +4,28 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, ScanSearch, GraduationCap, CalendarDays, Lightbulb } from 'lucide-react';
+import {
+  ArrowRight,
+  BookOpenText,
+  CaseSensitive,
+  Languages,
+  SpellCheck,
+  Volume2,
+  ScanSearch,
+  GraduationCap,
+  CalendarDays,
+  Lightbulb,
+} from 'lucide-react'; // Ensured all used icons are explicitly imported
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
 
 const learningSections = [
-  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: 'https://placehold.co/600x400/E6F2FF/3B5998?text=A+B+C', imageHint: 'alphabet blocks' },
-  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: 'https://placehold.co/600x400/E6F2FF/3B5998?text=Words', imageHint: 'picture book' },
-  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: 'https://placehold.co/600x400/E6F2FF/3B5998?text=Sentences', imageHint: 'building blocks' },
-  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: 'https://placehold.co/600x400/E6F2FF/3B5998?text=Audio', imageHint: 'sound waves' },
-  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: 'https://placehold.co/600x400/E6F2FF/3B5998?text=Translate', imageHint: 'global communication' },
+  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: 'https://placehold.co/600x400/3B5998/FFFFFF?text=A+B+C', imageHint: 'alphabet blocks' },
+  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: 'https://placehold.co/600x400/3B5998/FFFFFF?text=Words', imageHint: 'picture book' },
+  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: 'https://placehold.co/600x400/3B5998/FFFFFF?text=Sentences', imageHint: 'building blocks' },
+  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: 'https://placehold.co/600x400/3B5998/FFFFFF?text=Audio', imageHint: 'sound waves' },
+  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: 'https://placehold.co/600x400/3B5998/FFFFFF?text=Translate', imageHint: 'global communication' },
   { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: 'https://placehold.co/600x400/FFC107/3B5998?text=Identify', imageHint: 'magnifying glass' },
   { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: 'https://placehold.co/600x400/3B5998/FFC107?text=Advanced', imageHint: 'graduation cap' },
 ];
@@ -42,7 +53,6 @@ export default function HomePage() {
 
   useEffect(() => {
     const today = new Date();
-    // Use day of the year to pick a word, ensuring it changes daily and cycles through the list
     const startOfYear = new Date(today.getFullYear(), 0, 0);
     const diff = today.getTime() - startOfYear.getTime();
     const oneDay = 1000 * 60 * 60 * 24;
@@ -69,7 +79,7 @@ export default function HomePage() {
   return (
     <div className="space-y-12">
       <section className="text-center py-12 bg-card rounded-lg shadow-lg">
-        <h1 className="text-5xl font-bold text-primary-foreground mb-4">Welcome to LearnLink!</h1>
+        <h1 className="text-5xl font-bold text-card-foreground mb-4">Welcome to LearnLink!</h1>
         <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
           Your fun and engaging journey to mastering English starts here. Explore letters, words, sentences, and more!
         </p>
@@ -91,22 +101,22 @@ export default function HomePage() {
             </CardHeader>
             <CardContent className="text-left space-y-4 p-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-4xl font-bold text-primary-foreground">{wordOfTheDay.word}</h3>
+                <h3 className="text-4xl font-bold text-secondary-foreground">{wordOfTheDay.word}</h3>
                 <Button variant="ghost" size="icon" onClick={() => speakText(wordOfTheDay.word)} className="text-accent hover:text-accent/80">
                   <Volume2 className="h-7 w-7" />
                 </Button>
               </div>
               <div>
                 <p className="text-sm font-semibold text-accent">Definition (English):</p>
-                <p className="text-primary-foreground text-lg">{wordOfTheDay.definition}</p>
+                <p className="text-secondary-foreground text-lg">{wordOfTheDay.definition}</p>
               </div>
               <div>
                 <p className="text-sm font-semibold text-accent">Example Sentence (English):</p>
-                <p className="text-primary-foreground italic text-lg">"{wordOfTheDay.exampleSentence}"</p>
+                <p className="text-secondary-foreground italic text-lg">"{wordOfTheDay.exampleSentence}"</p>
               </div>
                <div>
                 <p className="text-sm font-semibold text-accent">Translation (Bahasa Indonesia):</p>
-                <p className="text-primary-foreground text-lg">{wordOfTheDay.translationBahasa}</p>
+                <p className="text-secondary-foreground text-lg">{wordOfTheDay.translationBahasa}</p>
               </div>
             </CardContent>
           </Card>
@@ -114,32 +124,35 @@ export default function HomePage() {
       </section>
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {learningSections.map((section) => (
-          <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground">
-            <CardHeader>
-              <div className="flex items-center gap-3 mb-2">
-                <section.icon className="h-10 w-10 text-accent" />
-                <CardTitle className="text-2xl text-primary-foreground">{section.title}</CardTitle>
-              </div>
-              <CardDescription className="text-muted-foreground">{section.description}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Image 
-                src={section.image} 
-                alt={section.title} 
-                data-ai-hint={section.imageHint}
-                width={600} 
-                height={400} 
-                className="rounded-md object-cover aspect-video" 
-              />
-              <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                <Link href={section.href}>
-                  Start Learning <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+        {learningSections.map((section) => {
+          const IconComponent = section.icon; // Assign to a variable for JSX
+          return (
+            <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  {IconComponent && <IconComponent className="h-10 w-10 text-accent" />}
+                  <CardTitle className="text-2xl text-card-foreground">{section.title}</CardTitle>
+                </div>
+                <CardDescription className="text-sm text-muted-foreground">{section.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Image 
+                  src={section.image} 
+                  alt={section.title} 
+                  data-ai-hint={section.imageHint}
+                  width={600} 
+                  height={400} 
+                  className="rounded-md object-cover aspect-video" 
+                />
+                <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Link href={section.href}>
+                    Start Learning <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          );
+        })}
       </section>
     </div>
   );
