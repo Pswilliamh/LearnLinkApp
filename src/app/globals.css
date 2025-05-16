@@ -2,79 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --background: 210 100% 95%; /* Light blue #E6F2FF */
+    --foreground: 221 44% 20%; /* Darker navy for text on light blue */
+
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 221 44% 20%; /* Darker navy for text on card */
+
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    --popover-foreground: 221 44% 20%;
+
+    --primary: 221 44% 41%; /* Soft navy blue #3B5998 */
+    --primary-foreground: 210 40% 98%; /* Light color for text on primary */
+
+    --secondary: 210 100% 85%; /* Lighter shade of background blue */
+    --secondary-foreground: 221 44% 30%;
+
+    --muted: 210 100% 88%;
+    --muted-foreground: 221 44% 45%;
+
+    --accent: 45 100% 51%; /* Golden yellow #FFC107 */
+    --accent-foreground: 221 44% 20%; /* Dark color for text on accent */
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+
+    --border: 221 44% 80%; /* Lighter navy for borders */
+    --input: 221 44% 85%;
+    --ring: 45 100% 51%; /* Accent color for rings */
+
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --chart-1: 221 44% 41%;
+    --chart-2: 45 100% 51%;
+    --chart-3: 210 80% 60%;
+    --chart-4: 30 90% 60%;
+    --chart-5: 180 70% 50%;
   }
+
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    /* Define dark mode colors if needed in the future, for now, keeping it light for children */
+    --background: 221 44% 15%;
+    --foreground: 210 40% 98%;
+
+    --card: 221 44% 20%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 221 44% 15%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 221 44% 20%;
+
+    --secondary: 221 44% 25%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 221 44% 25%;
+    --muted-foreground: 210 40% 70%;
+
+    --accent: 45 100% 51%;
+    --accent-foreground: 221 44% 15%;
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --border: 221 44% 30%;
+    --input: 221 44% 25%;
+    --ring: 45 100% 51%;
   }
 }
 
@@ -84,5 +79,6 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }

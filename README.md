@@ -1,5 +1,5 @@
-# Firebase Studio
+# LearnLink
 
-This is a NextJS starter in Firebase Studio.
+LearnLink is an application designed to help students learn English, focusing on alphabet, vocabulary, sentences, pronunciation, and translation.
 
-To get started, take a look at src/app/page.tsx.
+This project is built with Next.js, React, TypeScript, and Tailwind CSS.
