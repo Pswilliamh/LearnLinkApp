@@ -10,18 +10,13 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'placehold.co',
-        port: '',
-        pathname: '/**', // General pattern for placehold.co
-      },
+      // placehold.co removed as unoptimized={true} is used for these images
+      // Add other domains here if you need Next.js to optimize their images
     ],
   },
   experimental: {
     allowedDevOrigins: [
       'https://9003-firebase-studio-1747391818732.cluster-73qgvk7hjjadkrjeyexca5ivva.cloudworkstations.dev',
-      // e.g. 'https://*.cloudworkstations.dev'
     ],
   },
 };
