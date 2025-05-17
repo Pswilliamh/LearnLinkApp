@@ -7,14 +7,10 @@ import { BookOpenText, Volume2 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
-// Helper function to generate a simple SVG placeholder as a base64 data URI
+// Helper function to generate a simple SVG placeholder as a data URI
 const generatePlaceholderSvgDataUri = (width: number, height: number): string => {
   const svgString = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#cccccc"/></svg>`;
-  // This function will be called client-side due to 'use client'
-  if (typeof window !== 'undefined') {
-    return `data:image/svg+xml;base64,${window.btoa(svgString)}`;
-  }
-  // Fallback for environments where window might not be immediately available
+  // Always use encodeURIComponent for consistency between server and client
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`;
 };
 
