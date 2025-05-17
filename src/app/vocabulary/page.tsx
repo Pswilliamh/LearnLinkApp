@@ -1,3 +1,4 @@
+
 // src/app/vocabulary/page.tsx
 'use client';
 import { Button } from '@/components/ui/button';
@@ -62,7 +63,7 @@ export default function VocabularyPage() {
               data-ai-hint={item.imageHint}
               width={300} 
               height={200} 
-              className="w-full h-48 object-cover"
+              className="w-full h-auto object-cover"
               unoptimized={true}
             />
             <CardHeader className="flex-grow">
