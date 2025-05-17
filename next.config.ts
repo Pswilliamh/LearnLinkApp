@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       // placehold.co removed as unoptimized={true} is used for these images
+      // and we are now switching to SVG data URI placeholders.
       // Add other domains here if you need Next.js to optimize their images
     ],
   },

@@ -21,15 +21,28 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
 
+// Helper function to generate a simple SVG placeholder as a base64 data URI
+const generatePlaceholderSvgDataUri = (width: number, height: number): string => {
+  const svgString = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#cccccc"/></svg>`;
+  // This function will be called client-side due to 'use client'
+  if (typeof window !== 'undefined') {
+    return `data:image/svg+xml;base64,${window.btoa(svgString)}`;
+  }
+  // Fallback for environments where window might not be immediately available (though less likely for 'use client')
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`;
+};
+
+const placeholder600x400 = generatePlaceholderSvgDataUri(600, 400);
+
 const learningSections = [
-  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: 'https://placehold.co/600x400.png', imageHint: 'alphabet blocks' },
-  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: 'https://placehold.co/600x400.png', imageHint: 'picture book' },
-  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: 'https://placehold.co/600x400.png', imageHint: 'building blocks' },
-  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: 'https://placehold.co/600x400.png', imageHint: 'sound waves' },
-  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: 'https://placehold.co/600x400.png', imageHint: 'global communication' },
-  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: 'https://placehold.co/600x400.png', imageHint: 'magnifying glass' },
-  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: 'https://placehold.co/600x400.png', imageHint: 'graduation cap' },
-  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://tinyurl.com/embassy-gov', icon: Info, image: 'https://placehold.co/600x400.png', imageHint: 'embassy logo', external: true, buttonText: 'Visit Website' },
+  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: placeholder600x400, imageHint: 'alphabet blocks' },
+  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: placeholder600x400, imageHint: 'picture book' },
+  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: placeholder600x400, imageHint: 'building blocks' },
+  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: placeholder600x400, imageHint: 'sound waves' },
+  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: placeholder600x400, imageHint: 'global communication' },
+  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: placeholder600x400, imageHint: 'magnifying glass' },
+  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: placeholder600x400, imageHint: 'graduation cap' },
+  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://tinyurl.com/embassy-gov', icon: Info, image: placeholder600x400, imageHint: 'embassy logo', external: true, buttonText: 'Visit Website' },
 ];
 
 interface WordOfTheDayItem {

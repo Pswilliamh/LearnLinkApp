@@ -7,6 +7,19 @@ import { BookOpenText, Volume2 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
+// Helper function to generate a simple SVG placeholder as a base64 data URI
+const generatePlaceholderSvgDataUri = (width: number, height: number): string => {
+  const svgString = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#cccccc"/></svg>`;
+  // This function will be called client-side due to 'use client'
+  if (typeof window !== 'undefined') {
+    return `data:image/svg+xml;base64,${window.btoa(svgString)}`;
+  }
+  // Fallback for environments where window might not be immediately available
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`;
+};
+
+const placeholder300x200 = generatePlaceholderSvgDataUri(300, 200);
+
 type VocabularyItem = {
   word: string;
   translation: string; // Bahasa Indonesia
@@ -16,12 +29,12 @@ type VocabularyItem = {
 };
 
 const vocabularyList: VocabularyItem[] = [
-  { word: 'Apple', translation: 'Apel', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'red apple', exampleSentence: 'I eat an apple every day.' },
-  { word: 'Book', translation: 'Buku', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'open book', exampleSentence: 'This is an interesting book.' },
-  { word: 'Cat', translation: 'Kucing', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'cute cat', exampleSentence: 'The cat is sleeping on the mat.' },
-  { word: 'Dog', translation: 'Anjing', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'friendly dog', exampleSentence: 'My dog loves to play fetch.' },
-  { word: 'House', translation: 'Rumah', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'cozy house', exampleSentence: 'This is our new house.' },
-  { word: 'School', translation: 'Sekolah', imageSrc: 'https://placehold.co/300x200.png', imageHint: 'school building', exampleSentence: 'Children go to school to learn.' },
+  { word: 'Apple', translation: 'Apel', imageSrc: placeholder300x200, imageHint: 'red apple', exampleSentence: 'I eat an apple every day.' },
+  { word: 'Book', translation: 'Buku', imageSrc: placeholder300x200, imageHint: 'open book', exampleSentence: 'This is an interesting book.' },
+  { word: 'Cat', translation: 'Kucing', imageSrc: placeholder300x200, imageHint: 'cute cat', exampleSentence: 'The cat is sleeping on the mat.' },
+  { word: 'Dog', translation: 'Anjing', imageSrc: placeholder300x200, imageHint: 'friendly dog', exampleSentence: 'My dog loves to play fetch.' },
+  { word: 'House', translation: 'Rumah', imageSrc: placeholder300x200, imageHint: 'cozy house', exampleSentence: 'This is our new house.' },
+  { word: 'School', translation: 'Sekolah', imageSrc: placeholder300x200, imageHint: 'school building', exampleSentence: 'Children go to school to learn.' },
 ];
 
 export default function VocabularyPage() {
