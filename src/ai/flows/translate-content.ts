@@ -11,12 +11,14 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const TranslateContentInputSchema = z.object({
-  englishContent: z.string().describe('The English content to translate.'),
+  textContent: z.string().describe('The text content to translate.'),
+  sourceLanguage: z.string().describe('The source language of the text (e.g., "English", "Bahasa Indonesia").'),
+  targetLanguage: z.string().describe('The target language for the translation (e.g., "Bahasa Indonesia", "English").'),
 });
 export type TranslateContentInput = z.infer<typeof TranslateContentInputSchema>;
 
 const TranslateContentOutputSchema = z.object({
-  bahasaTranslation: z.string().describe('The translated content in Bahasa Indonesian.'),
+  translatedText: z.string().describe('The translated content in the target language.'),
 });
 export type TranslateContentOutput = z.infer<typeof TranslateContentOutputSchema>;
 
@@ -26,13 +28,15 @@ export async function translateContent(input: TranslateContentInput): Promise<Tr
 
 const prompt = ai.definePrompt({
   name: 'translateContentPrompt',
+  model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: TranslateContentInputSchema},
   output: {schema: TranslateContentOutputSchema},
-  prompt: `You are a translation expert specializing in translating English content into Bahasa Indonesian.
+  prompt: `You are a translation expert.
+Translate the following text from {{{sourceLanguage}}} to {{{targetLanguage}}}:
 
-Translate the following English content into Bahasa Indonesian:
+{{{textContent}}}
 
-{{englishContent}}`,
+Provide only the translated text.`,
 });
 
 const translateContentFlow = ai.defineFlow(
@@ -43,6 +47,9 @@ const translateContentFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
-    return output!;
+    if (!output) {
+      throw new Error('Failed to get a response from the AI model for translation.');
+    }
+    return output;
   }
 );

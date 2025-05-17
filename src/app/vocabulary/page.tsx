@@ -59,7 +59,7 @@ export default function VocabularyPage() {
           <CardTitle className="text-3xl text-primary flex items-center gap-2">
             <BookOpenText className="h-8 w-8" /> Vocabulary Builder
           </CardTitle>
-          <CardDescription>Learn new English words with pictures and examples.</CardDescription>
+          <CardDescription>Learn new English words with pictures and examples. (More words can be added here!)</CardDescription>
         </CardHeader>
       </Card>
 
@@ -72,7 +72,7 @@ export default function VocabularyPage() {
               data-ai-hint={item.imageHint}
               width={300} 
               height={200} 
-              className="w-full h-auto object-cover"
+              className="w-full h-auto rounded-t-md" 
               unoptimized={true}
             />
             <CardHeader className="flex-grow">
@@ -93,6 +93,12 @@ export default function VocabularyPage() {
           </Card>
         ))}
       </div>
+       {vocabularyList.length === 0 && <p className="text-muted-foreground text-center py-4">No vocabulary items available yet. Add some to the list!</p>}
+       {vocabularyList.length > 0 && vocabularyList.length < 10 && (
+        <p className="text-muted-foreground text-center py-4">
+          You can add many more words to the <code>vocabularyList</code> in this file!
+        </p>
+      )}
     </div>
   );
 }

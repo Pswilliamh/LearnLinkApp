@@ -148,7 +148,7 @@ export default function HomePage() {
                   data-ai-hint={section.imageHint}
                   width={600} 
                   height={400} 
-                  className="rounded-md object-cover w-full h-auto"
+                  className="rounded-md w-full h-auto" 
                   unoptimized={true} 
                 />
                 {section.external ? (
