@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, Rocket, ScanSearch, GraduationCap, Puzzle } from 'lucide-react';
+import { BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, Rocket, ScanSearch, GraduationCap, Puzzle, BookCopy } from 'lucide-react';
 
 const navItems = [
   { href: '/alphabet', label: 'Alphabet', icon: SpellCheck },
@@ -11,6 +11,7 @@ const navItems = [
   { href: '/translation', label: 'Translation', icon: Languages },
   { href: '/identify-object', label: 'Identify Object', icon: ScanSearch },
   { href: '/match-game', label: 'Word Match', icon: Puzzle },
+  { href: '/flipbook', label: 'Flipbook', icon: BookCopy },
   { href: '/advanced-learner', label: 'Advanced', icon: GraduationCap },
 ];
 

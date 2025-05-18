@@ -17,10 +17,12 @@ import {
   CalendarDays,
   Lightbulb,
   Info,
+  BookCopy,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
+
 
 const learningSections = [
   { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: '/images/section-alphabet.png', imageHint: 'Colorful friendly alphabet blocks arranged playfully educational illustration style' },
@@ -30,6 +32,7 @@ const learningSections = [
   { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: '/images/section-translation.png', imageHint: 'Two speech bubbles one English flag one Indonesian flag connected friendly arrow global communication concept' },
   { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: '/images/section-identify-object.png', imageHint: 'curious child looking through magnifying glass common household object like apple bright illustrative educational style' },
   { title: 'Word Match Game', description: 'Drag words to their matching pictures.', href: '/match-game', icon: Puzzle, image: '/images/section-match-game.png', imageHint: 'Colorful puzzle pieces with simple icons like apple dog car being assembled by children hands educational game concept' },
+  { title: 'Interactive Flipbook', description: 'Flip through pages of household items.', href: '/flipbook', icon: BookCopy, image: '/images/section-flipbook.png', imageHint: 'Animated flipbook icon showing pages turning interactive learning symbol' },
   { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: '/images/section-advanced-learner.png', imageHint: 'stack books graduation cap top against inspiring subtly patterned background academic achievement theme' },
   { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://tinyurl.com/embassy-gov', icon: Info, image: '/images/section-contact-us.png', imageHint: 'Clean professional icon representing official contact point embassy trustworthy clear graphic', external: true, buttonText: 'Visit Website' },
 ];
@@ -90,7 +93,7 @@ export default function HomePage() {
             </p>
         </CardHeader>
         <CardContent className="pt-0">
-            {wordOfTheDay && ( // Ensure wordOfTheDay is not null before rendering
+            {wordOfTheDay && ( 
             <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-4 border-2 border-accent">
                 <CardHeader className="pb-3 pt-4">
                 <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
@@ -141,7 +144,7 @@ export default function HomePage() {
                   data-ai-hint={section.imageHint}
                   width={600} 
                   height={400} 
-                  className="rounded-md w-full h-auto"
+                  className="rounded-md w-full h-auto aspect-[3/2]"
                 />
                 {section.external ? (
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
