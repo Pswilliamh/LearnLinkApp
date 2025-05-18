@@ -22,6 +22,7 @@ const vocabularyList: VocabularyItem[] = [
   { word: 'Dog', translation: 'Anjing', imageSrc: '/images/vocab-dog.png', imageHint: "A happy, playful cartoon dog wagging its tail, friendly and approachable for kids, simple background, educational illustration.", exampleSentence: 'My dog loves to play fetch.' },
   { word: 'House', translation: 'Rumah', imageSrc: '/images/vocab-house.png', imageHint: "A simple, cozy cartoon house with a door and windows, welcoming and cheerful, illustrative educational style.", exampleSentence: 'This is our new house.' },
   { word: 'School', translation: 'Sekolah', imageSrc: '/images/vocab-school.png', imageHint: "A friendly-looking cartoon school building with a welcoming entrance, bright colors, educational setting illustration.", exampleSentence: 'Children go to school to learn.' },
+  { word: 'Parrot', translation: 'Burung Beo', imageSrc: '/images/vocab-parrot.png', imageHint: "A colorful parrot perched on a branch, vibrant feathers, tropical bird illustration.", exampleSentence: 'The parrot can mimic human speech.' },
 ];
 
 export default function VocabularyPage() {
@@ -31,6 +32,8 @@ export default function VocabularyPage() {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       const utterance = new SpeechSynthesisUtterance(word);
       utterance.lang = 'en-US';
+      // Cancel any ongoing speech before speaking anew
+      window.speechSynthesis.cancel();
       window.speechSynthesis.speak(utterance);
     }
   };
