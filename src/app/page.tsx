@@ -142,7 +142,7 @@ export default function HomePage() {
                   data-ai-hint={section.imageHint}
                   width={600}
                   height={400}
-                  className="rounded-md w-full h-auto aspect-[3/2] object-contain"
+                  className="rounded-md object-cover w-full h-auto"
                 />
                 {section.external ? (
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
