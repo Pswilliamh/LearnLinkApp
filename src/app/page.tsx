@@ -23,18 +23,23 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
 
+const generatePlaceholderSvgDataUri = (width: number, height: number) => {
+  const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#e0e0e0"/></svg>`;
+  // Use encodeURIComponent for consistency on server and client
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+};
 
 const learningSections = [
-  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: '/images/section-alphabet.png', imageHint: 'Colorful friendly alphabet blocks arranged playfully educational illustration style' },
-  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: '/images/section-vocabulary.png', imageHint: 'open illustrated children book showing vibrant pictures of common objects animals bright engaging' },
-  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: '/images/section-sentences.png', imageHint: 'Children happily arranging large colorful word blocks form simple sentence sunny illustrative scene' },
-  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: '/images/section-pronunciation.png', imageHint: 'Stylized sound waves emanating friendly cartoon mouth musical notes clear modern educational graphic' },
-  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: '/images/section-translation.png', imageHint: 'Two speech bubbles one English flag one Indonesian flag connected friendly arrow global communication concept' },
-  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: '/images/section-identify-object.png', imageHint: 'curious child looking through magnifying glass common household object like apple bright illustrative educational style' },
+  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: generatePlaceholderSvgDataUri(600,400), imageHint: 'Colorful friendly alphabet blocks arranged playfully educational illustration style' },
+  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: generatePlaceholderSvgDataUri(600,400), imageHint: 'open illustrated children book showing vibrant pictures of common objects animals bright engaging' },
+  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: generatePlaceholderSvgDataUri(600,400), imageHint: 'Children happily arranging large colorful word blocks form simple sentence sunny illustrative scene' },
+  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: generatePlaceholderSvgDataUri(600,400), imageHint: 'Stylized sound waves emanating friendly cartoon mouth musical notes clear modern educational graphic' },
+  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: generatePlaceholderSvgDataUri(600,400), imageHint: 'Two speech bubbles one English flag one Indonesian flag connected friendly arrow global communication concept' },
+  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: generatePlaceholderSvgDataUri(600,400), imageHint: 'curious child looking through magnifying glass common household object like apple bright illustrative educational style' },
   { title: 'Word Match Game', description: 'Drag words to their matching pictures.', href: '/match-game', icon: Puzzle, image: '/images/section-match-game.png', imageHint: 'Colorful puzzle pieces with simple icons like apple dog car being assembled by children hands educational game concept' },
   { title: 'Interactive Flipbook', description: 'Flip through pages of household items.', href: '/flipbook', icon: BookCopy, image: '/images/section-flipbook.png', imageHint: 'Animated flipbook icon showing pages turning interactive learning symbol' },
-  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: '/images/section-advanced-learner.png', imageHint: 'stack books graduation cap top against inspiring subtly patterned background academic achievement theme' },
-  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://tinyurl.com/embassy-gov', icon: Info, image: '/images/section-contact-us.png', imageHint: 'Clean professional icon representing official contact point embassy trustworthy clear graphic', external: true, buttonText: 'Visit Website' },
+  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: generatePlaceholderSvgDataUri(600,400), imageHint: 'stack books graduation cap top against inspiring subtly patterned background academic achievement theme' },
+  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://sites.google.com/view/kohe-embassy-gov/home', icon: Info, image: generatePlaceholderSvgDataUri(600,400), imageHint: 'Clean professional icon representing official contact point embassy trustworthy clear graphic', external: true, buttonText: 'Visit Website' },
 ];
 
 interface WordOfTheDayItem {
@@ -144,7 +149,8 @@ export default function HomePage() {
                   data-ai-hint={section.imageHint}
                   width={600} 
                   height={400} 
-                  className="rounded-md w-full h-auto aspect-[3/2]"
+                  className="rounded-md w-full h-auto"
+                  unoptimized={true}
                 />
                 {section.external ? (
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
