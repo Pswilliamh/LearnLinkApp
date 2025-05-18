@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import Image from 'next/image'; // Added import for Image
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, Rocket, ScanSearch, GraduationCap, Puzzle, BookCopy } from 'lucide-react';
 
@@ -19,14 +19,14 @@ const navItems = [
 export function Header() {
   return (
     <header className="bg-primary text-primary-foreground shadow-md">
-      <div className="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center">
+      <div className="container mx-auto px-4 py-4 flex flex-row justify-between items-center">
         {/* Left side: Eagle Logo */}
-        <Link href="/" className="flex items-center mb-2 sm:mb-0" aria-label="Homepage">
+        <Link href="/" className="flex items-center" aria-label="Homepage">
           <Image
             src="/images/eagle-header-logo.png"
             alt="LearnLink Eagle Logo"
-            width={40} // Adjust width as needed for your logo's aspect ratio
-            height={40} // Adjust height as needed
+            width={40}
+            height={40}
             className="h-10 w-auto" // Controls displayed size, h-10 keeps height, w-auto maintains aspect ratio
           />
         </Link>
