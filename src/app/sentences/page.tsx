@@ -4,8 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { CaseSensitive, Wand2 } from 'lucide-react';
+import { CaseSensitive, Wand2, Send } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useToast } from "@/hooks/use-toast";
 // In a real scenario, this would import your Genkit flow
 // import { suggestSentences } from '@/ai/flows/sentence-suggester'; 
 
@@ -14,10 +15,13 @@ export default function SentencesPage() {
   const [suggestedSentences, setSuggestedSentences] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [practiceSentence, setPracticeSentence] = useState('');
+  const { toast } = useToast();
 
   const handleSuggestSentences = async () => {
     if (!topic.trim()) {
       setError('Please enter a topic or word.');
+      toast({ variant: "destructive", title: "Input Error", description: "Please enter a topic or word." });
       return;
     }
     setIsLoading(true);
@@ -43,6 +47,18 @@ export default function SentencesPage() {
     ]);
 
     setIsLoading(false);
+    toast({ title: "Sentences Suggested!", description: `Showing suggestions for "${topic}".` });
+  };
+
+  const handlePracticeSubmit = () => {
+    if (!practiceSentence.trim()) {
+      toast({ variant: "destructive", title: "Empty Submission", description: "Please write a sentence before submitting." });
+      return;
+    }
+    // For now, just show a toast and clear the textarea
+    toast({ title: "Practice Submitted!", description: "Great job practicing!" });
+    console.log("Practice sentence submitted:", practiceSentence);
+    setPracticeSentence('');
   };
   
   useEffect(() => {
@@ -103,8 +119,15 @@ export default function SentencesPage() {
             <CardDescription>Try writing your own sentences below.</CardDescription>
         </CardHeader>
         <CardContent>
-            <Textarea placeholder="Write your sentences here..." className="min-h-[150px]" />
-            <Button className="mt-4 bg-primary text-primary-foreground hover:bg-primary/90">Submit Practice (Not Implemented)</Button>
+            <Textarea 
+              placeholder="Write your sentences here..." 
+              className="min-h-[150px]"
+              value={practiceSentence}
+              onChange={(e) => setPracticeSentence(e.target.value)} 
+            />
+            <Button onClick={handlePracticeSubmit} className="mt-4 bg-primary text-primary-foreground hover:bg-primary/90">
+              <Send className="mr-2 h-4 w-4" /> Submit Practice
+            </Button>
         </CardContent>
       </Card>
     </div>

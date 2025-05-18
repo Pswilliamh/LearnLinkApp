@@ -66,14 +66,14 @@ export default function VocabularyPage() {
             className="flex flex-col overflow-hidden hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 cursor-pointer"
             onClick={() => toggleRevealItem(item.word)}
           >
-            <div className="relative w-full h-48"> {/* Ensure images have a consistent aspect ratio container */}
+            <div className="relative w-full h-40"> {/* Reduced height from h-48 to h-40 */}
               <Image 
                 src={item.imageSrc} 
                 alt={item.word} 
                 data-ai-hint={item.imageHint}
                 fill
-                style={{ objectFit: 'cover' }}
-                className="rounded-t-md"
+                style={{ objectFit: 'contain' }} // Changed from cover to contain for better visibility
+                className="rounded-t-md p-2" // Added some padding around the image
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
@@ -84,7 +84,7 @@ export default function VocabularyPage() {
                   <p className="text-lg text-accent">{item.translation}</p>
                 </>
               ) : (
-                <CardTitle className="text-2xl text-primary h-14">Tap to reveal</CardTitle> // Placeholder height
+                <CardTitle className="text-2xl text-primary h-14 flex items-center justify-center text-muted-foreground">Tap to reveal</CardTitle>
               )}
             </CardHeader>
             <CardContent className="pt-2 pb-4">
@@ -98,6 +98,7 @@ export default function VocabularyPage() {
                 }} 
                 className="w-full mt-2 bg-primary text-primary-foreground hover:bg-primary/90"
                 aria-label={`Pronounce ${item.word}`}
+                disabled={!revealedItems[item.word]} // Disable pronunciation if not revealed
               >
                 <Volume2 className="mr-2 h-4 w-4" /> Pronounce
               </Button>

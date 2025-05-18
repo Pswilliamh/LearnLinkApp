@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, DragEvent } from 'react';
+import { useState, DragEvent, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Puzzle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -20,7 +20,7 @@ interface DraggableWord {
   isUsed: boolean;
 }
 
-const initialTargetItems: MatchItem[] = [
+const initialTargetItemsData: MatchItem[] = [
   { id: 'apple', word: 'Apple', cue: '🍎', isMatched: false },
   { id: 'dog', word: 'Dog', cue: '🐶', isMatched: false },
   { id: 'car', word: 'Car', cue: '🚗', isMatched: false },
@@ -37,14 +37,14 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-const initialDraggableWords: () => DraggableWord[] = () => shuffleArray(
-  initialTargetItems.map(item => ({ id: item.id, text: item.word, isUsed: false }))
-);
-
 
 export default function MatchGamePage() {
-  const [targetItems, setTargetItems] = useState<MatchItem[]>(initialTargetItems);
-  const [draggableWords, setDraggableWords] = useState<DraggableWord[]>(initialDraggableWords());
+  const [targetItems, setTargetItems] = useState<MatchItem[]>(() => 
+    initialTargetItemsData.map(item => ({ ...item, isMatched: false }))
+  );
+  const [draggableWords, setDraggableWords] = useState<DraggableWord[]>(() => 
+    shuffleArray(initialTargetItemsData.map(item => ({ id: item.id, text: item.word, isUsed: false })))
+  );
   const [draggedWordId, setDraggedWordId] = useState<string | null>(null);
   const { toast } = useToast();
 
@@ -64,33 +64,40 @@ export default function MatchGamePage() {
     const targetItem = targetItems.find(item => item.id === targetItemId);
     const draggedWord = draggableWords.find(word => word.id === draggedWordId);
 
-    if (targetItem && draggedWord && targetItem.id === draggedWord.id && !targetItem.isMatched) {
-      setTargetItems(prevItems =>
-        prevItems.map(item =>
-          item.id === targetItemId ? { ...item, isMatched: true } : item
-        )
-      );
-      setDraggableWords(prevWords =>
-        prevWords.map(word =>
-          word.id === draggedWordId ? { ...word, isUsed: true } : word
-        )
-      );
-      toast({ title: "Correct!", description: `You matched "${draggedWord.text}"!` });
+    if (targetItem && draggedWord && !targetItem.isMatched) {
+      if (targetItem.id === draggedWord.id) {
+        setTargetItems(prevItems =>
+          prevItems.map(item =>
+            item.id === targetItemId ? { ...item, isMatched: true } : item
+          )
+        );
+        setDraggableWords(prevWords =>
+          prevWords.map(word =>
+            word.id === draggedWordId ? { ...word, isUsed: true } : word
+          )
+        );
+        toast({ title: "🎉 Correct Match!", description: `Excellent! You matched "${draggedWord.text}" with ${targetItem.cue}.` });
+      } else {
+        toast({ variant: "destructive", title: "🤔 Oops!", description: `"${draggedWord.text}" doesn't match ${targetItem.cue}. Try again!` });
+      }
     } else if (targetItem && targetItem.isMatched) {
-      toast({ variant: "destructive", title: "Already Matched!", description: "This spot is already correctly matched." });
-    }
-    else {
-      toast({ variant: "destructive", title: "Incorrect Match", description: "Try a different word or spot." });
+      toast({ variant: "destructive", title: "Already Matched!", description: `The spot for ${targetItem.cue} is already correctly matched with "${targetItem.word}".` });
     }
     setDraggedWordId(null); // Reset after drop attempt
   };
 
   const resetGame = () => {
-    setTargetItems(initialTargetItems.map(item => ({ ...item, isMatched: false })));
-    setDraggableWords(initialDraggableWords());
+    setTargetItems(initialTargetItemsData.map(item => ({ ...item, isMatched: false })));
+    setDraggableWords(shuffleArray(initialTargetItemsData.map(item => ({ id: item.id, text: item.word, isUsed: false }))));
     setDraggedWordId(null);
-    toast({ title: "Game Reset", description: "The game has been reset." });
+    toast({ title: "Game Reset", description: "The board is cleared. Good luck!" });
   };
+  
+  // Effect to initialize/shuffle on client side to avoid hydration issues with Math.random
+  useEffect(() => {
+    setTargetItems(initialTargetItemsData.map(item => ({ ...item, isMatched: false })));
+    setDraggableWords(shuffleArray(initialTargetItemsData.map(item => ({ id: item.id, text: item.word, isUsed: false }))));
+  }, []);
   
   const allMatched = targetItems.every(item => item.isMatched);
 
@@ -115,7 +122,7 @@ export default function MatchGamePage() {
                 onDrop={(e) => handleDrop(e, item.id)}
                 className={`w-full aspect-square border-2 border-dashed border-primary rounded-lg flex items-center justify-center text-4xl md:text-5xl
                             transition-all duration-200
-                            ${item.isMatched ? 'bg-green-100 border-green-500' : 'bg-secondary hover:bg-muted'}
+                            ${item.isMatched ? 'bg-green-100 border-green-500 animate-pulse' : 'bg-secondary hover:bg-muted'}
                             ${!item.isMatched && draggedWordId === item.id ? 'ring-4 ring-accent ring-offset-2' : ''} 
                             `}
               >
@@ -146,11 +153,14 @@ export default function MatchGamePage() {
             {draggableWords.every(w => w.isUsed) && !allMatched && (
                  <p className="text-muted-foreground">Some words might be mismatched. Try resetting.</p>
             )}
+             {draggableWords.length === 0 && targetItems.length > 0 && (
+              <p className="text-muted-foreground">Loading game words...</p>
+            )}
           </div>
           
           {allMatched && (
-            <div className="text-center p-6 bg-green-100 border-2 border-green-500 rounded-lg shadow-xl">
-              <h2 className="text-3xl font-bold text-green-700 mb-3">Congratulations!</h2>
+            <div className="text-center p-6 bg-green-100 border-2 border-green-500 rounded-lg shadow-xl animate-bounce">
+              <h2 className="text-3xl font-bold text-green-700 mb-3">Congratulations! 🏆</h2>
               <p className="text-xl text-green-600">You've matched all the words correctly!</p>
             </div>
           )}

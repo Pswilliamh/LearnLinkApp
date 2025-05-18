@@ -17,11 +17,11 @@ interface FlipbookPageItem {
 }
 
 const flipbookPagesData: FlipbookPageItem[] = [
-  { id: 1, title: "Household Items", itemName: "Table", imageSrc: "/images/flipbook-table.png", imageHint: "dining room table" },
-  { id: 2, title: "Living Room", itemName: "Lamp", imageSrc: "/images/flipbook-lamp.png", imageHint: "floor lamp" },
-  { id: 3, title: "Furniture", itemName: "Chair", imageSrc: "/images/flipbook-chair.png", imageHint: "wooden kitchen chair" },
-  { id: 4, title: "Bedroom", itemName: "Bed", imageSrc: "/images/flipbook-bed.png", imageHint: "comfortable double bed" },
-  { id: 5, title: "Electronics", itemName: "Television", imageSrc: "/images/flipbook-television.png", imageHint: "modern flat screen tv" },
+  { id: 1, title: "Household Items", itemName: "Table", imageSrc: "/images/flipbook-table.png", imageHint: "Wooden dining room table in a bright kitchen" },
+  { id: 2, title: "Living Room", itemName: "Lamp", imageSrc: "/images/flipbook-lamp.png", imageHint: "Modern floor lamp standing beside a sofa" },
+  { id: 3, title: "Furniture", itemName: "Chair", imageSrc: "/images/flipbook-chair.png", imageHint: "Comfortable armchair with a cushion in a cozy living room" },
+  { id: 4, title: "Bedroom", itemName: "Bed", imageSrc: "/images/flipbook-bed.png", imageHint: "Neatly made double bed with pillows in a sunlit bedroom" },
+  { id: 5, title: "Electronics", itemName: "Television", imageSrc: "/images/flipbook-television.png", imageHint: "Flat screen television mounted on a wall displaying a nature scene" },
 ];
 
 export default function FlipbookPage() {
@@ -127,6 +127,11 @@ export default function FlipbookPage() {
                 Next <ChevronRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
+          </div>
+        )}
+         {!currentPageData && flipbookPagesData.length === 0 && (
+          <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center text-muted-foreground">
+            <p>No flipbook pages available. Add some items to start!</p>
           </div>
         )}
       </div>
