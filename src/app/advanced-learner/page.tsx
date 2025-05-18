@@ -66,6 +66,13 @@ const sampleQuizQuestions: QuizQuestion[] = [
     options: ["She", "quickly", "reads", "book"], 
     correctAnswer: "reads",
   },
+  {
+    id: 'q3',
+    questionText: "Choose the correct word: The ______ is shining brightly.",
+    type: 'multiple-choice',
+    options: ["sun", "moon", "star", "lamp"],
+    correctAnswer: "sun",
+  },
   // Add more quiz questions here
 ];
 
@@ -85,8 +92,11 @@ export default function AdvancedLearnerPage() {
   const [quizScores, setQuizScores] = useState<Record<string, boolean | null>>({});
 
   useEffect(() => {
-    if (sessionStorage.getItem('advancedLearnerUnlocked') === 'true') {
-      setIsUnlocked(true);
+    // Check session storage on mount
+    if (typeof window !== 'undefined') {
+      if (sessionStorage.getItem('advancedLearnerUnlocked') === 'true') {
+        setIsUnlocked(true);
+      }
     }
   }, []);
 
@@ -97,7 +107,9 @@ export default function AdvancedLearnerPage() {
       const success = await verifyPassword(enteredPassword);
       if (success) {
         setIsUnlocked(true);
-        sessionStorage.setItem('advancedLearnerUnlocked', 'true');
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('advancedLearnerUnlocked', 'true');
+        }
         toast({ title: "Advanced Section Unlocked!", description: "You can now access the advanced content." });
       } else {
         setUnlockError('Incorrect password. Please try again or contact an administrator.');
@@ -141,7 +153,7 @@ export default function AdvancedLearnerPage() {
 
   const handleQuizAnswerChange = (questionId: string, answer: string) => {
     setQuizAnswers(prev => ({ ...prev, [questionId]: answer }));
-    setQuizScores(prev => ({ ...prev, [questionId]: null }));
+    setQuizScores(prev => ({ ...prev, [questionId]: null })); // Reset score when answer changes
   };
 
   const checkQuizAnswer = (questionId: string) => {
@@ -421,3 +433,5 @@ export default function AdvancedLearnerPage() {
     </div>
   );
 }
+
+    
