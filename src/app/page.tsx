@@ -23,9 +23,9 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
 
+// Helper function to generate SVG placeholder
 const generatePlaceholderSvgDataUri = (width: number, height: number) => {
   const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#e0e0e0"/></svg>`;
-  // Use encodeURIComponent for consistency on server and client
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 };
 
@@ -64,7 +64,6 @@ export default function HomePage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // This logic should run only on the client side
     const today = new Date();
     const startOfYear = new Date(today.getFullYear(), 0, 0);
     const diff = today.getTime() - startOfYear.getTime();
@@ -98,7 +97,7 @@ export default function HomePage() {
             </p>
         </CardHeader>
         <CardContent className="pt-0">
-            {wordOfTheDay && ( 
+            {wordOfTheDay && (
             <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-4 border-2 border-accent">
                 <CardHeader className="pb-3 pt-4">
                 <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
@@ -132,7 +131,8 @@ export default function HomePage() {
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {learningSections.map((section) => {
-          const IconComponent = section.icon; 
+          const IconComponent = section.icon;
+          const isSvgPlaceholder = section.image.startsWith('data:image/svg+xml');
           return (
             <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground">
               <CardHeader>
@@ -143,14 +143,14 @@ export default function HomePage() {
                 <CardDescription className="text-sm text-muted-foreground">{section.description}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Image 
-                  src={section.image} 
-                  alt={section.title} 
+                <Image
+                  src={section.image}
+                  alt={section.title}
                   data-ai-hint={section.imageHint}
-                  width={600} 
-                  height={400} 
+                  width={600}
+                  height={400}
                   className="rounded-md w-full h-auto"
-                  unoptimized={true}
+                  unoptimized={isSvgPlaceholder}
                 />
                 {section.external ? (
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
