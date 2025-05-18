@@ -13,6 +13,7 @@ import {
   Volume2,
   ScanSearch,
   GraduationCap,
+  Puzzle,
   CalendarDays,
   Lightbulb,
   Info,
@@ -22,14 +23,15 @@ import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
 
 const learningSections = [
-  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: '/images/section-alphabet.png', imageHint: 'Colorful, friendly alphabet blocks arranged playfully, educational illustration style.' },
-  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: '/images/section-vocabulary.png', imageHint: "An open illustrated children's book showing vibrant pictures of common objects and animals, bright and engaging." },
-  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: '/images/section-sentences.png', imageHint: "Children happily arranging large, colorful word blocks to form a simple sentence, sunny illustrative scene." },
-  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: '/images/section-pronunciation.png', imageHint: "Stylized sound waves emanating from a friendly cartoon mouth, with musical notes, clear and modern educational graphic." },
-  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: '/images/section-translation.png', imageHint: "Two speech bubbles, one with an English flag and one with an Indonesian flag, connected by a friendly arrow, global communication concept." },
-  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: '/images/section-identify-object.png', imageHint: "A curious child looking through a magnifying glass at a common household object like an apple, bright and illustrative educational style." },
-  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: '/images/section-advanced-learner.png', imageHint: "A stack of books with a graduation cap on top, against an inspiring, subtly patterned background, academic achievement theme." },
-  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://tinyurl.com/embassy-gov', icon: Info, image: '/images/section-contact-us.png', imageHint: "Clean, professional icon representing an official contact point or embassy, trustworthy and clear graphic.", external: true, buttonText: 'Visit Website' },
+  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: '/images/section-alphabet.png', imageHint: 'Colorful friendly alphabet blocks arranged playfully educational illustration style' },
+  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: '/images/section-vocabulary.png', imageHint: 'open illustrated children book showing vibrant pictures of common objects animals bright engaging' },
+  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: '/images/section-sentences.png', imageHint: 'Children happily arranging large colorful word blocks form simple sentence sunny illustrative scene' },
+  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: '/images/section-pronunciation.png', imageHint: 'Stylized sound waves emanating friendly cartoon mouth musical notes clear modern educational graphic' },
+  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: '/images/section-translation.png', imageHint: 'Two speech bubbles one English flag one Indonesian flag connected friendly arrow global communication concept' },
+  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: '/images/section-identify-object.png', imageHint: 'curious child looking through magnifying glass common household object like apple bright illustrative educational style' },
+  { title: 'Word Match Game', description: 'Drag words to their matching pictures.', href: '/match-game', icon: Puzzle, image: '/images/section-match-game.png', imageHint: 'Colorful puzzle pieces with simple icons like apple dog car being assembled by children hands educational game concept' },
+  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: '/images/section-advanced-learner.png', imageHint: 'stack books graduation cap top against inspiring subtly patterned background academic achievement theme' },
+  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://tinyurl.com/embassy-gov', icon: Info, image: '/images/section-contact-us.png', imageHint: 'Clean professional icon representing official contact point embassy trustworthy clear graphic', external: true, buttonText: 'Visit Website' },
 ];
 
 interface WordOfTheDayItem {
@@ -54,12 +56,12 @@ export default function HomePage() {
   const { toast } = useToast();
 
   useEffect(() => {
+    // This logic should run only on the client side
     const today = new Date();
     const startOfYear = new Date(today.getFullYear(), 0, 0);
     const diff = today.getTime() - startOfYear.getTime();
     const oneDay = 1000 * 60 * 60 * 24;
     const dayOfYear = Math.floor(diff / oneDay);
-    
     setWordOfTheDay(dailyWordsList[dayOfYear % dailyWordsList.length]);
   }, []);
 
@@ -88,7 +90,7 @@ export default function HomePage() {
             </p>
         </CardHeader>
         <CardContent className="pt-0">
-            {wordOfTheDay && (
+            {wordOfTheDay && ( // Ensure wordOfTheDay is not null before rendering
             <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-4 border-2 border-accent">
                 <CardHeader className="pb-3 pt-4">
                 <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
@@ -139,7 +141,7 @@ export default function HomePage() {
                   data-ai-hint={section.imageHint}
                   width={600} 
                   height={400} 
-                  className="rounded-md w-full h-auto" 
+                  className="rounded-md w-full h-auto"
                 />
                 {section.external ? (
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
