@@ -7,15 +7,6 @@ import { BookOpenText, Volume2 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
-// Helper function to generate a simple SVG placeholder as a data URI
-const generatePlaceholderSvgDataUri = (width: number, height: number): string => {
-  const svgString = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#cccccc"/></svg>`;
-  // Always use encodeURIComponent for consistency between server and client
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`;
-};
-
-const placeholder300x200 = generatePlaceholderSvgDataUri(300, 200);
-
 type VocabularyItem = {
   word: string;
   translation: string; // Bahasa Indonesia
@@ -25,12 +16,12 @@ type VocabularyItem = {
 };
 
 const vocabularyList: VocabularyItem[] = [
-  { word: 'Apple', translation: 'Apel', imageSrc: placeholder300x200, imageHint: 'red apple', exampleSentence: 'I eat an apple every day.' },
-  { word: 'Book', translation: 'Buku', imageSrc: placeholder300x200, imageHint: 'open book', exampleSentence: 'This is an interesting book.' },
-  { word: 'Cat', translation: 'Kucing', imageSrc: placeholder300x200, imageHint: 'cute cat', exampleSentence: 'The cat is sleeping on the mat.' },
-  { word: 'Dog', translation: 'Anjing', imageSrc: placeholder300x200, imageHint: 'friendly dog', exampleSentence: 'My dog loves to play fetch.' },
-  { word: 'House', translation: 'Rumah', imageSrc: placeholder300x200, imageHint: 'cozy house', exampleSentence: 'This is our new house.' },
-  { word: 'School', translation: 'Sekolah', imageSrc: placeholder300x200, imageHint: 'school building', exampleSentence: 'Children go to school to learn.' },
+  { word: 'Apple', translation: 'Apel', imageSrc: '/images/vocab-apple.png', imageHint: "A shiny red apple, simple and iconic, on a clean white background, clear educational illustration.", exampleSentence: 'I eat an apple every day.' },
+  { word: 'Book', translation: 'Buku', imageSrc: '/images/vocab-book.png', imageHint: "A colorful, closed children's storybook with an engaging cover illustration, inviting to read, educational style.", exampleSentence: 'This is an interesting book.' },
+  { word: 'Cat', translation: 'Kucing', imageSrc: '/images/vocab-cat.png', imageHint: "A cute, friendly cartoon cat sitting attentively, appealing to children, simple background, educational illustration.", exampleSentence: 'The cat is sleeping on the mat.' },
+  { word: 'Dog', translation: 'Anjing', imageSrc: '/images/vocab-dog.png', imageHint: "A happy, playful cartoon dog wagging its tail, friendly and approachable for kids, simple background, educational illustration.", exampleSentence: 'My dog loves to play fetch.' },
+  { word: 'House', translation: 'Rumah', imageSrc: '/images/vocab-house.png', imageHint: "A simple, cozy cartoon house with a door and windows, welcoming and cheerful, illustrative educational style.", exampleSentence: 'This is our new house.' },
+  { word: 'School', translation: 'Sekolah', imageSrc: '/images/vocab-school.png', imageHint: "A friendly-looking cartoon school building with a welcoming entrance, bright colors, educational setting illustration.", exampleSentence: 'Children go to school to learn.' },
 ];
 
 export default function VocabularyPage() {
@@ -72,8 +63,7 @@ export default function VocabularyPage() {
               data-ai-hint={item.imageHint}
               width={300} 
               height={200} 
-              className="w-full h-auto rounded-t-md" 
-              unoptimized={true}
+              className="w-full h-auto rounded-t-md"
             />
             <CardHeader className="flex-grow">
               <CardTitle className="text-2xl text-primary">{item.word}</CardTitle>
