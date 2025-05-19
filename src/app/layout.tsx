@@ -15,9 +15,9 @@ export const metadata: Metadata = {
   description: 'An engaging app to help students learn English, from letters to sentences.',
   manifest: '/manifest.json',
   icons: {
-    apple: "/icons/learnlink/apple-touch-icon.png", // You should create this file: public/icons/learnlink/apple-touch-icon.png (e.g. 180x180)
+    apple: "/icons/learnlink/apple-touch-icon.png",
   },
-  themeColor: '#3B5998', // Added theme color for PWA
+  themeColor: '#3B5998',
 };
 
 export default function RootLayout({
@@ -35,7 +35,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="LearnLink" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="msapplication-config" content="/icons/learnlink/browserconfig.xml" /> {/* You might need to create this file if supporting IE/Edge pinned sites */}
+        <meta name="msapplication-config" content="/icons/learnlink/browserconfig.xml" />
         <meta name="msapplication-TileColor" content="#3B5998" />
         <meta name="msapplication-tap-highlight" content="no" />
       </head>
