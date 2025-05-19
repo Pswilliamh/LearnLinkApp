@@ -60,14 +60,13 @@ export default function HomePage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // This logic runs only on the client after hydration
     const today = new Date();
     const startOfYear = new Date(today.getFullYear(), 0, 0);
     const diff = today.getTime() - startOfYear.getTime();
     const oneDay = 1000 * 60 * 60 * 24;
     const dayOfYear = Math.floor(diff / oneDay);
     setWordOfTheDay(dailyWordsList[dayOfYear % dailyWordsList.length]);
-  }, []); // Empty dependency array ensures this runs once on mount (client-side)
+  }, []);
 
   const speakText = (text: string, lang: 'en-US' | 'id-ID' = 'en-US') => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -101,9 +100,9 @@ export default function HomePage() {
                   <Image
                     src="/images/sight-logo.png"
                     alt="LearnLink Sight Logo"
-                    width={60} // Adjust width as needed
-                    height={60} // Adjust height as needed
-                    className="rounded-full" // Optional: if your logo is circular
+                    width={60}
+                    height={60}
+                    className="rounded-full"
                   />
                   <CardTitle className="text-3xl text-accent flex items-center gap-3">
                       <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
