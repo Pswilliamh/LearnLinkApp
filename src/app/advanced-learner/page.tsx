@@ -38,6 +38,16 @@ const sampleDialogues: DialogueStory[] = [
       { speaker: "Buyer", english: "I'll take one kilogram, please.", bahasa: "Saya ambil satu kilogram, ya." },
     ],
   },
+  {
+    title: "California Beach Dream",
+    characters: ["Alex", "Maria"],
+    turns: [
+      { speaker: "Alex", english: "Hey, have you heard about that new beach in California? I heard it's beautiful.", bahasa: "Hei, sudahkah kamu mendengar tentang pantai baru di California? Saya dengar itu indah." },
+      { speaker: "Maria", english: "Oh, really? I've been wanting to go to California. What's the name of the beach?", bahasa: "Oh, benarkah? Saya sudah lama ingin pergi ke California. Apa nama pantainya?" },
+      { speaker: "Alex", english: "I think it's called 'Sunset Cove'. The pictures look amazing!", bahasa: "Saya rasa namanya 'Sunset Cove'. Fotonya terlihat luar biasa!" },
+      { speaker: "Maria", english: "We should plan a trip there sometime!", bahasa: "Kita harus merencanakan perjalanan ke sana kapan-kapan!" }
+    ]
+  }
   // Add more dialogues here by transcribing from your PDFs
 ];
 
