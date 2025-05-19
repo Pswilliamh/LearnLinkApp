@@ -97,9 +97,18 @@ export default function HomePage() {
             {wordOfTheDay && (
             <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-4 border-2 border-accent">
                 <CardHeader className="pb-3 pt-4">
-                <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
-                    <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
-                </CardTitle>
+                <div className="flex items-center justify-center gap-3">
+                  <Image
+                    src="/images/sight-logo.png"
+                    alt="LearnLink Sight Logo"
+                    width={60} // Adjust width as needed
+                    height={60} // Adjust height as needed
+                    className="rounded-full" // Optional: if your logo is circular
+                  />
+                  <CardTitle className="text-3xl text-accent flex items-center gap-3">
+                      <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
+                  </CardTitle>
+                </div>
                 </CardHeader>
                 <CardContent className="text-left space-y-3 p-5">
                 <div className="flex items-center justify-between">
