@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Volume2, XCircle, Speaker } from 'lucide-react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface AlphabetInfo {
   letter: string;
@@ -65,6 +65,11 @@ export default function AlphabetPage() {
           console.error("Speech synthesis error:", event.error);
           reject(event.error);
         };
+        // Ensure any previously speaking utterance is stopped before speaking a new one
+        // if it's not part of the same logical sequence (handled by queue for sequences)
+        if (speechQueue.current.length === 0) { // Only cancel if this is a new, non-queued speech
+            window.speechSynthesis.cancel();
+        }
         window.speechSynthesis.speak(utterance);
       } else {
         console.warn("Speech synthesis not supported.");
@@ -83,36 +88,31 @@ export default function AlphabetPage() {
     setSelectedLetterInfo(letterInfo);
     setCurrentWord(prevWord => prevWord + letterInfo.letter);
 
-    // Clear existing queue for letter clicks to avoid overlap if user clicks rapidly
     speechQueue.current = []; 
-    isProcessingQueue.current = false; // Reset processing flag
-    window.speechSynthesis.cancel(); // Cancel any ongoing speech
+    isProcessingQueue.current = false;
+    window.speechSynthesis.cancel();
 
-    add_to_speech_queue(letterInfo.name, 'en-US', 1.2, 0.9); // Pronounce letter name
-    speechQueue.current.push(() => new Promise(resolve => setTimeout(resolve, 150))); // short pause
-    add_to_speech_queue(letterInfo.sound, 'en-US', 1, 1.1); // Pronounce phonetic sound
-    processSpeechQueue(); // Ensure queue processing starts
+    add_to_speech_queue(letterInfo.name, 'en-US', 1.2, 0.9);
+    speechQueue.current.push(() => new Promise(resolve => setTimeout(resolve, 150))); 
+    add_to_speech_queue(letterInfo.sound, 'en-US', 1, 1.1);
+    processSpeechQueue();
   };
 
   const handlePronounceWord = async () => {
     if (!currentWord || isSpeaking) return;
 
-    speechQueue.current = []; // Clear queue
+    speechQueue.current = [];
     isProcessingQueue.current = false;
     window.speechSynthesis.cancel();
 
-    // Pronounce each letter
     for (const char of currentWord) {
       const letterInfo = alphabetData.find(l => l.letter === char.toUpperCase());
       if (letterInfo) {
         add_to_speech_queue(letterInfo.name, 'en-US', 1.2, 0.9);
-        // Add a slight pause between letters if desired, e.g., by pushing a delay promise
         speechQueue.current.push(() => new Promise(resolve => setTimeout(resolve, 50)));
       }
     }
-    // Add a longer pause before saying the whole word
     speechQueue.current.push(() => new Promise(resolve => setTimeout(resolve, 300)));
-    // Pronounce the whole word
     add_to_speech_queue(currentWord, 'en-US', 1, 1);
     processSpeechQueue();
   };
@@ -127,10 +127,10 @@ export default function AlphabetPage() {
   };
   
   useEffect(() => {
-    // Cleanup speech synthesis on component unmount
     return () => {
       window.speechSynthesis.cancel();
       speechQueue.current = [];
+      isProcessingQueue.current = false;
     };
   }, []);
 
@@ -154,7 +154,7 @@ export default function AlphabetPage() {
                            hover:bg-accent hover:text-accent-foreground transition-all duration-200 transform hover:scale-105
                            focus:ring-2 focus:ring-accent focus:ring-offset-2"
                 onClick={() => handleLetterClick(info)}
-                aria-label={`Letter ${info.letter}, sound ${info.sound}`}
+                aria-label={`Letter ${info.letter}, name ${info.name}, sound ${info.sound}`}
                 disabled={isSpeaking}
               >
                 {info.letter}
@@ -167,7 +167,7 @@ export default function AlphabetPage() {
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="text-2xl text-primary">Word Speller</CardTitle>
-          <CardDescription>The word you spell will appear here. Click "Pronounce Word" to hear it.</CardDescription>
+          <CardDescription>The word you spell will appear here. Click "Pronounce Spelled Word" to hear it.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Input 
