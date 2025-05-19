@@ -67,6 +67,30 @@ const sampleDialogues: DialogueStory[] = [
       { speaker: "Lina", english: "Wow, this chili sauce is really spicy. Why is it so hot?", bahasa: "Wow, saus cabe ini sangat pedas. Mengapa begitu pedas?" },
       { speaker: "Rian", english: "I think it's because they use a lot of bird's eye chili in it. That's what gives it its heat.", bahasa: "Saya pikir itu karena mereka menggunakan banyak cabe rawit di dalamnya. Itulah yang memberikan rasa pedasnya." }
     ]
+  },
+  {
+    title: "Learning English in Class",
+    characters: ["Anna", "Ben", "Chris"],
+    turns: [
+      { speaker: "Anna", english: "Hi, I'm Anna. It's nice to meet you both. I'm excited to start learning English.", bahasa: "Hai, saya Anna. Senang bertemu dengan kalian berdua. Saya bersemangat untuk mulai belajar bahasa Inggris." },
+      { speaker: "Ben", english: "Hi Anna, I'm Ben. I'm looking forward to improving my English too. Hi, Chris!", bahasa: "Hai Anna, saya Ben. Saya juga menantikan untuk meningkatkan bahasa Inggris saya. Hai, Chris!" },
+      { speaker: "Chris", english: "Hello Anna, Ben. Welcome to our Conversational English class! I'm Chris, and I'll be your teacher. Let's start by introducing ourselves. Anna, can you tell us a little about yourself?", bahasa: "Halo Anna, Ben. Selamat datang di kelas Bahasa Inggris Konversasi kami! Saya Chris, dan saya akan menjadi guru kalian. Mari kita mulai dengan memperkenalkan diri. Anna, bisakah kamu ceritakan sedikit tentang dirimu?" },
+      { speaker: "Anna", english: "Sure! I’m from Brazil, and I work as a software developer. I want to learn English so that I can communicate better with my colleagues and clients.", bahasa: "Tentu! Saya dari Brasil, dan saya bekerja sebagai pengembang perangkat lunak. Saya ingin belajar bahasa Inggris agar bisa berkomunikasi lebih baik dengan kolega dan klien saya." },
+      { speaker: "Chris", english: "That's great, Anna. How about you, Ben?", bahasa: "Bagus sekali, Anna. Bagaimana denganmu, Ben?" },
+      { speaker: "Ben", english: "I'm from Germany, and I'm studying marketing. I need to improve my English for my studies and future career.", bahasa: "Saya dari Jerman, dan saya sedang belajar pemasaran. Saya perlu meningkatkan bahasa Inggris saya untuk studi dan karier masa depan saya." },
+      { speaker: "Chris", english: "Excellent. Both of you have good reasons for learning English. In this course, we will practice speaking in different situations, to help you gain confidence. Let's begin with some basic greetings. Anna, how do you greet someone in English?", bahasa: "Luar biasa. Kalian berdua memiliki alasan yang bagus untuk belajar bahasa Inggris. Dalam kursus ini, kita akan berlatih berbicara dalam berbagai situasi untuk membantu kalian mendapatkan kepercayaan diri. Mari kita mulai dengan beberapa sapaan dasar. Anna, bagaimana cara menyapa seseorang dalam bahasa Inggris?" },
+      { speaker: "Anna", english: "You can say 'Hello' or 'Hi.'", bahasa: "Kamu bisa mengatakan 'Halo' atau 'Hai.'" },
+      { speaker: "Chris", english: "Exactly. And Ben, how would you introduce yourself?", bahasa: "Tepat sekali. Dan Ben, bagaimana kamu akan memperkenalkan diri?" },
+      { speaker: "Ben", english: "I would say, 'Hi, my name is Ben. Nice to meet you.'", bahasa: "Saya akan bilang, 'Hai, nama saya Ben. Senang bertemu denganmu.'" },
+      { speaker: "Chris", english: "Perfect! Now let's practice a short conversation. Anna, you start by greeting Ben.", bahasa: "Sempurna! Sekarang mari kita berlatih percakapan singkat. Anna, kamu mulai dengan menyapa Ben." },
+      { speaker: "Anna", english: "Hi, my name is Anna. Nice to meet you.", bahasa: "Hai, nama saya Anna. Senang bertemu denganmu." },
+      { speaker: "Ben", english: "Hi Anna, I’m Ben. Nice to meet you too. Where are you from?", bahasa: "Hai Anna, saya Ben. Senang bertemu denganmu juga. Kamu dari mana?" },
+      { speaker: "Anna", english: "I’m from Brazil. How about you?", bahasa: "Saya dari Brasil. Kamu dari mana?" },
+      { speaker: "Ben", english: "I’m from Germany. What do you do?", bahasa: "Saya dari Jerman. Kamu bekerja sebagai apa?" },
+      { speaker: "Anna", english: "I’m a software developer. And you?", bahasa: "Saya pengembang perangkat lunak. Kalau kamu?" },
+      { speaker: "Ben", english: "I’m studying marketing.", bahasa: "Saya sedang belajar pemasaran." },
+      { speaker: "Chris", english: "Very good! That was a great start. We'll continue practicing and learning new phrases to help you in different situations. Keep up the good work!", bahasa: "Bagus sekali! Itu adalah awal yang sangat baik. Kita akan terus berlatih dan mempelajari frasa baru untuk membantu kalian dalam berbagai situasi. Pertahankan kerja bagusnya!" }
+    ]
   }
 ];
 
@@ -459,3 +483,5 @@ export default function AdvancedLearnerPage() {
     </div>
   );
 }
+
+    
