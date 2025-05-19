@@ -93,14 +93,14 @@ export default function HomePage() {
             </p>
         </CardHeader>
         <CardContent className="pt-0">
-          <div className="flex flex-col md:flex-row items-center justify-center md:gap-6 gap-8 mt-6 max-w-5xl mx-auto p-4"> {/* Reduced max-width and gap */}
+          <div className="flex flex-col md:flex-row items-center justify-center md:gap-6 gap-8 mt-6 max-w-5xl mx-auto p-4">
             {/* Logo on one side */}
             <div className="flex-shrink-0">
               <Image
                 src="/images/sight-logo.png"
                 alt="LearnLink Sight Logo"
-                width={200} 
-                height={200} 
+                width={250} 
+                height={250} 
                 className="rounded-full shadow-lg object-contain"
               />
             </div>
@@ -108,7 +108,7 @@ export default function HomePage() {
             {/* Word of the Day card on the other side */}
             <div className="w-full md:w-auto">
               {wordOfTheDay && (
-                <Card className="w-full md:max-w-md bg-secondary shadow-xl border-2 border-accent"> {/* Reduced max-width */}
+                <Card className="w-full md:max-w-md bg-secondary shadow-xl border-2 border-accent">
                     <CardHeader className="pb-3 pt-4 text-center">
                       <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
                           <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
