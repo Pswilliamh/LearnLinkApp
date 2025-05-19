@@ -59,8 +59,15 @@ const sampleDialogues: DialogueStory[] = [
       { speaker: "Alex", english: "I heard that the beach has great surf spot.", bahasa: "Saya dengar pantai ini memiliki tempat ombak yang bagus." },
       { speaker: "Sam", english: "I'm excited to try parasailing at the beach.", bahasa: "Saya bersemangat untuk mencoba parasailing di pantai." }
     ]
+  },
+  {
+    title: "Spicy Chili Sauce Chat",
+    characters: ["Lina", "Rian"],
+    turns: [
+      { speaker: "Lina", english: "Wow, this chili sauce is really spicy. Why is it so hot?", bahasa: "Wow, saus cabe ini sangat pedas. Mengapa begitu pedas?" },
+      { speaker: "Rian", english: "I think it's because they use a lot of bird's eye chili in it. That's what gives it its heat.", bahasa: "Saya pikir itu karena mereka menggunakan banyak cabe rawit di dalamnya. Itulah yang memberikan rasa pedasnya." }
+    ]
   }
-  // Add more dialogues here by transcribing from your PDFs
 ];
 
 interface QuizQuestion {
@@ -95,7 +102,6 @@ const sampleQuizQuestions: QuizQuestion[] = [
     options: ["sun", "moon", "star", "lamp"],
     correctAnswer: "sun",
   },
-  // Add more quiz questions here
 ];
 
 
@@ -114,7 +120,6 @@ export default function AdvancedLearnerPage() {
   const [quizScores, setQuizScores] = useState<Record<string, boolean | null>>({});
 
   useEffect(() => {
-    // Check session storage on mount
     if (typeof window !== 'undefined') {
       if (sessionStorage.getItem('advancedLearnerUnlocked') === 'true') {
         setIsUnlocked(true);
@@ -175,7 +180,7 @@ export default function AdvancedLearnerPage() {
 
   const handleQuizAnswerChange = (questionId: string, answer: string) => {
     setQuizAnswers(prev => ({ ...prev, [questionId]: answer }));
-    setQuizScores(prev => ({ ...prev, [questionId]: null })); // Reset score when answer changes
+    setQuizScores(prev => ({ ...prev, [questionId]: null })); 
   };
 
   const checkQuizAnswer = (questionId: string) => {
@@ -195,7 +200,6 @@ export default function AdvancedLearnerPage() {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = lang;
-      // Cancel any ongoing speech before speaking anew
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(utterance);
     } else {
