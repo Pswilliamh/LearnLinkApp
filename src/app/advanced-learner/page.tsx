@@ -39,13 +39,25 @@ const sampleDialogues: DialogueStory[] = [
     ],
   },
   {
-    title: "California Beach Dream",
-    characters: ["Alex", "Maria"],
+    title: "California Beach Adventure",
+    characters: ["Alex", "Sam"],
     turns: [
       { speaker: "Alex", english: "Hey, have you heard about that new beach in California? I heard it's beautiful.", bahasa: "Hei, sudahkah kamu mendengar tentang pantai baru di California? Saya dengar itu indah." },
-      { speaker: "Maria", english: "Oh, really? I've been wanting to go to California. What's the name of the beach?", bahasa: "Oh, benarkah? Saya sudah lama ingin pergi ke California. Apa nama pantainya?" },
-      { speaker: "Alex", english: "I think it's called 'Sunset Cove'. The pictures look amazing!", bahasa: "Saya rasa namanya 'Sunset Cove'. Fotonya terlihat luar biasa!" },
-      { speaker: "Maria", english: "We should plan a trip there sometime!", bahasa: "Kita harus merencanakan perjalanan ke sana kapan-kapan!" }
+      { speaker: "Sam", english: "Yeah, I heard about it too. I've been dying to go check it out.", bahasa: "Ya, saya juga mendengar tentang itu. Saya benar-benar ingin pergi mengeceknya." },
+      { speaker: "Alex", english: "Me too! I heard the sand is really soft and the water is crystal clear.", bahasa: "Saya juga! Saya dengar pasirnya sangat lembut dan airnya bening seperti kristal." },
+      { speaker: "Sam", english: "I heard that too! And the sunsets are supposed to be amazing. I've always wanted to see a California sunset on the beach.", bahasa: "Saya juga mendengar itu! Dan matahari terbenamnya diharapkan menakjubkan. Saya selalu ingin melihat matahari terbenam di pantai California." },
+      { speaker: "Alex", english: "That sounds perfect. Let's plan a trip there soon!", bahasa: "Itu terdengar sempurna. Mari kita rencanakan perjalanan ke sana segera!" },
+      { speaker: "Sam", english: "Definitely, let's do it! I can't wait to see the dolphins and sea lions that live there.", bahasa: "Pasti, mari kita lakukan! Saya tidak sabar ingin melihat lumba-lumba dan singa laut yang hidup di sana." },
+      { speaker: "Alex", english: "I want to go swimming at the beach.", bahasa: "Saya ingin berenang di pantai." },
+      { speaker: "Sam", english: "The waves were so big today.", bahasa: "Ombaknya sangat besar hari ini." },
+      { speaker: "Alex", english: "I love the feeling of the sand between my toes.", bahasa: "Saya suka perasaan pasir di antara jari kaki saya." },
+      { speaker: "Sam", english: "The beach was crowded with tourists.", bahasa: "Pantai itu ramai dengan wisatawan." },
+      { speaker: "Alex", english: "Let's rent a beach umbrella to shade ourselves.", bahasa: "Mari sewa payung pantai untuk melindungi diri kita dari terik matahari." },
+      { speaker: "Sam", english: "I can't wait to see the sunset over the ocean.", bahasa: "Saya tidak sabar untuk melihat matahari terbenam di atas laut." },
+      { speaker: "Alex", english: "I want to collect some shells on the beach.", bahasa: "Saya ingin mengumpulkan beberapa kerang di pantai." },
+      { speaker: "Sam", english: "The beach is my favorite place to relax.", bahasa: "Pantai adalah tempat favorit saya untuk beristirahat." },
+      { speaker: "Alex", english: "I heard that the beach has great surf spot.", bahasa: "Saya dengar pantai ini memiliki tempat ombak yang bagus." },
+      { speaker: "Sam", english: "I'm excited to try parasailing at the beach.", bahasa: "Saya bersemangat untuk mencoba parasailing di pantai." }
     ]
   }
   // Add more dialogues here by transcribing from your PDFs
@@ -443,5 +455,3 @@ export default function AdvancedLearnerPage() {
     </div>
   );
 }
-
-    
