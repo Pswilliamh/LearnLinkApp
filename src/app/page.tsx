@@ -85,7 +85,7 @@ export default function HomePage() {
 
   return (
     <div className="space-y-12">
-      <section className="py-8 bg-card rounded-lg shadow-lg">
+      <Card className="py-8 bg-card rounded-lg shadow-lg">
         <CardHeader className="text-center pb-2">
             <h1 className="text-5xl font-bold text-card-foreground mb-3">Welcome to LearnLink!</h1>
             <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
@@ -93,51 +93,58 @@ export default function HomePage() {
             </p>
         </CardHeader>
         <CardContent className="pt-0">
-            {wordOfTheDay && (
-            <Card className="max-w-2xl mx-auto bg-secondary shadow-xl mt-4 border-2 border-accent">
-                <CardHeader className="pb-3 pt-4">
-                <div className="flex items-center justify-center gap-3">
-                  <Image
-                    src="/images/sight-logo.png"
-                    alt="LearnLink Sight Logo"
-                    width={60}
-                    height={60}
-                    className="rounded-full"
-                  />
-                  <CardTitle className="text-3xl text-accent flex items-center gap-3">
-                      <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
-                  </CardTitle>
-                </div>
-                </CardHeader>
-                <CardContent className="text-left space-y-3 p-5">
-                <div className="flex items-center justify-between">
-                    <h3 className="text-4xl font-bold text-secondary-foreground">{wordOfTheDay.word}</h3>
-                    <Button variant="ghost" size="icon" onClick={() => speakText(wordOfTheDay.word)} className="text-accent hover:text-accent/80">
-                    <Volume2 className="h-7 w-7" />
-                    </Button>
-                </div>
-                <div>
-                    <p className="text-sm font-semibold text-accent">Definition (English):</p>
-                    <p className="text-secondary-foreground text-lg">{wordOfTheDay.definition}</p>
-                </div>
-                <div>
-                    <p className="text-sm font-semibold text-accent">Example Sentence (English):</p>
-                    <p className="text-secondary-foreground italic text-lg">"{wordOfTheDay.exampleSentence}"</p>
-                </div>
-                <div>
-                    <p className="text-sm font-semibold text-accent">Translation (Bahasa Indonesia):</p>
-                    <p className="text-secondary-foreground text-lg">{wordOfTheDay.translationBahasa}</p>
-                </div>
-                </CardContent>
-            </Card>
-            )}
-            {!wordOfTheDay && (
-              <div className="max-w-2xl mx-auto bg-secondary shadow-xl mt-4 border-2 border-accent p-5 text-center">
-                <p className="text-secondary-foreground text-lg">Loading Word of the Day...</p>
-              </div>
-            )}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-6 max-w-5xl mx-auto p-4">
+            {/* Logo on one side */}
+            <div className="flex-shrink-0">
+              <Image
+                src="/images/sight-logo.png"
+                alt="LearnLink Sight Logo"
+                width={150}
+                height={150}
+                className="rounded-full shadow-lg object-contain"
+              />
+            </div>
+
+            {/* Word of the Day card on the other side */}
+            <div className="flex-grow w-full md:w-auto">
+              {wordOfTheDay && (
+                <Card className="w-full bg-secondary shadow-xl border-2 border-accent">
+                    <CardHeader className="pb-3 pt-4 text-center">
+                      <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
+                          <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-left space-y-3 p-5">
+                    <div className="flex items-center justify-between">
+                        <h3 className="text-4xl font-bold text-secondary-foreground">{wordOfTheDay.word}</h3>
+                        <Button variant="ghost" size="icon" onClick={() => speakText(wordOfTheDay.word)} className="text-accent hover:text-accent/80">
+                        <Volume2 className="h-7 w-7" />
+                        </Button>
+                    </div>
+                    <div>
+                        <p className="text-sm font-semibold text-accent">Definition (English):</p>
+                        <p className="text-secondary-foreground text-lg">{wordOfTheDay.definition}</p>
+                    </div>
+                    <div>
+                        <p className="text-sm font-semibold text-accent">Example Sentence (English):</p>
+                        <p className="text-secondary-foreground italic text-lg">"{wordOfTheDay.exampleSentence}"</p>
+                    </div>
+                    <div>
+                        <p className="text-sm font-semibold text-accent">Translation (Bahasa Indonesia):</p>
+                        <p className="text-secondary-foreground text-lg">{wordOfTheDay.translationBahasa}</p>
+                    </div>
+                    </CardContent>
+                </Card>
+              )}
+              {!wordOfTheDay && (
+                <Card className="w-full bg-secondary shadow-xl border-2 border-accent p-5 text-center">
+                  <p className="text-secondary-foreground text-lg">Loading Word of the Day...</p>
+                </Card>
+              )}
+            </div>
+          </div>
         </CardContent>
-      </section>
+      </Card>
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {learningSections.map((section) => {
