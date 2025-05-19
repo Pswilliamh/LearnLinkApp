@@ -93,14 +93,14 @@ export default function HomePage() {
             </p>
         </CardHeader>
         <CardContent className="pt-0">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-6 max-w-5xl mx-auto p-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-6 max-w-6xl mx-auto p-4"> {/* Increased max-width here */}
             {/* Logo on one side */}
             <div className="flex-shrink-0">
               <Image
                 src="/images/sight-logo.png"
                 alt="LearnLink Sight Logo"
-                width={150}
-                height={150}
+                width={150} // Increased width
+                height={150} // Increased height
                 className="rounded-full shadow-lg object-contain"
               />
             </div>
