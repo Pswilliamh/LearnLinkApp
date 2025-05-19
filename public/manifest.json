@@ -1,27 +1,53 @@
+
 {
-  "name": "LearnLink - English Learning",
+  "name": "LearnLink",
   "short_name": "LearnLink",
   "description": "An engaging app to help students learn English, from letters to sentences.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#E6F2FF",
+  "background_color": "#3B5998",
   "theme_color": "#3B5998",
   "icons": [
     {
+      "src": "/icons/learnlink/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/learnlink/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/learnlink/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/learnlink/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/learnlink/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
       "src": "/icons/learnlink/icon-192x192.png",
       "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/learnlink/icon-384x384.png",
+      "sizes": "384x384",
       "type": "image/png"
     },
     {
       "src": "/icons/learnlink/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
-    },
-    {
-      "src": "/icons/learnlink/maskable-icon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
     }
   ]
 }

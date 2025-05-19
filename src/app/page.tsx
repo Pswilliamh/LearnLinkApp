@@ -93,22 +93,20 @@ export default function HomePage() {
             </p>
         </CardHeader>
         <CardContent className="pt-0">
-          <div className="flex flex-col md:flex-row items-center justify-center md:gap-6 gap-8 mt-6 max-w-5xl mx-auto p-4">
-            {/* Logo on one side */}
+          <div className="flex flex-col md:flex-row items-center justify-center md:gap-6 gap-8 mt-6 max-w-6xl mx-auto p-4">
             <div className="flex-shrink-0">
               <Image
                 src="/images/sight-logo.png"
                 alt="LearnLink Sight Logo"
-                width={250} 
-                height={250} 
+                width={300} 
+                height={300} 
                 className="rounded-full shadow-lg object-contain"
               />
             </div>
 
-            {/* Word of the Day card on the other side */}
             <div className="w-full md:w-auto">
               {wordOfTheDay && (
-                <Card className="w-full md:max-w-md bg-secondary shadow-xl border-2 border-accent">
+                <Card className="w-full md:max-w-lg bg-secondary shadow-xl border-2 border-accent">
                     <CardHeader className="pb-3 pt-4 text-center">
                       <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
                           <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
@@ -137,7 +135,7 @@ export default function HomePage() {
                 </Card>
               )}
               {!wordOfTheDay && (
-                <Card className="w-full md:max-w-md bg-secondary shadow-xl border-2 border-accent p-5 text-center">
+                <Card className="w-full md:max-w-lg bg-secondary shadow-xl border-2 border-accent p-5 text-center">
                   <p className="text-secondary-foreground text-lg">Loading Word of the Day...</p>
                 </Card>
               )}
@@ -165,7 +163,7 @@ export default function HomePage() {
                   data-ai-hint={section.imageHint}
                   width={600}
                   height={400}
-                  className="rounded-md object-cover w-full h-auto"
+                  className="rounded-md object-cover w-full h-auto aspect-[600/400]"
                 />
                 {section.external ? (
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
