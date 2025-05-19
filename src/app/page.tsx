@@ -18,6 +18,7 @@ import {
   Lightbulb,
   Info,
   BookCopy,
+  HelpCircle,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -33,6 +34,7 @@ const learningSections = [
   { title: 'Word Match Game', description: 'Drag words to their matching pictures.', href: '/match-game', icon: Puzzle, image: '/images/section-match-game.png', imageHint: 'Colorful puzzle pieces with simple icons like apple dog car being assembled by children hands educational game concept' },
   { title: 'Interactive Flipbook', description: 'Flip through pages of household items.', href: '/flipbook', icon: BookCopy, image: '/images/section-flipbook.png', imageHint: 'Animated flipbook icon showing pages turning interactive learning symbol' },
   { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: '/images/section-advanced-learner.png', imageHint: 'stack books graduation cap top against inspiring subtly patterned background academic achievement theme' },
+  { title: 'How to Use LearnLink', description: 'Get help on how to use each section of the app.', href: '/how-to-use', icon: HelpCircle, image: '/images/section-how-to-use.png', imageHint: 'friendly question mark icon with gears and cogs learning process symbol' },
   { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://sites.google.com/view/kohe-embassy-gov/home', icon: Info, image: '/images/section-contact-us.png', imageHint: 'Clean professional icon representing official contact point embassy trustworthy clear graphic', external: true, buttonText: 'Visit Website' },
 ];
 
@@ -58,13 +60,14 @@ export default function HomePage() {
   const { toast } = useToast();
 
   useEffect(() => {
+    // This logic runs only on the client after hydration
     const today = new Date();
     const startOfYear = new Date(today.getFullYear(), 0, 0);
     const diff = today.getTime() - startOfYear.getTime();
     const oneDay = 1000 * 60 * 60 * 24;
     const dayOfYear = Math.floor(diff / oneDay);
     setWordOfTheDay(dailyWordsList[dayOfYear % dailyWordsList.length]);
-  }, []);
+  }, []); // Empty dependency array ensures this runs once on mount (client-side)
 
   const speakText = (text: string, lang: 'en-US' | 'id-ID' = 'en-US') => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -119,6 +122,11 @@ export default function HomePage() {
                 </div>
                 </CardContent>
             </Card>
+            )}
+            {!wordOfTheDay && (
+              <div className="max-w-2xl mx-auto bg-secondary shadow-xl mt-4 border-2 border-accent p-5 text-center">
+                <p className="text-secondary-foreground text-lg">Loading Word of the Day...</p>
+              </div>
             )}
         </CardContent>
       </section>
