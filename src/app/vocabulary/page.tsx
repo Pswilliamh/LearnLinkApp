@@ -3,43 +3,97 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { BookOpenText, Volume2 } from 'lucide-react';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { useToast } from "@/hooks/use-toast";
 
-type VocabularyItem = {
-  word: string;
-  translation: string; // Bahasa Indonesia
-  imageSrc: string;
-  imageHint: string;
-  exampleSentence: string;
-};
+interface VocabularyPhrase {
+  english: string;
+  bahasa: string;
+}
 
-const vocabularyList: VocabularyItem[] = [
-  { word: 'Apple', translation: 'Apel', imageSrc: '/images/vocab-apple.png', imageHint: "A shiny red apple, simple and iconic, on a clean white background, clear educational illustration.", exampleSentence: 'I eat an apple every day.' },
-  { word: 'Book', translation: 'Buku', imageSrc: '/images/vocab-book.png', imageHint: "A colorful, closed children's storybook with an engaging cover illustration, inviting to read, educational style.", exampleSentence: 'This is an interesting book.' },
-  { word: 'Cat', translation: 'Kucing', imageSrc: '/images/vocab-cat.png', imageHint: "A cute, friendly cartoon cat sitting attentively, appealing to children, simple background, educational illustration.", exampleSentence: 'The cat is sleeping on the mat.' },
-  { word: 'Dog', translation: 'Anjing', imageSrc: '/images/vocab-dog.png', imageHint: "A happy, playful cartoon dog wagging its tail, friendly and approachable for kids, simple background, educational illustration.", exampleSentence: 'My dog loves to play fetch.' },
-  { word: 'House', translation: 'Rumah', imageSrc: '/images/vocab-house.png', imageHint: "A simple, cozy cartoon house with a door and windows, welcoming and cheerful, illustrative educational style.", exampleSentence: 'This is our new house.' },
-  { word: 'School', translation: 'Sekolah', imageSrc: '/images/vocab-school.png', imageHint: "A friendly-looking cartoon school building with a welcoming entrance, bright colors, educational setting illustration.", exampleSentence: 'Children go to school to learn.' },
-  { word: 'Parrot', translation: 'Burung Beo', imageSrc: '/images/vocab-parrot.png', imageHint: "A colorful parrot perched on a branch, vibrant feathers, tropical bird illustration.", exampleSentence: 'The parrot can mimic human speech.' },
+interface VocabularyCategory {
+  categoryTitle: string;
+  items: VocabularyPhrase[];
+}
+
+const categorizedVocabulary: VocabularyCategory[] = [
+  {
+    categoryTitle: "Travel Essentials",
+    items: [
+      { english: "Where is the toilet?", bahasa: "Di mana toilet?" },
+      { english: "How much is this?", bahasa: "Berapa harganya ini?" },
+      { english: "I would like to order coffee.", bahasa: "Saya ingin memesan kopi." },
+      { english: "Can you help me?", bahasa: "Bisakah Anda membantu saya?" },
+      { english: "Where is the ATM?", bahasa: "Di mana ATM?" },
+    ],
+  },
+  {
+    categoryTitle: "Common Animals",
+    items: [
+      { english: "Dog", bahasa: "Anjing" },
+      { english: "Cat", bahasa: "Kucing" },
+      { english: "Bird", bahasa: "Burung" },
+      { english: "Elephant", bahasa: "Gajah" },
+      { english: "Parrot", bahasa: "Burung Beo" },
+      { english: "Fish", bahasa: "Ikan"},
+      { english: "Monkey", bahasa: "Monyet"},
+    ],
+  },
+  {
+    categoryTitle: "Vegetables",
+    items: [
+      { english: "Carrot", bahasa: "Wortel" },
+      { english: "Broccoli", bahasa: "Brokoli" },
+      { english: "Spinach", bahasa: "Bayam" },
+      { english: "Potato", bahasa: "Kentang" },
+      { english: "Tomato", bahasa: "Tomat"},
+    ],
+  },
+  {
+    categoryTitle: "Nature",
+    items: [
+      { english: "Mountain", bahasa: "Gunung" },
+      { english: "River", bahasa: "Sungai" },
+      { english: "Forest", bahasa: "Hutan" },
+      { english: "Beach", bahasa: "Pantai" },
+      { english: "Flower", bahasa: "Bunga"},
+    ],
+  },
+  {
+    categoryTitle: "Food & Dining",
+    items: [
+      { english: "Water", bahasa: "Air" },
+      { english: "Rice", bahasa: "Nasi" },
+      { english: "Chicken", bahasa: "Ayam" },
+      { english: "Fruit", bahasa: "Buah" },
+      { english: "Restaurant", bahasa: "Restoran"},
+    ],
+  },
 ];
 
 export default function VocabularyPage() {
-  const [revealedItems, setRevealedItems] = useState<Record<string, boolean>>({});
+  const [revealedTranslations, setRevealedTranslations] = useState<Record<string, boolean>>({});
+  const { toast } = useToast();
 
-  const handlePronunciation = (word: string) => {
+  const handlePronunciation = (text: string) => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
-      const utterance = new SpeechSynthesisUtterance(word);
+      const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'en-US';
-      // Cancel any ongoing speech before speaking anew
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(utterance);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Pronunciation Failed",
+        description: "Speech synthesis is not supported in your browser.",
+      });
     }
   };
 
-  const toggleRevealItem = (word: string) => {
-    setRevealedItems(prev => ({ ...prev, [word]: !prev[word] }));
+  const toggleTranslationReveal = (key: string) => {
+    setRevealedTranslations(prev => ({ ...prev, [key]: !prev[key] }));
   };
   
   useEffect(() => {
@@ -51,65 +105,72 @@ export default function VocabularyPage() {
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="text-3xl text-primary flex items-center gap-2">
-            <BookOpenText className="h-8 w-8" /> Vocabulary Builder
+            <BookOpenText className="h-8 w-8" /> Categorized Vocabulary
           </CardTitle>
           <CardDescription>
-            Learn new English words. Tap an image to reveal the word and its translation! (More words can be added here!)
+            Explore English words and phrases by category. Tap "Show Translation" to see the Bahasa Indonesia equivalent.
           </CardDescription>
         </CardHeader>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {vocabularyList.map((item) => (
-          <Card 
-            key={item.word} 
-            className="flex flex-col overflow-hidden hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 cursor-pointer"
-            onClick={() => toggleRevealItem(item.word)}
-          >
-            <div className="relative w-full h-40"> {/* Reduced height from h-48 to h-40 */}
-              <Image 
-                src={item.imageSrc} 
-                alt={item.word} 
-                data-ai-hint={item.imageHint}
-                fill
-                style={{ objectFit: 'contain' }} // Changed from cover to contain for better visibility
-                className="rounded-t-md p-2" // Added some padding around the image
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-            </div>
-            <CardHeader className="flex-grow pt-4 pb-2">
-              {revealedItems[item.word] ? (
-                <>
-                  <CardTitle className="text-2xl text-primary">{item.word}</CardTitle>
-                  <p className="text-lg text-accent">{item.translation}</p>
-                </>
-              ) : (
-                <CardTitle className="text-2xl text-primary h-14 flex items-center justify-center text-muted-foreground">Tap to reveal</CardTitle>
-              )}
-            </CardHeader>
-            <CardContent className="pt-2 pb-4">
-              {revealedItems[item.word] && (
-                <p className="text-sm text-muted-foreground mt-1">{item.exampleSentence}</p>
-              )}
-              <Button 
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent card's onClick from firing
-                  handlePronunciation(item.word);
-                }} 
-                className="w-full mt-2 bg-primary text-primary-foreground hover:bg-primary/90"
-                aria-label={`Pronounce ${item.word}`}
-                disabled={!revealedItems[item.word]} // Disable pronunciation if not revealed
-              >
-                <Volume2 className="mr-2 h-4 w-4" /> Pronounce
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-       {vocabularyList.length === 0 && <p className="text-muted-foreground text-center py-4">No vocabulary items available yet. Add some to the list!</p>}
-       {vocabularyList.length > 0 && vocabularyList.length < 10 && (
+      {categorizedVocabulary.length > 0 ? (
+        <Accordion type="single" collapsible className="w-full space-y-4">
+          {categorizedVocabulary.map((category, catIndex) => (
+            <AccordionItem value={`category-${catIndex}`} key={catIndex} className="border bg-card rounded-lg shadow-md">
+              <AccordionTrigger className="text-xl hover:text-accent px-6 py-4 text-primary">
+                {category.categoryTitle}
+              </AccordionTrigger>
+              <AccordionContent className="px-6 pb-4 pt-0 space-y-3">
+                {category.items.map((item, itemIndex) => {
+                  const translationKey = `${catIndex}-${itemIndex}`;
+                  return (
+                    <Card key={itemIndex} className="p-4 bg-secondary shadow-sm">
+                      <div className="flex justify-between items-center mb-2">
+                        <p className="text-lg font-medium text-secondary-foreground">{item.english}</p>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={() => handlePronunciation(item.english)}
+                          className="text-accent hover:text-accent/80"
+                          aria-label={`Pronounce ${item.english}`}
+                        >
+                          <Volume2 className="h-5 w-5" />
+                        </Button>
+                      </div>
+                      {revealedTranslations[translationKey] ? (
+                        <p className="text-md text-accent">{item.bahasa}</p>
+                      ) : (
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="text-xs"
+                          onClick={() => toggleTranslationReveal(translationKey)}
+                        >
+                          Show Translation
+                        </Button>
+                      )}
+                    </Card>
+                  );
+                })}
+                 {category.items.length === 0 && (
+                   <p className="text-muted-foreground">No items in this category yet.</p>
+                 )}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      ) : (
+        <Card>
+          <CardContent>
+            <p className="text-muted-foreground text-center py-8">
+              No vocabulary categories available yet. Add some to get started!
+            </p>
+          </CardContent>
+        </Card>
+      )}
+      {categorizedVocabulary.length > 0 && categorizedVocabulary.length < 10 && (
         <p className="text-muted-foreground text-center py-4">
-          You can add many more words to the <code>vocabularyList</code> in this file!
+          You can add many more categories and items to the <code>categorizedVocabulary</code> list in this file!
         </p>
       )}
     </div>
