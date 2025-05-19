@@ -10,17 +10,17 @@ import { useToast } from "@/hooks/use-toast";
 
 interface FlipbookPageItem {
   id: number;
-  title: string;
+  title: string; // Category title for the page
   itemName: string;
-  bahasaName: string; // Added Bahasa Indonesia name
+  bahasaName: string;
   imageSrc: string;
   imageHint: string;
 }
 
 const flipbookPagesData: FlipbookPageItem[] = [
   { id: 1, title: "Household Items", itemName: "Table", bahasaName: "Meja", imageSrc: "/images/flipbook-table.png", imageHint: "Wooden dining room table in a bright kitchen" },
-  { id: 2, title: "Living Room", itemName: "Lamp", bahasaName: "Lampu", imageSrc: "/images/flipbook-lamp.png", imageHint: "Modern floor lamp standing beside a sofa" },
-  { id: 3, title: "Furniture", itemName: "Chair", bahasaName: "Kursi", imageSrc: "/images/flipbook-chair.png", imageHint: "Comfortable armchair with a cushion in a cozy living room" },
+  { id: 2, title: "Furniture", itemName: "Chair", bahasaName: "Kursi", imageSrc: "/images/flipbook-chair.png", imageHint: "Comfortable armchair with a cushion in a cozy living room" },
+  { id: 3, title: "Living Room", itemName: "Lamp", bahasaName: "Lampu", imageSrc: "/images/flipbook-lamp.png", imageHint: "Modern floor lamp standing beside a sofa" },
   { id: 4, title: "Bedroom", itemName: "Bed", bahasaName: "Tempat Tidur", imageSrc: "/images/flipbook-bed.png", imageHint: "Neatly made double bed with pillows in a sunlit bedroom" },
   { id: 5, title: "Electronics", itemName: "Television", bahasaName: "Televisi", imageSrc: "/images/flipbook-television.png", imageHint: "Flat screen television mounted on a wall displaying a nature scene" },
 ];
@@ -61,7 +61,7 @@ export default function FlipbookPage() {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       const utterance = new SpeechSynthesisUtterance(word);
       utterance.lang = lang;
-      window.speechSynthesis.cancel();
+      window.speechSynthesis.cancel(); // Cancel any ongoing speech
       window.speechSynthesis.speak(utterance);
     } else {
       toast({
