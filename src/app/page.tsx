@@ -93,14 +93,14 @@ export default function HomePage() {
             </p>
         </CardHeader>
         <CardContent className="pt-0">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-6 max-w-6xl mx-auto p-4">
+          <div className="flex flex-col md:flex-row items-center justify-center md:gap-6 gap-8 mt-6 max-w-5xl mx-auto p-4"> {/* Reduced max-width and gap */}
             {/* Logo on one side */}
             <div className="flex-shrink-0">
               <Image
                 src="/images/sight-logo.png"
                 alt="LearnLink Sight Logo"
-                width={150} 
-                height={150} 
+                width={200} 
+                height={200} 
                 className="rounded-full shadow-lg object-contain"
               />
             </div>
@@ -108,7 +108,7 @@ export default function HomePage() {
             {/* Word of the Day card on the other side */}
             <div className="w-full md:w-auto">
               {wordOfTheDay && (
-                <Card className="w-full md:max-w-lg bg-secondary shadow-xl border-2 border-accent">
+                <Card className="w-full md:max-w-md bg-secondary shadow-xl border-2 border-accent"> {/* Reduced max-width */}
                     <CardHeader className="pb-3 pt-4 text-center">
                       <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
                           <CalendarDays className="h-8 w-8" /> Word of the Day! <Lightbulb className="h-8 w-8" />
@@ -137,7 +137,7 @@ export default function HomePage() {
                 </Card>
               )}
               {!wordOfTheDay && (
-                <Card className="w-full md:max-w-lg bg-secondary shadow-xl border-2 border-accent p-5 text-center">
+                <Card className="w-full md:max-w-md bg-secondary shadow-xl border-2 border-accent p-5 text-center">
                   <p className="text-secondary-foreground text-lg">Loading Word of the Day...</p>
                 </Card>
               )}
