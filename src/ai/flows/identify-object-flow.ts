@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI agent for identifying objects in images.
@@ -43,13 +44,23 @@ const prompt = ai.definePrompt({
   output: {schema: IdentifyObjectOutputSchema},
   prompt: `You are an expert object identifier and English-to-Bahasa Indonesia translator.
 Analyze the provided image.
-1. Identify the primary object in the image.
-2. Provide a concise definition for this object in English.
-3. Provide three distinct and grammatically correct example sentences in English using the object's name.
-4. Translate the English definition from step 2 into Bahasa Indonesia.
-5. Translate the three English example sentences from step 3 into Bahasa Indonesia.
+1. Identify the primary object in the image. Store this as 'objectName'.
+2. Provide a concise definition for this object in English. Store this as 'definition'.
+3. Provide exactly three distinct and grammatically correct example sentences in English using the object's name. Store these as an array of strings in 'exampleSentences'.
+4. Translate the English definition from step 2 into Bahasa Indonesia. Store this as 'bahasaDefinition'.
+5. Translate the three English example sentences from step 3 into Bahasa Indonesia. Store these as an array of strings in 'bahasaExampleSentences'.
 
-Image: {{media url=photoDataUri}}`,
+Image: {{media url=photoDataUri}}
+
+Provide your response as a JSON object strictly matching this schema:
+{
+  "objectName": "string (The name of the primary object identified in the photo.)",
+  "definition": "string (A concise definition of the identified object in English.)",
+  "exampleSentences": ["string (Example sentence 1)", "string (Example sentence 2)", "string (Example sentence 3)"],
+  "bahasaDefinition": "string (The concise definition of the identified object, translated into Bahasa Indonesia.)",
+  "bahasaExampleSentences": ["string (Translated example sentence 1)", "string (Translated example sentence 2)", "string (Translated example sentence 3)"]
+}
+Do not include any other text or explanations outside of this JSON object.`,
 });
 
 const identifyObjectFlow = ai.defineFlow(
@@ -61,8 +72,9 @@ const identifyObjectFlow = ai.defineFlow(
   async input => {
     const {output} = await prompt(input);
     if (!output) {
-      throw new Error('Failed to get a response from the AI model.');
+      throw new Error('Failed to get a valid response from the AI model for object identification.');
     }
     return output;
   }
 );
+
