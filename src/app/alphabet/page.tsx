@@ -43,14 +43,22 @@ export default function AlphabetPage() {
     }
     isProcessingQueue.current = true;
     setIsSpeaking(true);
-    while (speechQueue.current.length > 0) {
-      const speechTask = speechQueue.current.shift();
-      if (speechTask) {
-        await speechTask();
+    try {
+      while (speechQueue.current.length > 0) {
+        const speechTask = speechQueue.current.shift();
+        if (speechTask) {
+          try {
+            await speechTask();
+          } catch (error) {
+            console.error("Error processing a speech task:", error);
+            // Continue processing the queue even if one task fails
+          }
+        }
       }
+    } finally {
+      setIsSpeaking(false);
+      isProcessingQueue.current = false;
     }
-    setIsSpeaking(false);
-    isProcessingQueue.current = false;
   }, []);
 
   const speakText = useCallback((text: string, lang: 'en-US' = 'en-US', pitch = 1, rate = 1): Promise<void> => {
@@ -63,34 +71,36 @@ export default function AlphabetPage() {
         utterance.onend = () => resolve();
         utterance.onerror = (event) => {
           console.error("Speech synthesis error:", event.error);
-          reject(event.error);
+          reject(event.error); // This will be caught by the try...catch in processSpeechQueue
         };
-        // Ensure any previously speaking utterance is stopped before speaking a new one
-        // if it's not part of the same logical sequence (handled by queue for sequences)
-        if (speechQueue.current.length === 0) { // Only cancel if this is a new, non-queued speech
+        
+        if (speechQueue.current.length === 0 && !isProcessingQueue.current) {
             window.speechSynthesis.cancel();
         }
         window.speechSynthesis.speak(utterance);
       } else {
         console.warn("Speech synthesis not supported.");
-        resolve(); // Resolve immediately if not supported to not block the queue
+        resolve(); 
       }
     });
   }, []);
   
   const add_to_speech_queue = useCallback((text: string, lang?: 'en-US', pitch?: number, rate?: number) => {
     speechQueue.current.push(() => speakText(text, lang, pitch, rate));
-    processSpeechQueue();
-  }, [speakText, processSpeechQueue]);
+  }, [speakText]);
 
 
   const handleLetterClick = (letterInfo: AlphabetInfo) => {
     setSelectedLetterInfo(letterInfo);
     setCurrentWord(prevWord => prevWord + letterInfo.letter);
 
+    // Cancel any ongoing speech and clear our app's queue before starting a new sequence
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+    }
     speechQueue.current = []; 
-    isProcessingQueue.current = false;
-    window.speechSynthesis.cancel();
+    isProcessingQueue.current = false; // Reset this flag before queuing new tasks
+    setIsSpeaking(false); // Ensure speaking state is reset
 
     add_to_speech_queue(letterInfo.name, 'en-US', 1.2, 0.9);
     speechQueue.current.push(() => new Promise(resolve => setTimeout(resolve, 150))); 
@@ -101,9 +111,12 @@ export default function AlphabetPage() {
   const handlePronounceWord = async () => {
     if (!currentWord || isSpeaking) return;
 
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+    }
     speechQueue.current = [];
     isProcessingQueue.current = false;
-    window.speechSynthesis.cancel();
+    setIsSpeaking(false);
 
     for (const char of currentWord) {
       const letterInfo = alphabetData.find(l => l.letter === char.toUpperCase());
@@ -120,15 +133,20 @@ export default function AlphabetPage() {
   const handleClearWord = () => {
     setCurrentWord('');
     setSelectedLetterInfo(null);
-    window.speechSynthesis.cancel();
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+    }
     speechQueue.current = [];
     isProcessingQueue.current = false;
     setIsSpeaking(false);
   };
   
   useEffect(() => {
+    // Cleanup on component unmount
     return () => {
-      window.speechSynthesis.cancel();
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
       speechQueue.current = [];
       isProcessingQueue.current = false;
     };
@@ -189,7 +207,7 @@ export default function AlphabetPage() {
             <Button 
               onClick={handleClearWord} 
               variant="destructive"
-              disabled={!currentWord && !selectedLetterInfo}
+              disabled={!currentWord && !selectedLetterInfo && !isSpeaking}
               className="flex-grow"
             >
               <XCircle className="mr-2 h-5 w-5" /> Clear Word
@@ -212,9 +230,12 @@ export default function AlphabetPage() {
             </p>
             <Button 
               onClick={() => {
+                if (typeof window !== 'undefined' && window.speechSynthesis) {
+                    window.speechSynthesis.cancel();
+                }
                 speechQueue.current = [];
                 isProcessingQueue.current = false;
-                window.speechSynthesis.cancel();
+                setIsSpeaking(false);
                 add_to_speech_queue(selectedLetterInfo.name, 'en-US', 1.2, 0.9);
                 speechQueue.current.push(() => new Promise(resolve => setTimeout(resolve, 150)));
                 add_to_speech_queue(selectedLetterInfo.sound, 'en-US', 1, 1.1);
@@ -232,5 +253,3 @@ export default function AlphabetPage() {
     </div>
   );
 }
-
-    
