@@ -7,8 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { BookMarked, MessageSquareQuote, Brain, Loader2, AlertCircle, Search, Languages, Volume2, ShieldCheck, ShieldAlert } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { BookMarked, MessageSquareQuote, Brain, Loader2, AlertCircle, Search, Languages, Volume2, ShieldCheck, ShieldAlert, RotateCcw, CheckSquare } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
 import { getWordInfo, GetWordInfoOutput } from '@/ai/flows/get-word-info-flow';
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from '@/components/ui/separator';
@@ -140,6 +140,7 @@ export default function AdvancedLearnerPage() {
   const [isExploring, setIsExploring] = useState(false);
   const [exploreError, setExploreError] = useState<string | null>(null);
   const { toast } = useToast();
+  
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [quizScores, setQuizScores] = useState<Record<string, boolean | null>>({});
 
@@ -218,6 +219,19 @@ export default function AdvancedLearnerPage() {
         variant: isCorrect ? "default" : "destructive",
       });
     }
+  };
+
+  const quizSummary = useMemo(() => {
+    const totalQuestions = sampleQuizQuestions.length;
+    const attempted = Object.values(quizScores).filter(score => score !== null).length;
+    const correct = Object.values(quizScores).filter(score => score === true).length;
+    return { totalQuestions, attempted, correct };
+  }, [quizScores]);
+
+  const resetQuiz = () => {
+    setQuizAnswers({});
+    setQuizScores({});
+    toast({ title: "Quiz Reset", description: "You can try the quiz again!" });
   };
 
   const speakText = (text: string, lang: 'en-US' | 'id-ID' = 'en-US') => {
@@ -375,6 +389,24 @@ export default function AdvancedLearnerPage() {
           ))}
           {sampleQuizQuestions.length === 0 && <p className="text-muted-foreground">No quiz questions available yet. Check back soon!</p>}
         </CardContent>
+        <CardFooter className="flex flex-col items-start space-y-2 p-6 border-t">
+            <div className="flex items-center gap-2 text-lg font-semibold text-primary">
+                <CheckSquare className="h-6 w-6"/>
+                <span>Quiz Summary</span>
+            </div>
+            <p className="text-muted-foreground">
+                Total Questions: <span className="font-bold text-foreground">{quizSummary.totalQuestions}</span>
+            </p>
+            <p className="text-muted-foreground">
+                Attempted: <span className="font-bold text-foreground">{quizSummary.attempted}</span> / {quizSummary.totalQuestions}
+            </p>
+            <p className="text-muted-foreground">
+                Correct: <span className="font-bold text-green-600">{quizSummary.correct}</span> / {quizSummary.attempted}
+            </p>
+            <Button onClick={resetQuiz} variant="outline" size="sm" className="mt-2">
+              <RotateCcw className="mr-2 h-4 w-4" /> Reset Quiz
+            </Button>
+        </CardFooter>
       </Card>
 
       <Card className="shadow-md">
