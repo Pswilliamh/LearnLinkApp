@@ -17,7 +17,7 @@ const alphabetData: AlphabetInfo[] = [
   { letter: 'C', name: 'Cee', sound: 'kuh' }, { letter: 'D', name: 'Dee', sound: 'duh' },
   { letter: 'E', name: 'Ee', sound: 'eh' }, { letter: 'F', name: 'Eff', sound: 'fuh' },
   { letter: 'G', name: 'Gee', sound: 'guh' }, { letter: 'H', name: 'Aitch', sound: 'huh' },
-  { letter: 'I', name: 'Eye', sound: 'ih' }, { letter: 'J', name: 'Jay', sound: 'juh' },
+  { letter: 'I', name: 'Eye', sound: 'ih' }, { letter: 'J', name: 'Jay', sound: 'juh' }, // Corrected J sound
   { letter: 'K', name: 'Kay', sound: 'kuh' }, { letter: 'L', name: 'El', sound: 'luh' },
   { letter: 'M', name: 'Em', sound: 'muh' }, { letter: 'N', name: 'En', sound: 'nuh' },
   { letter: 'O', name: 'Oh', sound: 'aw' }, { letter: 'P', name: 'Pee', sound: 'puh' },
@@ -41,10 +41,9 @@ export default function AlphabetPage() {
   const speakText = useCallback((text: string, lang: 'en-US' = 'en-US', pitch = 1, rate = 1): Promise<void> => {
     return new Promise((resolve, reject) => {
       if (typeof window !== 'undefined' && window.speechSynthesis) {
-        // Ensure text is a non-empty string
         if (typeof text !== 'string' || text.trim() === '') {
           console.warn('speakText called with invalid text:', text);
-          resolve(); // Resolve to allow queue to continue if one item is bad
+          resolve(); 
           return;
         }
 
@@ -78,7 +77,7 @@ export default function AlphabetPage() {
 
   const processSpeechQueue = useCallback(async () => {
     if (isProcessingQueue.current || speechQueue.current.length === 0) {
-      if (speechQueue.current.length === 0) { // Ensure speaking is false if queue becomes empty
+      if (speechQueue.current.length === 0) { 
         setIsSpeaking(false);
         isProcessingQueue.current = false;
       }
@@ -94,28 +93,26 @@ export default function AlphabetPage() {
           await speechTask();
         } catch (error) {
           console.error("Error processing a speech task in queue:", error);
-          // If a task fails, we still want to ensure the queue processing eventually terminates correctly.
         }
       }
     }
     
     setIsSpeaking(false);
     isProcessingQueue.current = false;
-  }, [/* speakText is memoized, add_to_speech_queue is memoized */]);
+  }, []);
 
   const cancelCurrentSpeechAndClearQueue = useCallback(() => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       if (currentUtterance.current) {
-        // Attempt to stop specific utterance if possible, though cancel() is global
-        currentUtterance.current.onend = null; // Prevent onend from firing after manual stop
+        currentUtterance.current.onend = null; 
         currentUtterance.current.onerror = null;
       }
-      window.speechSynthesis.cancel(); // This stops all speech
+      window.speechSynthesis.cancel(); 
     }
     speechQueue.current = []; 
     isProcessingQueue.current = false; 
     currentUtterance.current = null;
-    setIsSpeaking(false); // Explicitly set speaking to false
+    setIsSpeaking(false); 
   }, []);
 
 

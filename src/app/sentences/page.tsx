@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CaseSensitive, Wand2, Send, Loader2, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
+import { CaseSensitive, Wand2, Send, Loader2, Sparkles, CheckCircle2, AlertCircle, X } from 'lucide-react'; // Added X for clear
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import { suggestSentences, SuggestSentencesOutput } from '@/ai/flows/suggest-sentences'; 
@@ -49,6 +49,12 @@ export default function SentencesPage() {
     }
   };
 
+  const handleClearTopic = () => {
+    setTopic('');
+    setSuggestionsError(null);
+    setSuggestedSentences([]);
+  };
+
   const handlePracticeSubmit = async () => {
     if (!practiceSentence.trim()) {
       toast({ variant: "destructive", title: "Empty Submission", description: "Please write a sentence before submitting." });
@@ -71,6 +77,12 @@ export default function SentencesPage() {
       setIsAnalyzingSentence(false);
     }
   };
+
+  const handleClearPracticeSentence = () => {
+    setPracticeSentence('');
+    setAnalysisResult(null);
+    setAnalysisError(null);
+  };
   
   useEffect(() => {
     // Placeholder for any client-side specific logic on mount
@@ -91,14 +103,21 @@ export default function SentencesPage() {
               <label htmlFor="topic-input" className="block text-sm font-medium text-foreground mb-1">
                 Enter a topic or word (e.g., "family", "school", "cat"):
               </label>
-              <Input 
-                id="topic-input"
-                type="text" 
-                value={topic} 
-                onChange={(e) => { setTopic(e.target.value); setSuggestionsError(null); }}
-                placeholder="Type a topic here..."
-                className="max-w-md"
-              />
+              <div className="flex items-center gap-2">
+                <Input 
+                  id="topic-input"
+                  type="text" 
+                  value={topic} 
+                  onChange={(e) => { setTopic(e.target.value); setSuggestionsError(null); }}
+                  placeholder="Type a topic here..."
+                  className="flex-grow"
+                />
+                {topic && (
+                  <Button onClick={handleClearTopic} variant="ghost" size="icon" aria-label="Clear topic input">
+                    <X className="h-5 w-5" />
+                  </Button>
+                )}
+              </div>
             </div>
             <Button onClick={handleSuggestSentences} disabled={isLoadingSuggestions || !topic.trim()} className="bg-accent text-accent-foreground hover:bg-accent/90">
               {isLoadingSuggestions ? <Loader2 className="animate-spin mr-2" /> : <Wand2 className="mr-2 h-4 w-4" /> }
@@ -138,12 +157,19 @@ export default function SentencesPage() {
             <CardDescription>Try writing your own sentences below and get AI feedback on spelling and grammar.</CardDescription>
         </CardHeader>
         <CardContent>
-            <Textarea 
-              placeholder="Write your English sentence here..." 
-              className="min-h-[100px]" // Reduced height a bit
-              value={practiceSentence}
-              onChange={(e) => {setPracticeSentence(e.target.value); setAnalysisResult(null); setAnalysisError(null);}} 
-            />
+            <div className="flex flex-col gap-2">
+                <Textarea 
+                placeholder="Write your English sentence here..." 
+                className="min-h-[100px]"
+                value={practiceSentence}
+                onChange={(e) => {setPracticeSentence(e.target.value); setAnalysisResult(null); setAnalysisError(null);}} 
+                />
+                {practiceSentence && (
+                    <Button onClick={handleClearPracticeSentence} variant="outline" size="sm" className="self-end">
+                        <X className="mr-2 h-4 w-4" /> Clear Sentence
+                    </Button>
+                )}
+            </div>
             <Button onClick={handlePracticeSubmit} disabled={isAnalyzingSentence || !practiceSentence.trim()} className="mt-4 bg-primary text-primary-foreground hover:bg-primary/90">
               {isAnalyzingSentence ? <Loader2 className="animate-spin mr-2" /> : <Send className="mr-2 h-4 w-4" /> }
               {isAnalyzingSentence ? 'Analyzing...' : 'Submit for Feedback'}

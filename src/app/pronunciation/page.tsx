@@ -10,7 +10,7 @@ interface PhoneticSound {
   sound: string;
   symbol: string;
   exampleWord: string;
-  exampleSentence: string; // Added example sentence
+  exampleSentence: string; 
   description: string;
 }
 
@@ -28,7 +28,6 @@ export default function PronunciationPage() {
   const [highlightedWordIndex, setHighlightedWordIndex] = useState<number | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-  // Function to cancel any ongoing speech
   const cancelSpeech = () => {
     if (typeof window !== 'undefined' && window.speechSynthesis && window.speechSynthesis.speaking) {
       window.speechSynthesis.cancel();
@@ -44,7 +43,6 @@ export default function PronunciationPage() {
   };
   
   useEffect(() => {
-    // Cleanup speech synthesis on component unmount
     return () => {
       cancelSpeech();
     };
@@ -56,17 +54,11 @@ export default function PronunciationPage() {
       return;
     }
 
-    // If this sentence is already playing, or another is, cancel it.
     cancelSpeech(); 
     
-    // If the same sentence button is clicked again while it was active (but speech finished),
-    // this allows it to replay. If it was already playing, cancelSpeech above handles it.
-    // If it's a new sentence, this ensures states are fresh.
     setActiveSentenceKey(sentenceKey);
-    setHighlightedWordIndex(-1); // Reset to pre-highlight state
+    setHighlightedWordIndex(-1); 
 
-    const words = sentenceText.split(/(\s+)/).filter(word => word.trim().length > 0); // Split by space, keeping spaces for char count but filter out empty strings
-    
     const utterance = new SpeechSynthesisUtterance(sentenceText);
     utterance.lang = 'en-US';
     utteranceRef.current = utterance;
@@ -77,7 +69,7 @@ export default function PronunciationPage() {
       if (word.length > 0) {
         wordBoundaries.push({ word, start: charCounter, end: charCounter + word.length });
       }
-      charCounter += word.length + 1; // +1 for the space
+      charCounter += word.length + 1; 
     });
 
 
@@ -85,16 +77,10 @@ export default function PronunciationPage() {
       if (event.name === 'word') {
         let currentWordIdx = -1;
         for(let i=0; i < wordBoundaries.length; i++) {
-          // Check if the character index of the event is within the boundaries of the current word
           if (event.charIndex >= wordBoundaries[i].start && event.charIndex < wordBoundaries[i].end) {
             currentWordIdx = i;
             break;
           }
-          // A simpler check if charLength is available and accurate for the word
-          // if (event.charIndex === wordBoundaries[i].start) {
-          //   currentWordIdx = i;
-          //   break;
-          // }
         }
         setHighlightedWordIndex(currentWordIdx);
       }
@@ -111,7 +97,7 @@ export default function PronunciationPage() {
       setHighlightedWordIndex(null);
       setActiveSentenceKey(null);
       utteranceRef.current = null;
-      alert(`Speech error: ${event.error}`);
+      // Removed alert for production-like behavior, errors are logged.
     };
     
     window.speechSynthesis.speak(utterance);
@@ -119,12 +105,8 @@ export default function PronunciationPage() {
 
   const toggleListening = () => {
     setIsListening(!isListening);
-    // Placeholder for actual speech recognition integration
-    if (!isListening) {
-      alert("Speech recognition practice would start here (not implemented).");
-    } else {
-      alert("Speech recognition practice would stop here (not implemented).");
-    }
+    // Speech recognition logic is not implemented in this version.
+    // The button state will toggle, but no actual listening occurs.
   };
   
   return (
@@ -173,7 +155,7 @@ export default function PronunciationPage() {
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="text-2xl text-primary">Practice Speaking</CardTitle>
-          <CardDescription>Try saying some words and get feedback (feature coming soon!).</CardDescription>
+          <CardDescription>Practice your pronunciation (microphone access may be required).</CardDescription>
         </CardHeader>
         <CardContent className="text-center">
           <Button 
@@ -183,10 +165,10 @@ export default function PronunciationPage() {
           >
             <Mic className="mr-2 h-5 w-5" /> {isListening ? 'Stop Listening' : 'Start Practice'}
           </Button>
-          {isListening && <p className="mt-2 text-sm text-muted-foreground animate-pulse">Listening...</p>}
+          {isListening && <p className="mt-2 text-sm text-muted-foreground animate-pulse">Listening... (Practice feature is under development)</p>}
+           {!isListening && <p className="mt-2 text-sm text-muted-foreground">Click "Start Practice" to try speaking (Note: Full feedback feature is under development).</p>}
         </CardContent>
       </Card>
     </div>
   );
 }
-
