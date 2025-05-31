@@ -25,6 +25,10 @@ const initialTargetItemsData: MatchItem[] = [
   { id: 'dog', word: 'Dog', cue: '🐶', isMatched: false },
   { id: 'car', word: 'Car', cue: '🚗', isMatched: false },
   { id: 'book', word: 'Book', cue: '📚', isMatched: false },
+  { id: 'tree', word: 'Tree', cue: '🌳', isMatched: false },
+  { id: 'house', word: 'House', cue: '🏠', isMatched: false },
+  { id: 'sun', word: 'Sun', cue: '☀️', isMatched: false },
+  { id: 'ball', word: 'Ball', cue: '⚽', isMatched: false },
 ];
 
 // Function to shuffle an array (Fisher-Yates shuffle)
@@ -113,7 +117,7 @@ export default function MatchGamePage() {
         <CardContent className="flex flex-col items-center space-y-8">
           
           {/* Drop Zones */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 w-full max-w-2xl">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6 w-full max-w-3xl">
             {targetItems.map(item => (
               <div
                 key={item.id}
@@ -132,7 +136,7 @@ export default function MatchGamePage() {
           </div>
 
           {/* Draggable Words */}
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4 p-4 bg-card rounded-lg shadow max-w-2xl w-full">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4 p-4 bg-card rounded-lg shadow max-w-3xl w-full">
             {draggableWords.map(word =>
               !word.isUsed ? (
                 <div

@@ -2,10 +2,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, Rocket, ScanSearch, GraduationCap, Puzzle, BookCopy, HelpCircle } from 'lucide-react';
+import { BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, Rocket, ScanSearch, GraduationCap, Puzzle, BookCopy, HelpCircle, Palette, Hash } from 'lucide-react';
 
 const navItems = [
   { href: '/alphabet', label: 'Alphabet', icon: SpellCheck },
+  { href: '/numbers-colors', label: 'Numbers & Colors', icon: Hash }, // Palette could also work, Hash for numbers
   { href: '/vocabulary', label: 'Vocabulary', icon: BookOpenText },
   { href: '/sentences', label: 'Sentences', icon: CaseSensitive },
   { href: '/pronunciation', label: 'Pronunciation', icon: Volume2 },

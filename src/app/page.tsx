@@ -19,6 +19,8 @@ import {
   Info,
   BookCopy,
   HelpCircle,
+  Hash, // For Numbers
+  Palette, // For Colors
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -26,6 +28,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const learningSections = [
   { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: '/images/section-alphabet.png', imageHint: 'Colorful friendly alphabet blocks arranged playfully educational illustration style' },
+  { title: 'Numbers & Colors', description: 'Learn numbers and basic colors.', href: '/numbers-colors', icon: Hash, image: '/images/section-numbers-colors.png', imageHint: 'Colorful numbers and color swatches arranged neatly educational graphic' },
   { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: '/images/section-vocabulary.png', imageHint: 'open illustrated children book showing vibrant pictures of common objects animals bright engaging' },
   { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: '/images/section-sentences.png', imageHint: 'Children happily arranging large colorful word blocks form simple sentence sunny illustrative scene' },
   { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: '/images/section-pronunciation.png', imageHint: 'Stylized sound waves emanating friendly cartoon mouth musical notes clear modern educational graphic' },
