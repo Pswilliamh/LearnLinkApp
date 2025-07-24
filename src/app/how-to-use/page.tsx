@@ -59,9 +59,9 @@ const sectionsInfo: HowToUseSection[] = [
     bahasaDescription: "Balik halaman digital untuk mempelajari kata-kata baru. Setiap halaman menampilkan item beserta gambarnya. Ketuk gambar untuk mendengar namanya diucapkan dalam bahasa Inggris."
   },
     {
-    title: 'Cultural & Educational Infographics',
-    englishDescription: "Learn important language and cultural nuances through visual guides. Topics include:",
-    bahasaDescription: "Pelajari nuansa budaya dan bahasa yang penting melalui panduan visual. Topik yang akan dibahas meliputi:",
+    title: 'Cultural & Language Guides',
+    englishDescription: "Learn important language and cultural nuances through interactive text guides. Topics include:",
+    bahasaDescription: "Pelajari nuansa budaya dan bahasa yang penting melalui panduan teks interaktif. Topik yang dibahas meliputi:",
     details: [
         "Vocabulary in Context (e.g., 'Hate vs. Dislike')",
         "Common Grammar Mistakes (e.g., 'Their / There / They’re')",
