@@ -36,6 +36,7 @@ const learningSections = [
   { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: '/images/section-identify-object.png', imageHint: 'curious child looking through magnifying glass common household object like apple bright illustrative educational style' },
   { title: 'Word Match Game', description: 'Drag words to their matching pictures.', href: '/match-game', icon: Puzzle, image: '/images/section-match-game.png', imageHint: 'Colorful puzzle pieces with simple icons like apple dog car being assembled by children hands educational game concept' },
   { title: 'Interactive Flipbook', description: 'Flip through pages of household items.', href: '/flipbook', icon: BookCopy, image: '/images/section-flipbook.png', imageHint: 'Animated flipbook icon showing pages turning interactive learning symbol' },
+  { title: 'Cultural Infographics', description: 'Learn important cultural nuances.', href: '/infographics', icon: Lightbulb, image: '/images/infographic-dislike-hate.png', imageHint: 'Educational infographic about word choice', buttonText: "View Infographics" },
   { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: '/images/section-advanced-learner.png', imageHint: 'stack books graduation cap top against inspiring subtly patterned background academic achievement theme' },
   { title: 'How to Use LearnLink', description: 'Get help on how to use each section of the app.', href: '/how-to-use', icon: HelpCircle, image: '/images/section-how-to-use.png', imageHint: 'friendly question mark icon with gears and cogs learning process symbol' },
   { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://sites.google.com/view/kohe-embassy-gov/home', icon: Info, image: '/images/section-contact-us.png', imageHint: 'Clean professional icon representing official contact point embassy trustworthy clear graphic', external: true, buttonText: 'Visit Website' },
@@ -177,7 +178,7 @@ export default function HomePage() {
                 ) : (
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                     <Link href={section.href}>
-                      Start Learning <ArrowRight className="ml-2 h-4 w-4" />
+                      {section.buttonText || 'Start Learning'} <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
                 )}
