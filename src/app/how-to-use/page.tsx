@@ -9,6 +9,7 @@ interface HowToUseSection {
   title: string;
   englishDescription: string;
   bahasaDescription: string;
+  details?: string[];
 }
 
 const sectionsInfo: HowToUseSection[] = [
@@ -16,6 +17,11 @@ const sectionsInfo: HowToUseSection[] = [
     title: 'Learn the Alphabet',
     englishDescription: "This section helps you learn all the letters of the English alphabet from A to Z. Click on any letter to hear its pronunciation.",
     bahasaDescription: "Bagian ini membantu Anda mempelajari semua huruf alfabet Inggris dari A hingga Z. Klik huruf mana saja untuk mendengar pengucapannya."
+  },
+  {
+    title: 'Numbers & Colors',
+    englishDescription: "Learn to identify, pronounce, and use numbers and colors in both English and Bahasa Indonesia.",
+    bahasaDescription: "Belajar mengidentifikasi, mengucapkan, dan menggunakan angka dan warna dalam Bahasa Inggris dan Bahasa Indonesia."
   },
   {
     title: 'Build Your Vocabulary',
@@ -52,6 +58,23 @@ const sectionsInfo: HowToUseSection[] = [
     englishDescription: "Flip through digital pages to learn new words. Each page shows an item with its picture. Tap the image to hear its name pronounced in English.",
     bahasaDescription: "Balik halaman digital untuk mempelajari kata-kata baru. Setiap halaman menampilkan item beserta gambarnya. Ketuk gambar untuk mendengar namanya diucapkan dalam bahasa Inggris."
   },
+    {
+    title: 'Cultural & Educational Infographics',
+    englishDescription: "Learn important language and cultural nuances through visual guides. Topics include:",
+    bahasaDescription: "Pelajari nuansa budaya dan bahasa yang penting melalui panduan visual. Topik yang akan dibahas meliputi:",
+    details: [
+        "Vocabulary in Context (e.g., 'Hate vs. Dislike')",
+        "Common Grammar Mistakes (e.g., 'Their / There / They’re')",
+        "Everyday Politeness in English (e.g., 'Excuse me vs. Sorry')",
+        "Useful Phrases for School & Life",
+        "Emotional Expression",
+        "English Idioms & Sayings",
+        "False Friends (Words that confuse Indonesians)",
+        "Cultural Etiquette in English",
+        "Conversation Starters",
+        "Positive Communication Habits"
+    ]
+  },
   {
     title: 'Advanced Learner',
     englishDescription: "Challenge yourself with more advanced content! This section (password protected) includes dialogue stories, quizzes, and a word explorer for in-depth study.",
@@ -76,17 +99,27 @@ export default function HowToUsePage() {
       <Accordion type="single" collapsible className="w-full space-y-4">
         {sectionsInfo.map((section, index) => (
           <AccordionItem value={`section-${index}`} key={index} className="border bg-card rounded-lg shadow-md">
-            <AccordionTrigger className="text-xl hover:text-accent px-6 py-4 text-primary">
+            <AccordionTrigger className="text-xl hover:text-accent px-6 py-4 text-primary text-left">
               {section.title}
             </AccordionTrigger>
             <AccordionContent className="px-6 pb-4 pt-0 space-y-3">
               <div className="p-3 border rounded-md bg-secondary shadow-sm">
                 <h3 className="font-semibold text-lg text-secondary-foreground mb-1">English Guide:</h3>
                 <p className="text-secondary-foreground">{section.englishDescription}</p>
+                 {section.details && (
+                    <ul className="list-disc pl-5 mt-2 space-y-1 text-secondary-foreground">
+                        {section.details.map((detail, i) => <li key={i}>{detail}</li>)}
+                    </ul>
+                 )}
               </div>
               <div className="p-3 border rounded-md bg-secondary shadow-sm">
                 <h3 className="font-semibold text-lg text-secondary-foreground mb-1">Panduan Bahasa Indonesia:</h3>
                 <p className="text-secondary-foreground">{section.bahasaDescription}</p>
+                 {section.details && (
+                    <ul className="list-disc pl-5 mt-2 space-y-1 text-secondary-foreground">
+                        {section.details.map((detail, i) => <li key={i}>{detail}</li>)}
+                    </ul>
+                 )}
               </div>
             </AccordionContent>
           </AccordionItem>
