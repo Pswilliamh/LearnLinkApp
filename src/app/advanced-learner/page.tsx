@@ -7,13 +7,12 @@ import { Input } from '@/components/ui/input';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { BookMarked, MessageSquareQuote, Brain, Loader2, AlertCircle, Search, Languages, Volume2, ShieldCheck, ShieldAlert, RotateCcw, CheckSquare } from 'lucide-react';
-import { useState, useEffect, useMemo } from 'react';
+import { BookMarked, MessageSquareQuote, Brain, Loader2, AlertCircle, Search, Languages, Volume2, RotateCcw, CheckSquare } from 'lucide-react';
+import { useState, useMemo } from 'react';
 import { getWordInfo, GetWordInfoOutput } from '@/ai/flows/get-word-info-flow';
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { verifyPassword } from './actions';
 
 interface DialogueTurn {
   speaker: string;
@@ -130,11 +129,6 @@ const sampleQuizQuestions: QuizQuestion[] = [
 
 
 export default function AdvancedLearnerPage() {
-  const [isUnlocked, setIsUnlocked] = useState(false);
-  const [enteredPassword, setEnteredPassword] = useState('');
-  const [unlockError, setUnlockError] = useState<string | null>(null);
-  const [isVerifying, setIsVerifying] = useState(false);
-
   const [wordToExplore, setWordToExplore] = useState('');
   const [wordInfo, setWordInfo] = useState<GetWordInfoOutput | null>(null);
   const [isExploring, setIsExploring] = useState(false);
@@ -143,41 +137,6 @@ export default function AdvancedLearnerPage() {
   
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [quizScores, setQuizScores] = useState<Record<string, boolean | null>>({});
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (sessionStorage.getItem('advancedLearnerUnlocked') === 'true') {
-        setIsUnlocked(true);
-      }
-    }
-  }, []);
-
-  const handleUnlock = async () => {
-    setIsVerifying(true);
-    setUnlockError(null);
-    try {
-      const success = await verifyPassword(enteredPassword);
-      if (success) {
-        setIsUnlocked(true);
-        if (typeof window !== 'undefined') {
-          sessionStorage.setItem('advancedLearnerUnlocked', 'true');
-        }
-        toast({ title: "Advanced Section Unlocked!", description: "You can now access the advanced content." });
-      } else {
-        setUnlockError('Incorrect password. Please try again or contact an administrator.');
-        toast({ variant: "destructive", title: "Unlock Failed", description: "Incorrect password." });
-      }
-    } catch (e) {
-      const errorMsg = e instanceof Error ? e.message : "An unknown server error occurred.";
-      setUnlockError(errorMsg);
-      toast({ variant: "destructive", title: "Unlock Error", description: errorMsg });
-      console.error("Unlock error:", e);
-    } finally {
-      setIsVerifying(false);
-      setEnteredPassword(''); 
-    }
-  };
-
 
   const handleExploreWord = async () => {
     if (!wordToExplore.trim()) {
@@ -248,51 +207,6 @@ export default function AdvancedLearnerPage() {
       });
     }
   };
-
-  if (!isUnlocked) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-20rem)] py-12">
-        <Card className="w-full max-w-md shadow-xl">
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl text-primary flex items-center justify-center gap-2">
-              <ShieldCheck className="h-8 w-8" /> Advanced Learner Access
-            </CardTitle>
-            <CardDescription className="mt-2">
-              This section is password protected. Please enter the password provided by your administrator.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6 px-6 py-8">
-            <Input
-              type="password"
-              value={enteredPassword}
-              onChange={(e) => setEnteredPassword(e.target.value)}
-              placeholder="Enter password"
-              className="text-lg h-12"
-              onKeyPress={(e) => { if (e.key === 'Enter' && !isVerifying) handleUnlock(); }}
-              aria-label="Password for Advanced Learner Section"
-            />
-            {unlockError && (
-              <Alert variant="destructive">
-                <ShieldAlert className="h-5 w-5" />
-                <AlertTitle>Access Denied</AlertTitle>
-                <AlertDescription>{unlockError}</AlertDescription>
-              </Alert>
-            )}
-          </CardContent>
-          <CardFooter className="px-6 pb-6">
-            <Button 
-              onClick={handleUnlock} 
-              disabled={isVerifying} 
-              className="w-full text-lg py-6 bg-accent text-accent-foreground hover:bg-accent/90"
-            >
-              {isVerifying ? <Loader2 className="animate-spin mr-2 h-5 w-5" /> : <ShieldCheck className="mr-2 h-5 w-5" />}
-              {isVerifying ? 'Verifying...' : 'Unlock Section'}
-            </Button>
-          </CardFooter>
-        </Card>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-12">
@@ -515,5 +429,3 @@ export default function AdvancedLearnerPage() {
     </div>
   );
 }
-
-    
