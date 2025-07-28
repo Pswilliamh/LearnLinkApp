@@ -3,8 +3,11 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Speaker, XCircle, Volume2 } from 'lucide-react'; // Added Volume2
+import { Speaker, XCircle, Volume2, Languages, Loader2, AlertCircle } from 'lucide-react';
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { translateContent, TranslateContentOutput } from '@/ai/flows/translate-content';
+import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface AlphabetInfo {
   letter: string;
@@ -17,7 +20,7 @@ const alphabetData: AlphabetInfo[] = [
   { letter: 'C', name: 'Cee', sound: 'kuh' }, { letter: 'D', name: 'Dee', sound: 'duh' },
   { letter: 'E', name: 'Ee', sound: 'eh' }, { letter: 'F', name: 'Eff', sound: 'fuh' },
   { letter: 'G', name: 'Gee', sound: 'guh' }, { letter: 'H', name: 'Aitch', sound: 'huh' },
-  { letter: 'I', name: 'Eye', sound: 'ih' }, { letter: 'J', name: 'Jay', sound: 'juh' }, // Corrected J sound
+  { letter: 'I', name: 'Eye', sound: 'ih' }, { letter: 'J', name: 'Jay', sound: 'juh' },
   { letter: 'K', name: 'Kay', sound: 'kuh' }, { letter: 'L', name: 'El', sound: 'luh' },
   { letter: 'M', name: 'Em', sound: 'muh' }, { letter: 'N', name: 'En', sound: 'nuh' },
   { letter: 'O', name: 'Oh', sound: 'aw' }, { letter: 'P', name: 'Pee', sound: 'puh' },
@@ -32,149 +35,113 @@ export default function AlphabetPage() {
   const [selectedLetterInfo, setSelectedLetterInfo] = useState<AlphabetInfo | null>(null);
   const [currentWord, setCurrentWord] = useState<string>('');
   const [isSpeaking, setIsSpeaking] = useState(false);
-
-  const speechQueue = useRef<(() => Promise<void>)[]>([]);
-  const isProcessingQueue = useRef(false);
-  const currentUtterance = useRef<SpeechSynthesisUtterance | null>(null);
-
-
-  const speakText = useCallback((text: string, lang: 'en-US' = 'en-US', pitch = 1, rate = 1): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      if (typeof window !== 'undefined' && window.speechSynthesis) {
-        if (typeof text !== 'string' || text.trim() === '') {
-          console.warn('speakText called with invalid text:', text);
-          resolve(); 
-          return;
-        }
-
-        const utterance = new SpeechSynthesisUtterance(text);
-        currentUtterance.current = utterance;
-        utterance.lang = lang;
-        utterance.pitch = pitch;
-        utterance.rate = rate;
-        
-        utterance.onend = () => {
-          currentUtterance.current = null;
-          resolve();
-        };
-        utterance.onerror = (event) => {
-          console.error("Speech synthesis error for text '"+ text +"':", event.error);
-          currentUtterance.current = null;
-          reject(event.error); 
-        };
-        
-        window.speechSynthesis.speak(utterance);
-      } else {
-        console.warn("Speech synthesis not supported.");
-        resolve(); 
-      }
-    });
-  }, []);
   
-  const add_to_speech_queue = useCallback((text: string, lang?: 'en-US', pitch?: number, rate?: number) => {
-    speechQueue.current.push(() => speakText(text, lang, pitch, rate));
-  }, [speakText]);
+  const [translatedWord, setTranslatedWord] = useState<string | null>(null);
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [translationError, setTranslationError] = useState<string | null>(null);
 
-  const processSpeechQueue = useCallback(async () => {
-    if (isProcessingQueue.current || speechQueue.current.length === 0) {
-      if (speechQueue.current.length === 0) { 
-        setIsSpeaking(false);
-        isProcessingQueue.current = false;
-      }
-      return;
-    }
-    isProcessingQueue.current = true;
+  const { toast } = useToast();
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  const speakText = useCallback((text: string, options: { lang?: string, pitch?: number, rate?: number, onEnd?: () => void } = {}) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    if (typeof text !== 'string' || text.trim() === '') return;
+
+    // Cancel any ongoing speech
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = options.lang || 'en-US';
+    utterance.pitch = options.pitch || 1;
+    utterance.rate = options.rate || 1;
+    
+    utteranceRef.current = utterance;
     setIsSpeaking(true);
-    
-    while (speechQueue.current.length > 0) {
-      const speechTask = speechQueue.current.shift();
-      if (speechTask) {
-        try {
-          await speechTask();
-        } catch (error) {
-          console.error("Error processing a speech task in queue:", error);
-        }
+
+    utterance.onend = () => {
+      setIsSpeaking(false);
+      utteranceRef.current = null;
+      if (options.onEnd) {
+        options.onEnd();
       }
-    }
+    };
+    utterance.onerror = (event) => {
+      console.error("Speech synthesis error:", event.error);
+      toast({ variant: "destructive", title: "Pronunciation Error", description: "Could not play audio." });
+      setIsSpeaking(false);
+      utteranceRef.current = null;
+    };
     
-    setIsSpeaking(false);
-    isProcessingQueue.current = false;
-  }, []);
-
-  const cancelCurrentSpeechAndClearQueue = useCallback(() => {
-    if (typeof window !== 'undefined' && window.speechSynthesis) {
-      if (currentUtterance.current) {
-        currentUtterance.current.onend = null; 
-        currentUtterance.current.onerror = null;
-      }
-      window.speechSynthesis.cancel(); 
-    }
-    speechQueue.current = []; 
-    isProcessingQueue.current = false; 
-    currentUtterance.current = null;
-    setIsSpeaking(false); 
-  }, []);
-
-
+    window.speechSynthesis.speak(utterance);
+  }, [toast]);
+  
   const handleLetterClick = (letterInfo: AlphabetInfo) => {
+    if (isSpeaking) return;
+    
     setSelectedLetterInfo(letterInfo);
     setCurrentWord(prevWord => prevWord + letterInfo.letter);
-
-    cancelCurrentSpeechAndClearQueue();
-
-    if (typeof letterInfo.name === 'string' && letterInfo.name.trim() !== '') {
-      add_to_speech_queue(letterInfo.name, 'en-US', 1.2, 0.9);
-    } else {
-      console.warn("Invalid letter name for:", letterInfo.letter);
-    }
     
-    speechQueue.current.push(() => new Promise(resolve => setTimeout(resolve, 150))); 
-    
-    if (typeof letterInfo.sound === 'string' && letterInfo.sound.trim() !== '') {
-      add_to_speech_queue(letterInfo.sound, 'en-US', 1, 1.1);
-    } else {
-      console.warn("Invalid letter sound for:", letterInfo.letter);
-    }
-    
-    processSpeechQueue();
+    // Speak letter name, then sound
+    speakText(letterInfo.name, {
+      pitch: 1.2, rate: 0.9,
+      onEnd: () => {
+        // Use a short delay before speaking the sound
+        setTimeout(() => {
+          speakText(letterInfo.sound, { pitch: 1, rate: 1.1 });
+        }, 100);
+      }
+    });
   };
 
-  const handlePronounceWord = async () => {
+  const handlePronounceWord = () => {
     if (!currentWord || isSpeaking) return;
 
-    cancelCurrentSpeechAndClearQueue();
+    speakText(currentWord, { rate: 0.9 });
+  };
+  
+  const handleTranslateWord = async () => {
+    if (!currentWord || isTranslating) return;
 
-    for (const char of currentWord) {
-      const letterInfo = alphabetData.find(l => l.letter === char.toUpperCase());
-      if (letterInfo) {
-        if (typeof letterInfo.name === 'string' && letterInfo.name.trim() !== '') {
-          add_to_speech_queue(letterInfo.name, 'en-US', 1.2, 0.9);
-          speechQueue.current.push(() => new Promise(resolve => setTimeout(resolve, 50)));
-        } else {
-          console.warn("Invalid letter name for spelling:", letterInfo.letter);
-        }
-      }
+    setIsTranslating(true);
+    setTranslationError(null);
+    setTranslatedWord(null);
+
+    try {
+      const result: TranslateContentOutput = await translateContent({
+        textContent: currentWord,
+        sourceLanguage: "English",
+        targetLanguage: "Bahasa Indonesia"
+      });
+      setTranslatedWord(result.translatedText);
+      toast({ title: "Translation Successful!", description: `"${currentWord}" translated.` });
+    } catch (e) {
+      const errorMsg = e instanceof Error ? e.message : "An unknown error occurred.";
+      setTranslationError(errorMsg);
+      toast({ variant: "destructive", title: "Translation Failed", description: errorMsg });
+    } finally {
+      setIsTranslating(false);
     }
-    speechQueue.current.push(() => new Promise(resolve => setTimeout(resolve, 300)));
-    if (typeof currentWord === 'string' && currentWord.trim() !== '') {
-      add_to_speech_queue(currentWord, 'en-US', 1, 1);
-    } else {
-      console.warn("Invalid word for pronunciation:", currentWord);
-    }
-    processSpeechQueue();
   };
 
   const handleClearWord = () => {
     setCurrentWord('');
     setSelectedLetterInfo(null);
-    cancelCurrentSpeechAndClearQueue();
+    setTranslatedWord(null);
+    setTranslationError(null);
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
   };
   
   useEffect(() => {
+    // Cleanup speech on unmount
     return () => {
-      cancelCurrentSpeechAndClearQueue();
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
     };
-  }, [cancelCurrentSpeechAndClearQueue]);
+  }, []);
 
 
   return (
@@ -208,8 +175,8 @@ export default function AlphabetPage() {
 
       <Card className="shadow-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-primary">Word Speller</CardTitle>
-          <CardDescription>The word you spell will appear here. Click "Pronounce Spelled Word" to hear it.</CardDescription>
+          <CardTitle className="text-2xl text-primary">Word Speller & Translator</CardTitle>
+          <CardDescription>The word you spell will appear here. You can then pronounce it or translate it.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Input 
@@ -223,20 +190,41 @@ export default function AlphabetPage() {
           <div className="flex flex-col sm:flex-row gap-2 justify-center">
             <Button 
               onClick={handlePronounceWord} 
-              disabled={!currentWord || isSpeaking}
+              disabled={!currentWord || isSpeaking || isTranslating}
               className="bg-primary text-primary-foreground hover:bg-primary/90 flex-grow"
             >
-              <Speaker className="mr-2 h-5 w-5" /> Pronounce Spelled Word
+              <Speaker className="mr-2 h-5 w-5" /> Pronounce Word
+            </Button>
+             <Button 
+              onClick={handleTranslateWord} 
+              disabled={!currentWord || isSpeaking || isTranslating}
+              className="bg-accent text-accent-foreground hover:bg-accent/90 flex-grow"
+            >
+              {isTranslating ? <Loader2 className="mr-2 h-5 w-5 animate-spin"/> : <Languages className="mr-2 h-5 w-5" />}
+              {isTranslating ? 'Translating...' : 'Translate to Bahasa'}
             </Button>
             <Button 
               onClick={handleClearWord} 
               variant="destructive"
-              disabled={!currentWord && !selectedLetterInfo && !isSpeaking && speechQueue.current.length === 0}
+              disabled={!currentWord}
               className="flex-grow"
             >
-              <XCircle className="mr-2 h-5 w-5" /> Clear Word
+              <XCircle className="mr-2 h-5 w-5" /> Clear
             </Button>
           </div>
+          {translationError && (
+              <Alert variant="destructive" className="mt-4">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Translation Error</AlertTitle>
+                <AlertDescription>{translationError}</AlertDescription>
+              </Alert>
+          )}
+          {translatedWord && (
+            <div className="text-center p-4 mt-2 bg-secondary rounded-lg">
+                <p className="text-sm text-muted-foreground">Bahasa Indonesia Translation:</p>
+                <p className="text-2xl font-bold text-accent">{translatedWord}</p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -254,15 +242,15 @@ export default function AlphabetPage() {
             </p>
             <Button 
               onClick={() => {
-                cancelCurrentSpeechAndClearQueue();
-                if (typeof selectedLetterInfo.name === 'string' && selectedLetterInfo.name.trim() !== '') {
-                    add_to_speech_queue(selectedLetterInfo.name, 'en-US', 1.2, 0.9);
-                }
-                speechQueue.current.push(() => new Promise(resolve => setTimeout(resolve, 150)));
-                if (typeof selectedLetterInfo.sound === 'string' && selectedLetterInfo.sound.trim() !== '') {
-                    add_to_speech_queue(selectedLetterInfo.sound, 'en-US', 1, 1.1);
-                }
-                processSpeechQueue();
+                if(isSpeaking) return;
+                speakText(selectedLetterInfo.name, {
+                  pitch: 1.2, rate: 0.9,
+                  onEnd: () => {
+                    setTimeout(() => {
+                      speakText(selectedLetterInfo.sound, { pitch: 1, rate: 1.1 });
+                    }, 100);
+                  }
+                });
               }}
               className="bg-primary text-primary-foreground hover:bg-primary/90"
               aria-label={`Pronounce letter ${selectedLetterInfo.letter} and sound ${selectedLetterInfo.sound} again`}
