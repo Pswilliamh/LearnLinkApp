@@ -99,7 +99,7 @@ export default function HomePage() {
             </p>
         </CardHeader>
         <CardContent className="pt-0">
-          <div className="flex flex-col md:flex-row items-center justify-center md:gap-6 gap-8 mt-6 max-w-6xl mx-auto p-4">
+          <div className="flex flex-col items-center justify-center gap-8 mt-6 max-w-6xl mx-auto p-4">
             <div className="flex-shrink-0">
               <Image
                 src="/images/sight-logo.png"
@@ -110,7 +110,7 @@ export default function HomePage() {
               />
             </div>
 
-            <div className="w-full md:w-auto flex flex-col gap-4">
+            <div className="w-full flex flex-col md:flex-row gap-4 justify-center">
               {wordOfTheDay && (
                 <Card className="w-full md:max-w-lg bg-secondary shadow-xl border-2 border-accent">
                     <CardHeader className="pb-3 pt-4 text-center">
