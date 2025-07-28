@@ -21,6 +21,8 @@ import {
   HelpCircle,
   Hash, // For Numbers
   Palette, // For Colors
+  Download,
+  BookMarked,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -108,7 +110,7 @@ export default function HomePage() {
               />
             </div>
 
-            <div className="w-full md:w-auto">
+            <div className="w-full md:w-auto flex flex-col gap-4">
               {wordOfTheDay && (
                 <Card className="w-full md:max-w-lg bg-secondary shadow-xl border-2 border-accent">
                     <CardHeader className="pb-3 pt-4 text-center">
@@ -135,6 +137,11 @@ export default function HomePage() {
                         <p className="text-sm font-semibold text-accent">Translation (Bahasa Indonesia):</p>
                         <p className="text-secondary-foreground text-lg">{wordOfTheDay.translationBahasa}</p>
                     </div>
+                    <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90 mt-4">
+                        <Link href="/advanced-learner">
+                            <BookMarked className="mr-2 h-4 w-4" /> Look Up a Word
+                        </Link>
+                    </Button>
                     </CardContent>
                 </Card>
               )}
@@ -143,6 +150,21 @@ export default function HomePage() {
                   <p className="text-secondary-foreground text-lg">Loading Word of the Day...</p>
                 </Card>
               )}
+               <Card className="w-full md:max-w-lg bg-secondary shadow-xl border-2 border-accent">
+                    <CardHeader className="pb-3 pt-4 text-center">
+                        <CardTitle className="text-3xl text-accent flex items-center justify-center gap-3">
+                            <Download className="h-8 w-8" /> Teacher Resources
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-center p-5 space-y-2">
+                        <p className="text-secondary-foreground text-lg">Download the 10-step lesson plan to guide your students through LearnLink.</p>
+                        <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                            <a href="/lesson-plan.pdf" download="LearnLink-Lesson-Plan.pdf">
+                                <Download className="mr-2 h-4 w-4" /> Download Lesson Plan (PDF)
+                            </a>
+                        </Button>
+                    </CardContent>
+               </Card>
             </div>
           </div>
         </CardContent>
@@ -189,4 +211,5 @@ export default function HomePage() {
       </section>
     </div>
   );
-}
+
+    
