@@ -156,13 +156,25 @@ export default function HomePage() {
                             <Download className="h-8 w-8" /> Teacher Resources
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="text-center p-5 space-y-2">
-                        <p className="text-secondary-foreground text-lg">Download the 10-step lesson plan to guide your students through LearnLink.</p>
-                        <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                            <a href="/lesson-plan.pdf" download="LearnLink-Lesson-Plan.pdf">
-                                <Download className="mr-2 h-4 w-4" /> Download Lesson Plan (PDF)
-                            </a>
-                        </Button>
+                    <CardContent className="text-center p-5 space-y-4">
+                        <p className="text-secondary-foreground text-lg">Download lesson plans to guide your students through LearnLink.</p>
+                        <div className="flex flex-col space-y-2">
+                           <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                                <a href="/lesson-plan-beginner.pdf" download="LearnLink-Lesson-Plan-Beginner.pdf">
+                                    <Download className="mr-2 h-4 w-4" /> Download Beginner Plan
+                                </a>
+                            </Button>
+                             <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                                <a href="/lesson-plan-intermediate.pdf" download="LearnLink-Lesson-Plan-Intermediate.pdf">
+                                    <Download className="mr-2 h-4 w-4" /> Download Intermediate Plan
+                                </a>
+                            </Button>
+                             <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                                <a href="/lesson-plan-advanced.pdf" download="LearnLink-Lesson-Plan-Advanced.pdf">
+                                    <Download className="mr-2 h-4 w-4" /> Download Advanced Plan
+                                </a>
+                            </Button>
+                        </div>
                     </CardContent>
                </Card>
             </div>
@@ -211,5 +223,4 @@ export default function HomePage() {
       </section>
     </div>
   );
-
-    
+}
