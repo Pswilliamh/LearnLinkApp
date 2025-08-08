@@ -9,16 +9,8 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    remotePatterns: [
-      // placehold.co removed as unoptimized={true} is used for these images
-      // and we are now switching to SVG data URI placeholders.
-      // Add other domains here if you need Next.js to optimize their images
-    ],
-  },
-  experimental: {
-    allowedDevOrigins: [
-      'https://9003-firebase-studio-1747391818732.cluster-73qgvk7hjjadkrjeyexca5ivva.cloudworkstations.dev',
-    ],
+    unoptimized: true, // Use this if you are deploying to a non-Vercel environment or have issues with Vercel's optimizer
+    // remotePatterns are not needed for local images in /public
   },
 };
 

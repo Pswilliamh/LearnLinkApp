@@ -9,21 +9,8 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'placehold.co',
-        port: '',
-        pathname: '/**',
-      },
-    ],
-  },
-  experimental: {
-    allowedDevOrigins: [
-      // Add your Firebase Studio development URL origin here if needed
-      'https://9003-firebase-studio-1747391818732.cluster-73qgvk7hjjadkrjeyexca5ivva.cloudworkstations.dev',
-      // e.g. 'https://*.cloudworkstations.dev'
-    ],
+    unoptimized: true, // Use this if you are deploying to a non-Vercel environment or have issues with Vercel's optimizer
+    // remotePatterns are not needed for local images in /public
   },
 };
 
