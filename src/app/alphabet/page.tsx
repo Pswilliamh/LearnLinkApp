@@ -12,23 +12,23 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 interface AlphabetInfo {
   letter: string;
   name: string; // How the letter name is pronounced (e.g., "Ay")
-  sound: string; // The phonetic sound (e.g., "ah")
+  exampleWord: string; // The example word (e.g., "Apple")
 }
 
 const alphabetData: AlphabetInfo[] = [
-  { letter: 'A', name: 'Ay', sound: 'ah' }, { letter: 'B', name: 'Bee', sound: 'buh' },
-  { letter: 'C', name: 'Cee', sound: 'kuh' }, { letter: 'D', name: 'Dee', sound: 'duh' },
-  { letter: 'E', name: 'Ee', sound: 'eh' }, { letter: 'F', name: 'Eff', sound: 'fuh' },
-  { letter: 'G', name: 'Gee', sound: 'guh' }, { letter: 'H', name: 'Aitch', sound: 'huh' },
-  { letter: 'I', name: 'Eye', sound: 'ih' }, { letter: 'J', name: 'Jay', sound: 'juh' },
-  { letter: 'K', name: 'Kay', sound: 'kuh' }, { letter: 'L', name: 'El', sound: 'luh' },
-  { letter: 'M', name: 'Em', sound: 'muh' }, { letter: 'N', name: 'En', sound: 'nuh' },
-  { letter: 'O', name: 'Oh', sound: 'aw' }, { letter: 'P', name: 'Pee', sound: 'puh' },
-  { letter: 'Q', name: 'Queue', sound: 'kwuh' }, { letter: 'R', name: 'Ar', sound: 'ruh' },
-  { letter: 'S', name: 'Ess', sound: 'sss' }, { letter: 'T', name: 'Tee', sound: 'tuh' },
-  { letter: 'U', name: 'You', sound: 'uh' }, { letter: 'V', name: 'Vee', sound: 'vuh' },
-  { letter: 'W', name: 'Double-you', sound: 'wuh' }, { letter: 'X', name: 'Ex', sound: 'ks' },
-  { letter: 'Y', name: 'Why', sound: 'yuh' }, { letter: 'Z', name: 'Zee', sound: 'zuh' },
+  { letter: 'A', name: 'Ay', exampleWord: 'Apple' }, { letter: 'B', name: 'Bee', exampleWord: 'Ball' },
+  { letter: 'C', name: 'Cee', exampleWord: 'Cat' }, { letter: 'D', name: 'Dee', exampleWord: 'Dog' },
+  { letter: 'E', name: 'Ee', exampleWord: 'Elephant' }, { letter: 'F', name: 'Eff', exampleWord: 'Fish' },
+  { letter: 'G', name: 'Gee', exampleWord: 'Goat' }, { letter: 'H', name: 'Aitch', exampleWord: 'Hat' },
+  { letter: 'I', name: 'Eye', exampleWord: 'Igloo' }, { letter: 'J', name: 'Jay', exampleWord: 'Jam' },
+  { letter: 'K', name: 'Kay', exampleWord: 'Kite' }, { letter: 'L', name: 'El', exampleWord: 'Lion' },
+  { letter: 'M', name: 'Em', exampleWord: 'Monkey' }, { letter: 'N', name: 'En', exampleWord: 'Net' },
+  { letter: 'O', name: 'Oh', exampleWord: 'Octopus' }, { letter: 'P', name: 'Pee', exampleWord: 'Pig' },
+  { letter: 'Q', name: 'Queue', exampleWord: 'Queen' }, { letter: 'R', name: 'Ar', exampleWord: 'Rabbit' },
+  { letter: 'S', name: 'Ess', exampleWord: 'Sun' }, { letter: 'T', name: 'Tee', exampleWord: 'Tiger' },
+  { letter: 'U', name: 'You', exampleWord: 'Umbrella' }, { letter: 'V', name: 'Vee', exampleWord: 'Violin' },
+  { letter: 'W', name: 'Double-you', exampleWord: 'Watch' }, { letter: 'X', name: 'Ex', exampleWord: 'X-ray' },
+  { letter: 'Y', name: 'Why', exampleWord: 'Yoyo' }, { letter: 'Z', name: 'Zee', exampleWord: 'Zebra' },
 ];
 
 export default function AlphabetPage() {
@@ -41,61 +41,65 @@ export default function AlphabetPage() {
   const [translationError, setTranslationError] = useState<string | null>(null);
 
   const { toast } = useToast();
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  
+  // Ref to hold the utterance queue
+  const speechQueueRef = useRef<SpeechSynthesisUtterance[]>([]);
+  
+  const processSpeechQueue = useCallback(() => {
+    if (speechQueueRef.current.length > 0 && !window.speechSynthesis.speaking) {
+      const utterance = speechQueueRef.current.shift();
+      if (utterance) {
+        setIsSpeaking(true);
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+  }, []);
 
   const speakText = useCallback((text: string, options: { lang?: string, pitch?: number, rate?: number, onEnd?: () => void } = {}) => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    if (typeof text !== 'string' || text.trim() === '') return;
+      if (typeof window === 'undefined' || !window.speechSynthesis || !text) return;
 
-    // Cancel any ongoing speech
-    window.speechSynthesis.cancel();
-    
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = options.lang || 'en-US';
-    utterance.pitch = options.pitch || 1;
-    utterance.rate = options.rate || 1;
-    
-    utteranceRef.current = utterance;
-    setIsSpeaking(true);
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = options.lang || 'en-US';
+      utterance.pitch = options.pitch || 1;
+      utterance.rate = options.rate || 1;
+      
+      utterance.onend = () => {
+        setIsSpeaking(false);
+        if (options.onEnd) {
+          options.onEnd();
+        }
+        processSpeechQueue(); 
+      };
 
-    utterance.onend = () => {
-      setIsSpeaking(false);
-      utteranceRef.current = null;
-      if (options.onEnd) {
-        options.onEnd();
+      utterance.onerror = (event) => {
+        console.error("Speech synthesis error:", event.error);
+        toast({ variant: "destructive", title: "Pronunciation Error", description: "Could not play audio." });
+        setIsSpeaking(false);
+        speechQueueRef.current = []; // Clear queue on error
+      };
+      
+      speechQueueRef.current.push(utterance);
+      if (!window.speechSynthesis.speaking) {
+        processSpeechQueue();
       }
-    };
-    utterance.onerror = (event) => {
-      console.error("Speech synthesis error:", event.error);
-      toast({ variant: "destructive", title: "Pronunciation Error", description: "Could not play audio." });
-      setIsSpeaking(false);
-      utteranceRef.current = null;
-    };
-    
-    window.speechSynthesis.speak(utterance);
-  }, [toast]);
+  }, [toast, processSpeechQueue]);
   
+
   const handleLetterClick = (letterInfo: AlphabetInfo) => {
-    if (isSpeaking) return;
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+    }
     
     setSelectedLetterInfo(letterInfo);
     setCurrentWord(prevWord => prevWord + letterInfo.letter);
     
-    // Speak letter name, then sound
-    speakText(letterInfo.name, {
-      pitch: 1.2, rate: 0.9,
-      onEnd: () => {
-        // Use a short delay before speaking the sound
-        setTimeout(() => {
-          speakText(letterInfo.sound, { pitch: 1, rate: 1.1 });
-        }, 100);
-      }
-    });
+    // Speak letter name, then the example word
+    speakText(letterInfo.name, { pitch: 1.2, rate: 0.9 });
+    speakText(letterInfo.exampleWord, { pitch: 1, rate: 1.0 });
   };
 
   const handlePronounceWord = () => {
     if (!currentWord || isSpeaking) return;
-
     speakText(currentWord, { rate: 0.9 });
   };
   
@@ -131,15 +135,22 @@ export default function AlphabetPage() {
     if (isSpeaking) {
       window.speechSynthesis.cancel();
       setIsSpeaking(false);
+      speechQueueRef.current = [];
     }
   };
   
   useEffect(() => {
-    // Cleanup speech on unmount
-    return () => {
-      if (window.speechSynthesis) {
-        window.speechSynthesis.cancel();
+    const speech = window.speechSynthesis;
+    const onSpeakingChange = () => {
+      if (!speech.speaking && speechQueueRef.current.length === 0) {
+        setIsSpeaking(false);
       }
+    };
+    speech.addEventListener('speakingchange', onSpeakingChange);
+
+    return () => {
+      speech.cancel();
+      speech.removeEventListener('speakingchange', onSpeakingChange);
     };
   }, []);
 
@@ -152,7 +163,7 @@ export default function AlphabetPage() {
         </CardHeader>
         <CardContent>
           <p className="text-lg text-muted-foreground mb-6">
-            Click a letter to hear its name and sound, and to add it to the word speller.
+            Click a letter to hear its name and an example word (e.g., "A... Apple").
           </p>
           <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-9 gap-3">
             {alphabetData.map((info) => (
@@ -163,7 +174,7 @@ export default function AlphabetPage() {
                            hover:bg-accent hover:text-accent-foreground transition-all duration-200 transform hover:scale-105
                            focus:ring-2 focus:ring-accent focus:ring-offset-2"
                 onClick={() => handleLetterClick(info)}
-                aria-label={`Letter ${info.letter}, name ${info.name}, sound ${info.sound}`}
+                aria-label={`Letter ${info.letter}, example ${info.exampleWord}`}
                 disabled={isSpeaking}
               >
                 {info.letter}
@@ -235,28 +246,22 @@ export default function AlphabetPage() {
           </CardHeader>
           <CardContent className="text-center space-y-3">
              <p className="text-muted-foreground">
-              Letter Name Pronunciation: <span className="font-bold text-primary">{selectedLetterInfo.name}</span>
+              Letter Name: <span className="font-bold text-primary">{selectedLetterInfo.name}</span>
             </p>
             <p className="text-muted-foreground">
-              Phonetic Sound: <span className="font-bold text-primary">{selectedLetterInfo.sound}</span>
+              Example Word: <span className="font-bold text-primary">{selectedLetterInfo.exampleWord}</span>
             </p>
             <Button 
               onClick={() => {
-                if(isSpeaking) return;
-                speakText(selectedLetterInfo.name, {
-                  pitch: 1.2, rate: 0.9,
-                  onEnd: () => {
-                    setTimeout(() => {
-                      speakText(selectedLetterInfo.sound, { pitch: 1, rate: 1.1 });
-                    }, 100);
-                  }
-                });
+                if(isSpeaking) window.speechSynthesis.cancel();
+                speakText(selectedLetterInfo.name, { pitch: 1.2, rate: 0.9 });
+                speakText(selectedLetterInfo.exampleWord, { pitch: 1, rate: 1.0 });
               }}
               className="bg-primary text-primary-foreground hover:bg-primary/90"
-              aria-label={`Pronounce letter ${selectedLetterInfo.letter} and sound ${selectedLetterInfo.sound} again`}
+              aria-label={`Pronounce letter ${selectedLetterInfo.letter} and example ${selectedLetterInfo.exampleWord} again`}
               disabled={isSpeaking}
             >
-              <Volume2 className="mr-2 h-5 w-5" /> Hear Letter & Sound Again
+              <Volume2 className="mr-2 h-5 w-5" /> Hear Again
             </Button>
           </CardContent>
         </Card>
