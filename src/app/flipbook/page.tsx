@@ -17,17 +17,18 @@ interface FlipbookPageItem {
   imageHint: string;
 }
 
+// Updated to use existing images from the project
 const flipbookPagesData: FlipbookPageItem[] = [
-  { id: 1, title: "Household Items", itemName: "Table", bahasaName: "Meja", imageSrc: "/images/flipbook-table.png", imageHint: "Wooden dining room table in a bright kitchen" },
-  { id: 2, title: "Furniture", itemName: "Chair", bahasaName: "Kursi", imageSrc: "/images/flipbook-chair.png", imageHint: "Comfortable armchair with a cushion in a cozy living room" },
-  { id: 3, title: "Living Room", itemName: "Lamp", bahasaName: "Lampu", imageSrc: "/images/flipbook-lamp.png", imageHint: "Modern floor lamp standing beside a sofa" },
-  { id: 4, title: "Bedroom", itemName: "Bed", bahasaName: "Tempat Tidur", imageSrc: "/images/flipbook-bed.png", imageHint: "Neatly made double bed with pillows in a sunlit bedroom" },
-  { id: 5, title: "Electronics", itemName: "Television", bahasaName: "Televisi", imageSrc: "/images/flipbook-television.png", imageHint: "Flat screen television mounted on a wall displaying a nature scene" },
-  { id: 6, title: "Kitchenware", itemName: "Plate", bahasaName: "Piring", imageSrc: "/images/flipbook-plate.png", imageHint: "Stack of clean ceramic plates" },
-  { id: 7, title: "Appliances", itemName: "Refrigerator", bahasaName: "Kulkas", imageSrc: "/images/flipbook-refrigerator.png", imageHint: "Stainless steel refrigerator in a modern kitchen" },
-  { id: 8, title: "Office Supplies", itemName: "Pen", bahasaName: "Pena", imageSrc: "/images/flipbook-pen.png", imageHint: "Blue ballpoint pen on a notebook" },
-  { id: 9, title: "Clothing", itemName: "Shirt", bahasaName: "Kemeja", imageSrc: "/images/flipbook-shirt.png", imageHint: "Folded cotton shirt on a shelf" },
-  { id: 10, title: "Bathroom Items", itemName: "Towel", bahasaName: "Handuk", imageSrc: "/images/flipbook-towel.png", imageHint: "Fluffy bath towel hanging on a rack" },
+  { id: 1, title: "Household Items", itemName: "Table", bahasaName: "Meja", imageSrc: "/images/section-sentences.png", imageHint: "Children happily arranging large colorful word blocks" },
+  { id: 2, title: "Furniture", itemName: "Chair", bahasaName: "Kursi", imageSrc: "/images/section-vocabulary.png", imageHint: "open illustrated children book" },
+  { id: 3, title: "Living Room", itemName: "Lamp", bahasaName: "Lampu", imageSrc: "/images/infographic-dislike-hate.png", imageHint: "Educational infographic about word choice" },
+  { id: 4, title: "Bedroom", itemName: "Bed", bahasaName: "Tempat Tidur", imageSrc: "/images/section-advanced-learner.png", imageHint: "stack books graduation cap" },
+  { id: 5, title: "Electronics", itemName: "Television", bahasaName: "Televisi", imageSrc: "/images/section-identify-object.png", imageHint: "child looking through magnifying glass" },
+  { id: 6, title: "Kitchenware", itemName: "Plate", bahasaName: "Piring", imageSrc: "/images/section-alphabet.png", imageHint: "Colorful friendly alphabet blocks" },
+  { id: 7, title: "Appliances", itemName: "Refrigerator", bahasaName: "Kulkas", imageSrc: "/images/section-how-to-use.png", imageHint: "friendly question mark icon" },
+  { id: 8, title: "Office Supplies", itemName: "Pen", bahasaName: "Pena", imageSrc: "/images/section-pronunciation.png", imageHint: "Stylized sound waves" },
+  { id: 9, title: "Clothing", itemName: "Shirt", bahasaName: "Kemeja", imageSrc: "/images/section-match-game.png", imageHint: "Colorful puzzle pieces" },
+  { id: 10, title: "Bathroom Items", itemName: "Towel", bahasaName: "Handuk", imageSrc: "/images/section-translation.png", imageHint: "Two speech bubbles with flags" },
 ];
 
 export default function FlipbookPage() {
