@@ -11,13 +11,13 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const EvaluateSpeechInputSchema = z.object({
+const EvaluateSpeechInputSchema = z.object({
   userAttempt: z.string().describe("The user's spoken phrase, transcribed to text."),
   targetPhrase: z.string().describe('The intended target phrase the user was trying to say.'),
 });
 export type EvaluateSpeechInput = z.infer<typeof EvaluateSpeechInputSchema>;
 
-export const EvaluateSpeechOutputSchema = z.object({
+const EvaluateSpeechOutputSchema = z.object({
   feedback: z.string().describe("The AI tutor's constructive feedback on the user's attempt."),
   isCorrect: z.boolean().describe('A simple true/false whether the attempt was close enough to the target.'),
 });
