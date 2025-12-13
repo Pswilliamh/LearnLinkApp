@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { BookMarked, MessageSquareQuote, Brain, Loader2, AlertCircle, Search, Languages, Volume2, RotateCcw, CheckSquare, Lock } from 'lucide-react';
+import { BookMarked, MessageSquareQuote, Brain, Loader2, AlertCircle, Search, Languages, Volume2, RotateCcw, CheckSquare } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { getWordInfo, GetWordInfoOutput } from '@/ai/flows/get-word-info-flow';
 import { useToast } from "@/hooks/use-toast";
@@ -129,10 +129,6 @@ const sampleQuizQuestions: QuizQuestion[] = [
 
 
 export default function AdvancedLearnerPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-
   const [wordToExplore, setWordToExplore] = useState('');
   const [wordInfo, setWordInfo] = useState<GetWordInfoOutput | null>(null);
   const [isExploring, setIsExploring] = useState(false);
@@ -141,16 +137,6 @@ export default function AdvancedLearnerPage() {
   
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [quizScores, setQuizScores] = useState<Record<string, boolean | null>>({});
-
-  const handlePasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === 'learnlink') {
-      setIsAuthenticated(true);
-      setError('');
-    } else {
-      setError('Incorrect password. Please try again.');
-    }
-  };
 
   const handleExploreWord = async () => {
     if (!wordToExplore.trim()) {
@@ -221,46 +207,6 @@ export default function AdvancedLearnerPage() {
       });
     }
   };
-
-  if (!isAuthenticated) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Card className="w-full max-w-md shadow-2xl">
-          <CardHeader>
-            <CardTitle className="text-2xl text-primary flex items-center gap-2">
-              <Lock className="h-6 w-6" /> Advanced Learner Access
-            </CardTitle>
-            <CardDescription>
-              This section is for advanced users. Please enter the password to continue.
-            </CardDescription>
-          </CardHeader>
-          <form onSubmit={handlePasswordSubmit}>
-            <CardContent className="space-y-4">
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password..."
-                className="text-lg h-12"
-              />
-              {error && (
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Access Denied</AlertTitle>
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
-            </CardContent>
-            <CardFooter>
-              <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90 text-lg py-3">
-                Unlock
-              </Button>
-            </CardFooter>
-          </form>
-        </Card>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-12">
@@ -483,3 +429,5 @@ export default function AdvancedLearnerPage() {
     </div>
   );
 }
+
+    
