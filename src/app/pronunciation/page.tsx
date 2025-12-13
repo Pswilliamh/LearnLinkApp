@@ -9,7 +9,6 @@ import { useToast } from "@/hooks/use-toast";
 import { evaluateSpeech, EvaluateSpeechOutput } from '@/ai/flows/evaluate-speech-flow';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-
 interface PhoneticSound {
   sound: string;
   symbol: string;
@@ -27,16 +26,18 @@ const commonSounds: PhoneticSound[] = [
 ];
 
 export default function PronunciationPage() {
-  const [isListening, setIsListening] = useState(false);
   const [activeSentenceKey, setActiveSentenceKey] = useState<string | null>(null);
   const [highlightedWordIndex, setHighlightedWordIndex] = useState<number | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   const [practiceTarget, setPracticeTarget] = useState<PhoneticSound | null>(null);
+  const [isListening, setIsListening] = useState(false);
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluationResult, setEvaluationResult] = useState<EvaluateSpeechOutput | null>(null);
   const [evaluationError, setEvaluationError] = useState<string | null>(null);
+  const [userTranscript, setUserTranscript] = useState<string | null>(null);
   const { toast } = useToast();
+  const recognitionRef = useRef<any>(null);
 
   const cancelSpeech = () => {
     if (typeof window !== 'undefined' && window.speechSynthesis && window.speechSynthesis.speaking) {
@@ -53,19 +54,47 @@ export default function PronunciationPage() {
   };
   
   useEffect(() => {
+    // Setup SpeechRecognition
+    if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognitionRef.current = new SpeechRecognition();
+        recognitionRef.current.continuous = false;
+        recognitionRef.current.lang = 'en-US';
+        recognitionRef.current.interimResults = false;
+
+        recognitionRef.current.onresult = (event: any) => {
+            const transcript = event.results[0][0].transcript;
+            setUserTranscript(transcript);
+            if (practiceTarget) {
+                handleEvaluate(transcript, practiceTarget.exampleSentence);
+            }
+        };
+
+        recognitionRef.current.onerror = (event: any) => {
+            console.error("Speech recognition error", event.error);
+            toast({ variant: "destructive", title: "Recognition Error", description: `Could not recognize speech: ${event.error}` });
+            setIsListening(false);
+        };
+
+        recognitionRef.current.onend = () => {
+            setIsListening(false);
+        };
+    }
+
     return () => {
       cancelSpeech();
+      if (recognitionRef.current) {
+        recognitionRef.current.abort();
+      }
     };
-  }, []);
+  }, [practiceTarget]); // Rerun effect if practiceTarget changes
 
   const speakAndHighlight = (sentenceText: string, sentenceKey: string) => {
     if (typeof window === 'undefined' || !window.speechSynthesis) {
       toast({ variant: "destructive", title: "Unsupported Browser", description: "Speech synthesis is not supported in your browser."});
       return;
     }
-
     cancelSpeech(); 
-    
     setActiveSentenceKey(sentenceKey);
     setHighlightedWordIndex(-1); 
 
@@ -73,59 +102,47 @@ export default function PronunciationPage() {
     utterance.lang = 'en-US';
     utteranceRef.current = utterance;
 
+    const words = sentenceText.split(' ');
     let charCounter = 0;
-    const wordBoundaries: { word: string, start: number, end: number }[] = [];
-    sentenceText.split(' ').forEach(word => {
-      if (word.length > 0) {
-        wordBoundaries.push({ word, start: charCounter, end: charCounter + word.length });
-      }
-      charCounter += word.length + 1; 
+    const wordBoundaries = words.map(word => {
+        const start = charCounter;
+        charCounter += word.length + 1;
+        return { word, start, end: charCounter - 1 };
     });
-
 
     utterance.onboundary = (event) => {
       if (event.name === 'word') {
-        let currentWordIdx = -1;
-        for(let i=0; i < wordBoundaries.length; i++) {
-          if (event.charIndex >= wordBoundaries[i].start && event.charIndex < wordBoundaries[i].end) {
-            currentWordIdx = i;
-            break;
-          }
-        }
+        const currentWordIdx = wordBoundaries.findIndex(boundary => event.charIndex >= boundary.start && event.charIndex < boundary.end);
         setHighlightedWordIndex(currentWordIdx);
       }
     };
-
     utterance.onend = () => {
-      setHighlightedWordIndex(null);
-      setActiveSentenceKey(null);
-      utteranceRef.current = null;
+        setHighlightedWordIndex(null);
+        setActiveSentenceKey(null);
+        utteranceRef.current = null;
     };
-
     utterance.onerror = (event) => {
-      console.error("Speech synthesis error:", event.error);
-      setHighlightedWordIndex(null);
-      setActiveSentenceKey(null);
-      utteranceRef.current = null;
+        console.error("Speech synthesis error:", event.error);
+        setHighlightedWordIndex(null);
+        setActiveSentenceKey(null);
+        utteranceRef.current = null;
     };
     
     window.speechSynthesis.speak(utterance);
   };
-
+  
   const handleStartPractice = (item: PhoneticSound) => {
+    if (!recognitionRef.current) {
+        toast({ variant: "destructive", title: "Unsupported Browser", description: "Speech recognition is not available in your browser." });
+        return;
+    }
+    cancelSpeech(); // Stop any text-to-speech
     setPracticeTarget(item);
     setEvaluationResult(null);
     setEvaluationError(null);
-    // Simulate listening and getting a transcribed result
-    // In a real app, this would involve speech-to-text API.
-    // For now, we will simulate a good attempt and a bad attempt randomly.
+    setUserTranscript(null);
     setIsListening(true);
-    setTimeout(() => {
-      const isGoodAttempt = Math.random() > 0.4;
-      const simulatedAttempt = isGoodAttempt ? item.exampleSentence : "She sell sea shell"; // Simulate a common error
-      handleEvaluate(simulatedAttempt, item.exampleSentence);
-      setIsListening(false);
-    }, 2500);
+    recognitionRef.current.start();
   };
 
   const handleEvaluate = async (userAttempt: string, targetPhrase: string) => {
@@ -156,6 +173,15 @@ export default function PronunciationPage() {
       } finally {
         setIsEvaluating(false);
       }
+  };
+
+  const closeFeedback = () => {
+    setPracticeTarget(null);
+    setEvaluationResult(null);
+    setEvaluationError(null);
+    setUserTranscript(null);
+    setIsListening(false);
+    setIsEvaluating(false);
   }
   
   return (
@@ -165,7 +191,7 @@ export default function PronunciationPage() {
           <CardTitle className="text-3xl text-primary flex items-center gap-2">
             <Volume2 className="h-8 w-8" /> Pronunciation Guide
           </CardTitle>
-          <CardDescription>Learn common English sounds. Click "Read Sentence" to hear and see words highlighted. Then, click "Practice" to get AI feedback.</CardDescription>
+          <CardDescription>Learn common English sounds. Click "Read Sentence" to hear and see words highlighted. Then, click "Practice" to get AI feedback on your speech.</CardDescription>
         </CardHeader>
       </Card>
 
@@ -194,6 +220,7 @@ export default function PronunciationPage() {
                     onClick={() => speakAndHighlight(item.exampleSentence, item.sound)} 
                     className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
                     aria-label={`Read sentence for ${item.sound}: ${item.exampleSentence}`}
+                    disabled={isListening}
                   >
                     <PlayCircle className="mr-2 h-4 w-4" /> Read
                   </Button>
@@ -211,14 +238,14 @@ export default function PronunciationPage() {
         ))}
       </div>
       
-      {(isListening || isEvaluating || evaluationResult || evaluationError) && practiceTarget && (
+      {practiceTarget && (
          <Card className="shadow-md">
             <CardHeader>
               <CardTitle className="text-2xl text-primary flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-7 w-7 text-accent"/> Feedback from Guru Bahasa
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setPracticeTarget(null)}>
+                <Button variant="ghost" size="icon" onClick={closeFeedback}>
                   <X className="h-5 w-5"/>
                   <span className="sr-only">Close Feedback</span>
                 </Button>
@@ -230,13 +257,13 @@ export default function PronunciationPage() {
                 <div className="text-center p-6">
                   <Mic className="h-12 w-12 text-red-500 animate-pulse mx-auto" />
                   <p className="mt-4 text-lg text-muted-foreground">Listening... Speak now!</p>
-                  <p className="text-sm text-muted-foreground">(This is a simulation)</p>
                 </div>
               )}
                {isEvaluating && (
                 <div className="text-center p-6">
                   <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto" />
                   <p className="mt-4 text-lg text-muted-foreground">Guru Bahasa is thinking...</p>
+                  {userTranscript && <p className="text-sm text-muted-foreground">You said: "{userTranscript}"</p>}
                 </div>
               )}
               {evaluationError && (
@@ -246,7 +273,7 @@ export default function PronunciationPage() {
                   <AlertDescription>{evaluationError}</AlertDescription>
                 </Alert>
               )}
-              {evaluationResult && (
+              {evaluationResult && !isEvaluating && (
                  <Alert variant={evaluationResult.isCorrect ? "default" : "destructive"}>
                   {evaluationResult.isCorrect ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
                   <AlertTitle>{evaluationResult.isCorrect ? "Excellent Work!" : "Here's some feedback:"}</AlertTitle>
