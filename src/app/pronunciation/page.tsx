@@ -2,9 +2,13 @@
 // src/app/pronunciation/page.tsx
 'use client';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Volume2, Mic, PlayCircle } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Volume2, Mic, PlayCircle, Loader2, X, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { useToast } from "@/hooks/use-toast";
+import { evaluateSpeech, EvaluateSpeechOutput } from '@/ai/flows/evaluate-speech-flow';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+
 
 interface PhoneticSound {
   sound: string;
@@ -28,6 +32,12 @@ export default function PronunciationPage() {
   const [highlightedWordIndex, setHighlightedWordIndex] = useState<number | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
+  const [practiceTarget, setPracticeTarget] = useState<PhoneticSound | null>(null);
+  const [isEvaluating, setIsEvaluating] = useState(false);
+  const [evaluationResult, setEvaluationResult] = useState<EvaluateSpeechOutput | null>(null);
+  const [evaluationError, setEvaluationError] = useState<string | null>(null);
+  const { toast } = useToast();
+
   const cancelSpeech = () => {
     if (typeof window !== 'undefined' && window.speechSynthesis && window.speechSynthesis.speaking) {
       window.speechSynthesis.cancel();
@@ -50,7 +60,7 @@ export default function PronunciationPage() {
 
   const speakAndHighlight = (sentenceText: string, sentenceKey: string) => {
     if (typeof window === 'undefined' || !window.speechSynthesis) {
-      alert("Speech synthesis is not supported in your browser.");
+      toast({ variant: "destructive", title: "Unsupported Browser", description: "Speech synthesis is not supported in your browser."});
       return;
     }
 
@@ -97,17 +107,56 @@ export default function PronunciationPage() {
       setHighlightedWordIndex(null);
       setActiveSentenceKey(null);
       utteranceRef.current = null;
-      // Removed alert for production-like behavior, errors are logged.
     };
     
     window.speechSynthesis.speak(utterance);
   };
 
-  const toggleListening = () => {
-    setIsListening(!isListening);
-    // Speech recognition logic is not implemented in this version.
-    // The button state will toggle, but no actual listening occurs.
+  const handleStartPractice = (item: PhoneticSound) => {
+    setPracticeTarget(item);
+    setEvaluationResult(null);
+    setEvaluationError(null);
+    // Simulate listening and getting a transcribed result
+    // In a real app, this would involve speech-to-text API.
+    // For now, we will simulate a good attempt and a bad attempt randomly.
+    setIsListening(true);
+    setTimeout(() => {
+      const isGoodAttempt = Math.random() > 0.4;
+      const simulatedAttempt = isGoodAttempt ? item.exampleSentence : "She sell sea shell"; // Simulate a common error
+      handleEvaluate(simulatedAttempt, item.exampleSentence);
+      setIsListening(false);
+    }, 2500);
   };
+
+  const handleEvaluate = async (userAttempt: string, targetPhrase: string) => {
+      setIsEvaluating(true);
+      setEvaluationError(null);
+      setEvaluationResult(null);
+
+      toast({
+        title: "Evaluating Your Speech...",
+        description: `You said: "${userAttempt}"`
+      });
+
+      try {
+        const result = await evaluateSpeech({ userAttempt, targetPhrase });
+        setEvaluationResult(result);
+        toast({
+          title: "Feedback Ready!",
+          description: "Guru Bahasa has reviewed your sentence.",
+        });
+      } catch (e) {
+        const errorMsg = e instanceof Error ? e.message : "An unknown error occurred.";
+        setEvaluationError(errorMsg);
+        toast({
+          variant: "destructive",
+          title: "Evaluation Failed",
+          description: errorMsg,
+        });
+      } finally {
+        setIsEvaluating(false);
+      }
+  }
   
   return (
     <div className="space-y-8">
@@ -116,18 +165,18 @@ export default function PronunciationPage() {
           <CardTitle className="text-3xl text-primary flex items-center gap-2">
             <Volume2 className="h-8 w-8" /> Pronunciation Guide
           </CardTitle>
-          <CardDescription>Learn common English sounds. Click "Read Sentence" to hear and see words highlighted.</CardDescription>
+          <CardDescription>Learn common English sounds. Click "Read Sentence" to hear and see words highlighted. Then, click "Practice" to get AI feedback.</CardDescription>
         </CardHeader>
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {commonSounds.map((item) => (
-          <Card key={item.sound} className="hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+          <Card key={item.sound} className="hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 flex flex-col">
             <CardHeader>
               <CardTitle className="text-xl text-primary">{item.sound} - <span className="font-mono text-accent">{item.symbol}</span></CardTitle>
               <CardDescription>Example Word: <span className="font-semibold">{item.exampleWord}</span></CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-grow">
               <p className="text-muted-foreground mb-2">{item.description}</p>
               <div className="mb-4 p-3 border rounded-md bg-secondary min-h-[60px]">
                 <p className="text-lg text-secondary-foreground">
@@ -140,35 +189,73 @@ export default function PronunciationPage() {
                     : item.exampleSentence}
                 </p>
               </div>
-              <Button 
-                onClick={() => speakAndHighlight(item.exampleSentence, item.sound)} 
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                aria-label={`Read sentence for ${item.sound}: ${item.exampleSentence}`}
-              >
-                <PlayCircle className="mr-2 h-4 w-4" /> Read Sentence & Highlight
-              </Button>
+              <div className="flex gap-2">
+                 <Button 
+                    onClick={() => speakAndHighlight(item.exampleSentence, item.sound)} 
+                    className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+                    aria-label={`Read sentence for ${item.sound}: ${item.exampleSentence}`}
+                  >
+                    <PlayCircle className="mr-2 h-4 w-4" /> Read
+                  </Button>
+                  <Button
+                    onClick={() => handleStartPractice(item)}
+                    disabled={isListening || isEvaluating}
+                    className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90"
+                    aria-label={`Practice sentence for ${item.sound}`}
+                  >
+                    <Mic className="mr-2 h-4 w-4" /> Practice
+                  </Button>
+              </div>
             </CardContent>
           </Card>
         ))}
       </div>
       
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-2xl text-primary">Practice Speaking</CardTitle>
-          <CardDescription>Practice your pronunciation (microphone access may be required).</CardDescription>
-        </CardHeader>
-        <CardContent className="text-center">
-          <Button 
-            onClick={toggleListening} 
-            className={`w-1/2 ${isListening ? 'bg-red-500 hover:bg-red-600' : 'bg-accent text-accent-foreground hover:bg-accent/90'}`}
-            aria-label={isListening ? "Stop listening" : "Start listening practice"}
-          >
-            <Mic className="mr-2 h-5 w-5" /> {isListening ? 'Stop Listening' : 'Start Practice'}
-          </Button>
-          {isListening && <p className="mt-2 text-sm text-muted-foreground animate-pulse">Listening... (Practice feature is under development)</p>}
-           {!isListening && <p className="mt-2 text-sm text-muted-foreground">Click "Start Practice" to try speaking (Note: Full feedback feature is under development).</p>}
-        </CardContent>
-      </Card>
+      {(isListening || isEvaluating || evaluationResult || evaluationError) && practiceTarget && (
+         <Card className="shadow-md">
+            <CardHeader>
+              <CardTitle className="text-2xl text-primary flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-7 w-7 text-accent"/> Feedback from Guru Bahasa
+                </div>
+                <Button variant="ghost" size="icon" onClick={() => setPracticeTarget(null)}>
+                  <X className="h-5 w-5"/>
+                  <span className="sr-only">Close Feedback</span>
+                </Button>
+              </CardTitle>
+              <CardDescription>Reviewing your attempt for the sentence: "{practiceTarget.exampleSentence}"</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isListening && (
+                <div className="text-center p-6">
+                  <Mic className="h-12 w-12 text-red-500 animate-pulse mx-auto" />
+                  <p className="mt-4 text-lg text-muted-foreground">Listening... Speak now!</p>
+                  <p className="text-sm text-muted-foreground">(This is a simulation)</p>
+                </div>
+              )}
+               {isEvaluating && (
+                <div className="text-center p-6">
+                  <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto" />
+                  <p className="mt-4 text-lg text-muted-foreground">Guru Bahasa is thinking...</p>
+                </div>
+              )}
+              {evaluationError && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Evaluation Error</AlertTitle>
+                  <AlertDescription>{evaluationError}</AlertDescription>
+                </Alert>
+              )}
+              {evaluationResult && (
+                 <Alert variant={evaluationResult.isCorrect ? "default" : "destructive"}>
+                  {evaluationResult.isCorrect ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
+                  <AlertTitle>{evaluationResult.isCorrect ? "Excellent Work!" : "Here's some feedback:"}</AlertTitle>
+                  <AlertDescription className="whitespace-pre-wrap text-base mt-2">{evaluationResult.feedback}</AlertDescription>
+                </Alert>
+              )}
+            </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
