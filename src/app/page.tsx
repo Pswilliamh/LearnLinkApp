@@ -46,7 +46,7 @@ const learningSections = [
   { title: 'Cultural & Language Guides', description: 'Learn important cultural nuances.', href: '/infographics', icon: Lightbulb, image: placeholderImages.advanced.url, buttonText: "View Guides" },
   { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: placeholderImages.advanced.url, premium: true },
   { title: 'How to Use LearnLink', description: 'Get help on how to use each section of the app.', href: '/how-to-use', icon: HelpCircle, image: placeholderImages.how_to_use.url },
-  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://sites.google.com/view/kohe-embassy-gov/home', icon: Info, image: placeholderImages.contact_us.url, external: true, buttonText: 'Visit Website' },
+  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://symphony-ai-bible-b5u.caffeine.xyz/', icon: Info, image: placeholderImages.contact_us.url, external: true, buttonText: 'Visit Website' },
 ];
 
 interface WordOfTheDayItem {
@@ -155,7 +155,7 @@ export default function HomePage() {
                         <div className="bg-primary/20 p-4 rounded-lg border border-accent/30 flex flex-col items-center gap-4">
                           <div className="relative w-40 h-40">
                             <Image 
-                              src={placeholderImages.verified_seal.url} 
+                              src="/images/human-verified-seal.png" 
                               alt="LearnLink Human Verified Seal" 
                               fill 
                               className="object-contain drop-shadow-xl"
@@ -193,7 +193,7 @@ export default function HomePage() {
               {section.certified && (
                 <div className="absolute top-2 right-2 z-10 w-24 h-24 pointer-events-none group-hover:rotate-12 transition-transform">
                    <Image 
-                    src={placeholderImages.verified_seal.url} 
+                    src="/images/human-verified-seal.png" 
                     alt="LearnLink Human Verified Seal" 
                     width={96} 
                     height={96} 
