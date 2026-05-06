@@ -25,16 +25,22 @@ Ensure these files are in `public/images/`:
 - [x] `teacher-scenerio.png` (Scenario Hub Logo)
 - [ ] `section-numbers-colors.png` (Numbers & Colors Section)
 - [ ] `official-logo.png` (Contact Us Section)
-- [ ] `section-alphabet.png`
-- [ ] `section-vocabulary.png`
-- [ ] `section-sentences.png`
-- [ ] `section-pronunciation.png`
-- [ ] `section-translation.png`
-- [ ] `section-identify-object.png`
-- [ ] `section-match-game.png`
-- [ ] `section-flipbook.png`
-- [ ] `section-advanced-learner.png`
-- [ ] `section-how-to-use.png`
+
+## 🚀 How to Sync & Deploy
+
+### 1. To Download to your PC:
+1. In the left sidebar (Explorer), **right-click** on the top-level project folder (`STUDIO`).
+2. Select **"Download"**. This will save a `.zip` of all current files to your computer.
+
+### 2. To Push to GitHub from here:
+Open the Terminal (Terminal > New Terminal) and run:
+```bash
+git init
+git add .
+git commit -m "Final Build: LearnLink 2026 Precision Protocol"
+git remote add origin https://github.com/Pswilliamh/LearnLinkApp.git
+git push -u origin main
+```
 
 ## Core Features
 - **Modular Scenario Lessons**: Real-world scenarios with visual scaffolding and Pink/Green logic.
@@ -48,13 +54,3 @@ Ensure these files are in `public/images/`:
 - **UI Components**: ShadCN UI
 - **AI Engine**: Genkit with Gemini 1.5 Flash (Standardized)
 - **Icons**: Lucide React
-
-## Deployment
-GitHub Repository: https://github.com/Pswilliamh/LearnLinkApp.git
-
-## Getting Started
-1. Ensure `public` and `next.config.ts` are at the **root**.
-2. Run the development server:
-```bash
-npm run dev
-```
