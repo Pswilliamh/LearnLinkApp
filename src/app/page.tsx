@@ -157,17 +157,17 @@ export default function HomePage() {
                         <p className="text-secondary-foreground text-lg">Download verified lesson plans for Jakarta and Global English curricula.</p>
                         <div className="flex flex-col space-y-2">
                            <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="/pdf/LearnLink-Beginner-Plan.pdf" download>
+                                <a href="/pdf/lesson-plan-beginner.pdf" download>
                                     <Download className="mr-2 h-4 w-4" /> Download Beginner Plan
                                 </a>
                             </Button>
                              <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="/pdf/LearnLink-Intermediate-Plan.pdf" download>
+                                <a href="/pdf/lesson-plan-intermediate.pdf" download>
                                     <Download className="mr-2 h-4 w-4" /> Download Intermediate Plan
                                 </a>
                             </Button>
                              <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="/pdf/LearnLink-Advanced-Plan.pdf" download>
+                                <a href="/pdf/lesson-plan-advanced.pdf" download>
                                     <Download className="mr-2 h-4 w-4" /> Download Advanced Plan
                                 </a>
                             </Button>
