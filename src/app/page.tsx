@@ -24,16 +24,18 @@ import {
   Download,
   BookMarked,
   MapPin,
+  ShieldCheck,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from '@/components/ui/badge';
 
 const learningSections = [
   { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: '/images/section-alphabet.png', imageHint: 'Colorful friendly alphabet blocks arranged playfully educational illustration style' },
   { title: 'Numbers & Colors', description: 'Learn numbers and basic colors.', href: '/numbers-colors', icon: Hash, image: '/images/section-numbers-colors.png', imageHint: 'Colorful numbers and color swatches arranged neatly educational graphic' },
   { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: '/images/section-vocabulary.png', imageHint: 'open illustrated children book showing vibrant pictures of common objects animals bright engaging' },
-  { title: 'Scenario Lessons', description: 'Interactive real-world scenario training.', href: '/scenarios', icon: MapPin, image: 'https://picsum.photos/seed/scenarios/600/400', imageHint: 'Busy city street scenario educational illustration' },
+  { title: 'Scenario Lessons', description: 'Mastery-verified real-world scenario training.', href: '/scenarios', icon: MapPin, image: 'https://picsum.photos/seed/scenarios/600/400', imageHint: 'Busy city street scenario educational illustration', certified: true },
   { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: '/images/section-sentences.png', imageHint: 'Children happily arranging large colorful word blocks form simple sentence sunny illustrative scene' },
   { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: '/images/section-pronunciation.png', imageHint: 'Stylized sound waves emanating friendly cartoon mouth musical notes clear modern educational graphic' },
   { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: '/images/section-translation.png', imageHint: 'Two speech bubbles one English flag one Indonesian flag connected friendly arrow global communication concept' },
@@ -82,12 +84,6 @@ export default function HomePage() {
       utterance.lang = lang;
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(utterance);
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Pronunciation Failed",
-        description: "Speech synthesis is not supported in your browser.",
-      });
     }
   };
 
@@ -97,7 +93,7 @@ export default function HomePage() {
         <CardHeader className="text-center pb-2">
             <h1 className="text-5xl font-bold text-card-foreground mb-3">Welcome to LearnLink!</h1>
             <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
-            Your fun and engaging journey to mastering English starts here. Explore letters, words, sentences, and more!
+            Your fun and engaging journey to mastering English starts here. Explore 2026 standard verified interactive lessons.
             </p>
         </CardHeader>
         <CardContent className="pt-0">
@@ -154,7 +150,7 @@ export default function HomePage() {
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="text-center p-5 space-y-4">
-                        <p className="text-secondary-foreground text-lg">Download lesson plans to guide your students through LearnLink.</p>
+                        <p className="text-secondary-foreground text-lg">Download verified lesson plans for Jakarta and Global English curricula.</p>
                         <div className="flex flex-col space-y-2">
                            <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                                 <a href="/lesson-plan-beginner.pdf" download="LearnLink-Lesson-Plan-Beginner.pdf">
@@ -183,7 +179,14 @@ export default function HomePage() {
         {learningSections.map((section) => {
           const IconComponent = section.icon;
           return (
-            <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground">
+            <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground relative">
+              {(section as any).certified && (
+                <div className="absolute top-2 right-2 z-10">
+                   <Badge className="bg-accent text-accent-foreground flex gap-1 items-center border-2 border-white">
+                      <ShieldCheck className="h-3 w-3" /> LearnLink Certified
+                   </Badge>
+                </div>
+              )}
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
                   {IconComponent && <IconComponent className="h-10 w-10 text-accent" />}

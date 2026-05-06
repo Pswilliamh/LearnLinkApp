@@ -20,10 +20,19 @@ export interface ScenarioSlide {
   };
 }
 
+export interface VerificationStatus {
+  status: 'Verified' | 'Draft';
+  verified_by: string;
+  verification_date: string;
+  precision_notes: string;
+}
+
 export interface ScenarioLesson {
   lesson_id: string;
   theme: string;
   description: string;
+  verification: VerificationStatus;
+  is_premium: boolean;
   slides: ScenarioSlide[];
 }
 
@@ -32,6 +41,13 @@ export const scenarioLessons: ScenarioLesson[] = [
     lesson_id: "airport_survival_01",
     theme: "Airport Survival",
     description: "Navigate the airport and find your way to the check-in counter.",
+    is_premium: true,
+    verification: {
+      status: 'Verified',
+      verified_by: 'William - Master Teacher',
+      verification_date: '2026-05-06',
+      precision_notes: 'Verified interlinear scripts for Jakarta-specific terminology.'
+    },
     slides: [
       {
         id: "s1",
@@ -67,6 +83,13 @@ export const scenarioLessons: ScenarioLesson[] = [
     lesson_id: "restaurant_ordering_01",
     theme: "Ordering at a Restaurant",
     description: "Learn how to order food and ask questions about the menu.",
+    is_premium: true,
+    verification: {
+      status: 'Verified',
+      verified_by: 'William - Master Teacher',
+      verification_date: '2026-05-07',
+      precision_notes: 'Adjusted polite forms for ordering in a formal setting.'
+    },
     slides: [
       {
         id: "r1",
