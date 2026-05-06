@@ -59,17 +59,5 @@
   "verified_seal": {
     "url": "/images/human-verified-seal.png",
     "hint": "LearnLink Human Verified Seal"
-  },
-  "airport_slide_1": {
-    "url": "/images/airport_slide_1.png",
-    "hint": "airport terminal"
-  },
-  "airport_slide_2": {
-    "url": "/images/airport_slide_2.png",
-    "hint": "check-in counter"
-  },
-  "restaurant_slide_1": {
-    "url": "/images/restaurant_slide_1.png",
-    "hint": "restaurant menu"
   }
 }

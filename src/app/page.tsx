@@ -33,20 +33,20 @@ import placeholderImages from '@/app/lib/placeholder-images.json';
 const PAYPAL_DONATION_URL = "https://www.paypal.com/donate/?hosted_button_id=FP4RM3ZNGZP7Y";
 
 const learningSections = [
-  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: placeholderImages.alphabet.url, imageHint: placeholderImages.alphabet.hint },
-  { title: 'Numbers & Colors', description: 'Learn numbers and basic colors.', href: '/numbers-colors', icon: Hash, image: placeholderImages.numbers_colors.url, imageHint: placeholderImages.numbers_colors.hint },
-  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: placeholderImages.vocabulary.url, imageHint: placeholderImages.vocabulary.hint },
-  { title: 'Scenario Lessons', description: 'Mastery-verified real-world scenario training.', href: '/scenarios', icon: MapPin, image: placeholderImages.scenarios.url, imageHint: placeholderImages.scenarios.hint, certified: true, premium: true },
-  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: placeholderImages.sentences.url, imageHint: placeholderImages.sentences.hint },
-  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: placeholderImages.pronunciation.url, imageHint: placeholderImages.pronunciation.hint },
-  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: placeholderImages.translation.url, imageHint: placeholderImages.translation.hint },
-  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: placeholderImages.identify_object.url, imageHint: placeholderImages.identify_object.hint },
-  { title: 'Word Match Game', description: 'Drag words to their matching pictures.', href: '/match-game', icon: Puzzle, image: placeholderImages.match_game.url, imageHint: placeholderImages.match_game.hint },
-  { title: 'Interactive Flipbook', description: 'Flip through pages of household items.', href: '/flipbook', icon: BookCopy, image: placeholderImages.flipbook.url, imageHint: placeholderImages.flipbook.hint },
-  { title: 'Cultural & Language Guides', description: 'Learn important cultural nuances.', href: '/infographics', icon: Lightbulb, image: placeholderImages.advanced.url, imageHint: placeholderImages.advanced.hint, buttonText: "View Guides" },
-  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: placeholderImages.advanced.url, imageHint: placeholderImages.advanced.hint, premium: true },
-  { title: 'How to Use LearnLink', description: 'Get help on how to use each section of the app.', href: '/how-to-use', icon: HelpCircle, image: placeholderImages.how_to_use.url, imageHint: placeholderImages.how_to_use.hint },
-  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://sites.google.com/view/kohe-embassy-gov/home', icon: Info, image: placeholderImages.contact_us.url, imageHint: placeholderImages.contact_us.hint, external: true, buttonText: 'Visit Website' },
+  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: placeholderImages.alphabet.url },
+  { title: 'Numbers & Colors', description: 'Learn numbers and basic colors.', href: '/numbers-colors', icon: Hash, image: placeholderImages.numbers_colors.url },
+  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: placeholderImages.vocabulary.url },
+  { title: 'Scenario Lessons', description: 'Mastery-verified real-world scenario training.', href: '/scenarios', icon: MapPin, image: placeholderImages.scenarios.url, certified: true, premium: true },
+  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: placeholderImages.sentences.url },
+  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: placeholderImages.pronunciation.url },
+  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: placeholderImages.translation.url },
+  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: placeholderImages.identify_object.url },
+  { title: 'Word Match Game', description: 'Drag words to their matching pictures.', href: '/match-game', icon: Puzzle, image: placeholderImages.match_game.url },
+  { title: 'Interactive Flipbook', description: 'Flip through pages of household items.', href: '/flipbook', icon: BookCopy, image: placeholderImages.flipbook.url },
+  { title: 'Cultural & Language Guides', description: 'Learn important cultural nuances.', href: '/infographics', icon: Lightbulb, image: placeholderImages.advanced.url, buttonText: "View Guides" },
+  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: placeholderImages.advanced.url, premium: true },
+  { title: 'How to Use LearnLink', description: 'Get help on how to use each section of the app.', href: '/how-to-use', icon: HelpCircle, image: placeholderImages.how_to_use.url },
+  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://sites.google.com/view/kohe-embassy-gov/home', icon: Info, image: placeholderImages.contact_us.url, external: true, buttonText: 'Visit Website' },
 ];
 
 interface WordOfTheDayItem {
@@ -100,7 +100,7 @@ export default function HomePage() {
           <div className="flex flex-col items-center justify-center gap-8 mt-6 max-w-6xl mx-auto p-4">
             <div className="flex-shrink-0">
               <Image
-                src="/images/sight-logo.png"
+                src={placeholderImages.logo.url}
                 alt="LearnLink Sight Logo"
                 width={300} 
                 height={300} 
@@ -155,7 +155,7 @@ export default function HomePage() {
                         <div className="bg-primary/20 p-4 rounded-lg border border-accent/30 flex flex-col items-center gap-4">
                           <div className="relative w-40 h-40">
                             <Image 
-                              src="/images/human-verified-seal.png" 
+                              src={placeholderImages.verified_seal.url} 
                               alt="LearnLink Human Verified Seal" 
                               fill 
                               className="object-contain drop-shadow-xl"
@@ -193,7 +193,7 @@ export default function HomePage() {
               {section.certified && (
                 <div className="absolute top-2 right-2 z-10 w-24 h-24 pointer-events-none group-hover:rotate-12 transition-transform">
                    <Image 
-                    src="/images/human-verified-seal.png" 
+                    src={placeholderImages.verified_seal.url} 
                     alt="LearnLink Human Verified Seal" 
                     width={96} 
                     height={96} 
