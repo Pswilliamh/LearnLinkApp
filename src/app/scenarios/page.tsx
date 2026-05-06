@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -214,13 +215,32 @@ export default function ScenariosPage() {
 
         <Card className="bg-secondary/20 border-2 border-dashed border-primary/30">
           <CardHeader>
-            <CardTitle className="text-2xl text-primary flex items-center gap-2">
-              <FileText className="h-7 w-7 text-accent" /> Teacher Resource Hub
-            </CardTitle>
-            <CardDescription className="text-foreground font-semibold flex items-center gap-2">
-              <HeartHandshake className="h-4 w-4 text-accent" /> 
-              These high-dimensional methodology guides are donation-based assets.
-            </CardDescription>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div>
+                <CardTitle className="text-2xl text-primary flex items-center gap-2">
+                  <FileText className="h-7 w-7 text-accent" /> Teacher Resource Hub
+                </CardTitle>
+                <CardDescription className="text-foreground font-semibold flex items-center gap-2">
+                  <HeartHandshake className="h-4 w-4 text-accent" /> 
+                  These high-dimensional methodology guides are donation-based assets.
+                </CardDescription>
+              </div>
+              <div className="bg-primary/40 p-3 rounded-lg border border-accent/50 flex items-center gap-4 max-w-sm">
+                <div className="relative w-16 h-16 shrink-0">
+                  <Image 
+                    src="/images/human-verified-seal.png" 
+                    alt="Human Verified Seal" 
+                    fill 
+                    className="object-contain"
+                    onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/64/64'; }}
+                  />
+                </div>
+                <p className="text-accent font-bold text-xs leading-snug">
+                  Human verified not AI created content.<br/>
+                  <span className="text-secondary-foreground text-[10px] font-normal opacity-80">Slide Decks or AI formated content verified.</span>
+                </p>
+              </div>
+            </div>
           </CardHeader>
           <CardContent className="space-y-6">
             <Alert className="bg-accent/10 border-accent/50">

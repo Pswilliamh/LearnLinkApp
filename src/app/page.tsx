@@ -27,6 +27,7 @@ import {
   ShieldCheck,
   Lock,
   HeartHandshake,
+  CheckCircle2,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -159,6 +160,23 @@ export default function HomePage() {
                     </CardHeader>
                     <CardContent className="text-center p-5 space-y-4">
                         <p className="text-secondary-foreground text-lg">Access verified lesson plans and methodology guides (Donation-Based).</p>
+                        
+                        <div className="bg-primary/20 p-4 rounded-lg border border-accent/30 flex flex-col items-center gap-3">
+                          <div className="relative w-20 h-20">
+                            <Image 
+                              src="/images/human-verified-seal.png" 
+                              alt="Human Verified Seal" 
+                              fill 
+                              className="object-contain drop-shadow"
+                              onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/80/80'; }}
+                            />
+                          </div>
+                          <p className="text-accent font-bold text-sm leading-tight">
+                            Human verified not AI created content.<br/>
+                            <span className="text-secondary-foreground text-xs font-normal">Slide Decks or AI formated content verified.</span>
+                          </p>
+                        </div>
+
                         <div className="flex flex-col space-y-2">
                            <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                                 <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer">
