@@ -26,11 +26,14 @@ import {
   MapPin,
   ShieldCheck,
   Lock,
+  HeartHandshake,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import placeholderImages from '@/app/lib/placeholder-images.json';
+
+const PAYPAL_DONATION_URL = "https://www.paypal.com/donate/?hosted_button_id=FP4RM3ZNGZP7Y";
 
 const learningSections = [
   { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: placeholderImages.alphabet.url, imageHint: placeholderImages.alphabet.hint },
@@ -158,18 +161,13 @@ export default function HomePage() {
                         <p className="text-secondary-foreground text-lg">Access verified lesson plans and methodology guides (Donation-Based).</p>
                         <div className="flex flex-col space-y-2">
                            <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="/pdf/lesson-plan-beginner.pdf" download>
-                                    <Download className="mr-2 h-4 w-4" /> Beginner Plan (Donate)
+                                <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer">
+                                    <HeartHandshake className="mr-2 h-4 w-4" /> Support & Access Lessons
                                 </a>
                             </Button>
-                             <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="/pdf/lesson-plan-intermediate.pdf" download>
-                                    <Download className="mr-2 h-4 w-4" /> Intermediate Plan (Donate)
-                                </a>
-                            </Button>
-                             <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="/pdf/lesson-plan-advanced.pdf" download>
-                                    <Download className="mr-2 h-4 w-4" /> Advanced Plan (Donate)
+                             <Button asChild variant="outline" className="w-full border-accent text-accent hover:bg-accent/10">
+                                <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer">
+                                    <Download className="mr-2 h-4 w-4" /> Donate for Curriculum
                                 </a>
                             </Button>
                         </div>

@@ -6,13 +6,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScenarioLesson, scenarioLessons } from '@/lib/scenario-lessons';
-import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, CheckCircle, Eye, Mic, Loader2, CheckCircle2, Download, FileText, Lock, ShieldCheck, HeartHandshake } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, CheckCircle, Eye, Mic, Loader2, CheckCircle2, Download, FileText, Lock, ShieldCheck, HeartHandshake, ExternalLink } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { evaluateSpeech } from '@/ai/flows/evaluate-speech-flow';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CertificateOfMastery } from '@/components/certificate-of-mastery';
+
+const PAYPAL_DONATION_URL = "https://www.paypal.com/donate/?hosted_button_id=FP4RM3ZNGZP7Y";
 
 export default function ScenariosPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -221,28 +223,46 @@ export default function ScenariosPage() {
               These high-dimensional methodology guides are donation-based assets.
             </CardDescription>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-             {[
-               { name: "Three Color Sentence Logic", sub: "Precision Visual Syntax Guide", file: "Three_Color_Sentence_Logic.pdf" },
-               { name: "Visual Bilingual Action", sub: "Direct Association Workbook", file: "Visual_Bilingual_English_Action.pdf" },
-               { name: "English Action Guide", sub: "Zero-Second Response Manual", file: "Visual_English_Action_Guide.pdf" },
-               { name: "Logic Language Systems", sub: "High-Dimensional Linguistic Theory", file: "Visual_Logic_Language_Systems.pdf" },
-               { name: "Travel Syntax Guide", sub: "Survival Dialogues for Jakarta", file: "Visual_Travel_Syntax_Guide.pdf" },
-               { name: "Jakarta Survival Guide", sub: "Master Teacher Notes (2026)", file: "jakarta-survival-guide.pdf" },
-               { name: "April 2026 Visual Slides", sub: "Official Class Presentation Deck", file: "English Class April2026 visual slide .pdf" }
-             ].map((resource, i) => (
-               <div key={i} className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between group hover:border-accent transition-colors">
-                  <div>
-                    <p className="font-bold text-foreground">{resource.name}</p>
-                    <p className="text-xs text-muted-foreground">{resource.sub}</p>
-                  </div>
-                  <Button variant="ghost" size="sm" asChild className="text-accent hover:text-accent hover:bg-accent/10">
-                    <a href={`/pdf/${resource.file}`} download className="flex items-center">
-                      <Download className="h-4 w-4 mr-1" /> Donate
-                    </a>
-                  </Button>
-               </div>
-             ))}
+          <CardContent className="space-y-6">
+            <Alert className="bg-accent/10 border-accent/50">
+              <AlertCircle className="h-4 w-4 text-accent" />
+              <AlertTitle className="text-accent font-bold">Donation Required for Access</AlertTitle>
+              <AlertDescription>
+                To support the Kingdom Of Heaven Embassy education mission, please provide a donation to access these premium teacher lesson plans and guides.
+              </AlertDescription>
+            </Alert>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+               {[
+                 { name: "Three Color Sentence Logic", sub: "Precision Visual Syntax Guide" },
+                 { name: "Visual Bilingual Action", sub: "Direct Association Workbook" },
+                 { name: "English Action Guide", sub: "Zero-Second Response Manual" },
+                 { name: "Logic Language Systems", sub: "High-Dimensional Linguistic Theory" },
+                 { name: "Travel Syntax Guide", sub: "Survival Dialogues for Jakarta" },
+                 { name: "Jakarta Survival Guide", sub: "Master Teacher Notes (2026)" },
+                 { name: "April 2026 Visual Slides", sub: "Official Class Presentation Deck" }
+               ].map((resource, i) => (
+                 <div key={i} className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between group hover:border-accent transition-colors">
+                    <div>
+                      <p className="font-bold text-foreground">{resource.name}</p>
+                      <p className="text-xs text-muted-foreground">{resource.sub}</p>
+                    </div>
+                    <Button variant="ghost" size="sm" asChild className="text-accent hover:text-accent hover:bg-accent/10">
+                      <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                        <HeartHandshake className="h-4 w-4 mr-1" /> Donate
+                      </a>
+                    </Button>
+                 </div>
+               ))}
+            </div>
+            
+            <div className="flex justify-center pt-4">
+              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 shadow-xl">
+                <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer">
+                  Support Our Mission - Official PayPal Donation <ExternalLink className="ml-2 h-5 w-5" />
+                </a>
+              </Button>
+            </div>
           </CardContent>
           <CardFooter className="bg-accent/5 p-4 justify-center">
             <p className="text-xs italic text-muted-foreground">Thank you for supporting the Kingdom Of Heaven Embassy education mission.</p>
