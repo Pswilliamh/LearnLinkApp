@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { ScenarioLesson, scenarioLessons } from '@/lib/scenario-lessons';
-import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, CheckCircle, Eye, Mic, Loader2, CheckCircle2, Download, FileText } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, CheckCircle, Eye, Mic, Loader2, CheckCircle2, Download, FileText, Presentation } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -176,7 +176,7 @@ export default function ScenariosPage() {
             <CardTitle className="text-2xl text-primary flex items-center gap-2">
               <FileText className="h-7 w-7 text-accent" /> Teacher Resource Hub
             </CardTitle>
-            <CardDescription>Access verified methodology guides and precision scripts.</CardDescription>
+            <CardDescription>Access verified methodology guides, precision scripts, and visual slides.</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
              <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
@@ -231,6 +231,15 @@ export default function ScenariosPage() {
                 </div>
                 <Button variant="ghost" size="icon" asChild>
                   <a href="/pdf/jakarta-survival-guide.pdf" download><Download className="h-5 w-5" /></a>
+                </Button>
+             </div>
+             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
+                <div>
+                   <p className="font-bold text-foreground">April 2026 Visual Slides</p>
+                   <p className="text-xs text-muted-foreground">Official Class Presentation Deck</p>
+                </div>
+                <Button variant="ghost" size="icon" asChild>
+                  <a href="/pdf/English Class April2026 visual slide .pdf" download><Download className="h-5 w-5" /></a>
                 </Button>
              </div>
           </CardContent>
