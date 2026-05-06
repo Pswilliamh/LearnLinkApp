@@ -2,18 +2,20 @@
 
 LearnLink is a high-dimensional English learning platform designed for schools and students, focusing on the "Precision Protocol" and "Direct Association" methodology.
 
-## Author
-**Pswilliamh** - Kingdom Of Heaven Embassy Inc.
+## ⚠️ IMPORTANT: Fix Your Directory Structure
+Based on your current setup, your images and PDFs will not load because the `public` folder is inside `src`. **Please move them immediately.**
 
-## Project Structure
-For images and PDFs to load correctly, ensure your files are in the `public` folder at the **root** of the project:
-
+### Correct Structure (Move files to look like this):
 ```text
-/                      (Root Directory)
-├── public/
-│   ├── images/        (Place sight-logo.png, human-verified-seal.png here)
-│   └── pdf/           (Place all methodology PDFs here)
-├── src/               (Application Code)
+STUDIO (Root Directory)
+├── public/              <-- MOVE THIS OUT OF SRC TO HERE
+│   ├── images/          (sight-logo.png, human-verified-seal.png)
+│   └── pdf/             (Your methodology PDFs)
+├── src/                 <-- Keep your code here
+│   ├── ai/
+│   ├── app/
+│   └── ...
+├── next.config.ts       <-- MOVE THIS OUT OF SRC TO HERE
 ├── package.json
 └── README.md
 ```
@@ -36,8 +38,8 @@ For images and PDFs to load correctly, ensure your files are in the `public` fol
 This project is configured for deployment at: https://github.com/Pswilliamh/LearnLinkApp.git
 
 ## Getting Started
-1. Ensure images are in `/public/images/`
-2. Ensure PDFs are in `/public/pdf/`
+1. Ensure `public` is at the **root** (not inside `src`).
+2. Move `next.config.ts` to the **root** (not inside `src`).
 3. Run the development server:
 ```bash
 npm run dev
