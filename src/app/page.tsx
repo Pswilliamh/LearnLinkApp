@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -161,10 +162,10 @@ export default function HomePage() {
                             />
                           </div>
                           <div className="text-center px-2">
-                            <p className="text-accent font-extrabold text-sm leading-snug uppercase tracking-tight">
+                            <p className="text-accent font-extrabold text-xs leading-snug uppercase tracking-tight">
                               Human verified not AI created content.
                             </p>
-                            <p className="text-secondary-foreground text-[10px] font-medium opacity-90 mt-1">
+                            <p className="text-secondary-foreground text-[10px] font-medium opacity-90 mt-1 leading-tight">
                               Slide Decks or AI formated content verified.
                             </p>
                           </div>

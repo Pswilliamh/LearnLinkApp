@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -231,11 +232,11 @@ export default function ScenariosPage() {
                     className="object-contain drop-shadow"
                   />
                 </div>
-                <div className="text-center">
+                <div className="text-center px-2">
                     <p className="text-accent font-extrabold text-xs leading-snug uppercase tracking-tight">
                         Human verified not AI created content.
                     </p>
-                    <p className="text-secondary-foreground text-[10px] font-medium opacity-90 mt-1">
+                    <p className="text-secondary-foreground text-[10px] font-medium opacity-90 mt-1 leading-tight">
                         Slide Decks or AI formated content verified.
                     </p>
                 </div>
@@ -253,22 +254,22 @@ export default function ScenariosPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                {[
-                 { name: "Three Color Sentence Logic", sub: "Precision Visual Syntax Guide" },
-                 { name: "Visual Bilingual English Action", sub: "Direct Association Workbook" },
-                 { name: "Visual English Action Guide", sub: "Zero-Second Response Manual" },
-                 { name: "Visual Logic Language Systems", sub: "High-Dimensional Linguistic Theory" },
-                 { name: "Visual Travel Syntax Guide", sub: "Survival Dialogues for Jakarta" },
-                 { name: "Jakarta Survival Guide", sub: "Master Teacher Notes (2026)" },
-                 { name: "English Class April 2026 Visual Slide", sub: "Official Class Presentation Deck" }
+                 { name: "Three Color Sentence Logic", sub: "Precision Visual Syntax Guide", file: "Three_Color_Sentence_Logic.pdf" },
+                 { name: "Visual Bilingual English Action", sub: "Direct Association Workbook", file: "Visual_Bilingual_English_Action.pdf" },
+                 { name: "Visual English Action Guide", sub: "Zero-Second Response Manual", file: "Visual_English_Action_Guide.pdf" },
+                 { name: "Visual Logic Language Systems", sub: "High-Dimensional Linguistic Theory", file: "Visual_Logic_Language_Systems.pdf" },
+                 { name: "Visual Travel Syntax Guide", sub: "Survival Dialogues for Jakarta", file: "Visual_Travel_Syntax_Guide.pdf" },
+                 { name: "English Class April 2026 Visual Slide", sub: "Official Class Presentation Deck", file: "English Class April2026 visual slide .pdf" }
                ].map((resource, i) => (
                  <div key={i} className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between group hover:border-accent transition-colors">
-                    <div>
-                      <p className="font-bold text-foreground">{resource.name}</p>
-                      <p className="text-xs text-muted-foreground">{resource.sub}</p>
+                    <div className="max-w-[150px]">
+                      <p className="font-bold text-foreground text-sm leading-tight">{resource.name}</p>
+                      <p className="text-[10px] text-muted-foreground mt-1">{resource.sub}</p>
                     </div>
-                    <Button variant="ghost" size="sm" asChild className="text-accent hover:text-accent hover:bg-accent/10">
-                      <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                         Donate & Access
+                    <Button variant="ghost" size="sm" asChild className="text-accent hover:text-accent hover:bg-accent/10 h-auto py-2">
+                      <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center">
+                         <span className="text-[10px] font-bold">Donate & Access</span>
+                         <Download className="h-3 w-3 mt-1" />
                       </a>
                     </Button>
                  </div>

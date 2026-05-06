@@ -21,7 +21,7 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
     const shareData = {
       title: 'LearnLink Linguistic Mastery',
       text: `I just achieved Mastery in "${lessonName}" using the LearnLink Precision Protocol!`,
-      url: window.location.href,
+      url: typeof window !== 'undefined' ? window.location.href : '',
     };
 
     try {
@@ -43,16 +43,16 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <Image 
             src="https://picsum.photos/seed/jakarta/1200/800" 
-            alt="Jakarta Skyline" 
+            alt="Jakarta Background" 
             fill 
             className="object-cover"
           />
         </div>
 
         <div className="relative p-8 md:p-12 flex flex-col md:flex-row gap-8">
-          {/* Left Visual (The "Solution" Glow) */}
+          {/* Left Visual */}
           <div className="hidden md:flex flex-col items-center justify-center w-1/4 border-4 border-green-500/50 rounded-2xl bg-green-500/10 p-6 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
-            <h2 className="text-4xl font-bold text-green-500 tracking-widest uppercase [writing-mode:vertical-lr] rotate-180">Solution</h2>
+            <h2 className="text-4xl font-bold text-green-500 tracking-widest uppercase [writing-mode:vertical-lr] rotate-180">Mastery</h2>
           </div>
 
           {/* Main Content */}
