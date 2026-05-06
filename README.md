@@ -1,3 +1,4 @@
+
 # LearnLinkApp: 2026 Linguistic Mastery Platform
 
 LearnLink is a high-dimensional English learning platform designed for schools and students, focusing on the "Precision Protocol" and "Direct Association" methodology.
@@ -9,7 +10,7 @@ Based on your current setup, your images and PDFs will not load because the `pub
 ```text
 STUDIO (Root Directory)
 ├── public/              <-- MOVE THIS OUT OF SRC TO HERE
-│   ├── images/          (sight-logo.png, human-verified-seal.png)
+│   ├── images/          (sight-logo.png, human-verified-seal.png, teacher-scenerio.png)
 │   └── pdf/             (Your methodology PDFs)
 ├── src/                 <-- Keep your code here
 │   ├── ai/

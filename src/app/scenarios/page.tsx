@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScenarioLesson, scenarioLessons } from '@/lib/scenario-lessons';
-import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, Eye, Mic, Loader2, CheckCircle2, FileText, Lock, ShieldCheck, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, Eye, Mic, Loader2, CheckCircle2, FileText, Lock, ShieldCheck, ExternalLink, Download } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -226,8 +226,8 @@ export default function ScenariosPage() {
               <div className="bg-primary/40 p-4 rounded-lg border border-accent/50 flex flex-col items-center gap-4 max-w-sm">
                 <div className="relative w-32 h-32 shrink-0">
                   <Image 
-                    src="/images/human-verified-seal.png" 
-                    alt="LearnLink Human Verified Seal" 
+                    src="/images/teacher-scenerio.png" 
+                    alt="Teacher Scenario Logo" 
                     fill 
                     className="object-contain drop-shadow"
                   />
