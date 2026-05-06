@@ -19,10 +19,11 @@ import {
   Info,
   BookCopy,
   HelpCircle,
-  Hash, // For Numbers
-  Palette, // For Colors
+  Hash,
+  Palette,
   Download,
   BookMarked,
+  MapPin,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -32,6 +33,7 @@ const learningSections = [
   { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: '/images/section-alphabet.png', imageHint: 'Colorful friendly alphabet blocks arranged playfully educational illustration style' },
   { title: 'Numbers & Colors', description: 'Learn numbers and basic colors.', href: '/numbers-colors', icon: Hash, image: '/images/section-numbers-colors.png', imageHint: 'Colorful numbers and color swatches arranged neatly educational graphic' },
   { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: '/images/section-vocabulary.png', imageHint: 'open illustrated children book showing vibrant pictures of common objects animals bright engaging' },
+  { title: 'Scenario Lessons', description: 'Interactive real-world scenario training.', href: '/scenarios', icon: MapPin, image: 'https://picsum.photos/seed/scenarios/600/400', imageHint: 'Busy city street scenario educational illustration' },
   { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: '/images/section-sentences.png', imageHint: 'Children happily arranging large colorful word blocks form simple sentence sunny illustrative scene' },
   { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: '/images/section-pronunciation.png', imageHint: 'Stylized sound waves emanating friendly cartoon mouth musical notes clear modern educational graphic' },
   { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: '/images/section-translation.png', imageHint: 'Two speech bubbles one English flag one Indonesian flag connected friendly arrow global communication concept' },
@@ -143,11 +145,6 @@ export default function HomePage() {
                         </Link>
                     </Button>
                     </CardContent>
-                </Card>
-              )}
-              {!wordOfTheDay && (
-                <Card className="w-full md:max-w-lg bg-secondary shadow-xl border-2 border-accent p-5 text-center">
-                  <p className="text-secondary-foreground text-lg">Loading Word of the Day...</p>
                 </Card>
               )}
                <Card className="w-full md:max-w-lg bg-secondary shadow-xl border-2 border-accent">

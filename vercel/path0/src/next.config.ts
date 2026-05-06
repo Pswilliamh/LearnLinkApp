@@ -9,8 +9,13 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    unoptimized: true, // Use this if you are deploying to a non-Vercel environment or have issues with Vercel's optimizer
-    // remotePatterns are not needed for local images in /public
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
+    ],
   },
 };
 

@@ -9,8 +9,13 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    loader: 'default',
-    path: '/_next/image',
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
+    ],
   },
 };
 
