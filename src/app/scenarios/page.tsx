@@ -4,8 +4,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { ScenarioLesson, scenarioLessons, ScenarioSlide } from '@/lib/scenario-lessons';
-import { ChevronLeft, ChevronRight, Volume2, Info, MapPin, Sparkles, AlertCircle, CheckCircle, ShieldCheck, Eye, EyeOff, Mic, Loader2, CheckCircle2, X, Download, FileText } from 'lucide-react';
+import { ScenarioLesson, scenarioLessons } from '@/lib/scenario-lessons';
+import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, CheckCircle, Eye, Mic, Loader2, CheckCircle2, Download, FileText } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -176,25 +176,61 @@ export default function ScenariosPage() {
             <CardTitle className="text-2xl text-primary flex items-center gap-2">
               <FileText className="h-7 w-7 text-accent" /> Teacher Resource Hub
             </CardTitle>
-            <CardDescription>Access full PDF curriculum guides and classroom posters.</CardDescription>
+            <CardDescription>Access verified methodology guides and precision scripts.</CardDescription>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
              <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
                 <div>
-                   <p className="font-bold text-foreground">Jakarta Survival Guide (PDF)</p>
-                   <p className="text-xs text-muted-foreground">Complete 2026 Master Teacher Notes</p>
+                   <p className="font-bold text-foreground">Three Color Sentence Logic</p>
+                   <p className="text-xs text-muted-foreground">Precision Visual Syntax Guide</p>
                 </div>
                 <Button variant="ghost" size="icon" asChild>
-                  <a href="/pdf/jakarta-survival-guide.pdf" download><Download className="h-5 w-5" /></a>
+                  <a href="/pdf/Three_Color_Sentence_Logic.pdf" download><Download className="h-5 w-5" /></a>
                 </Button>
              </div>
              <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
                 <div>
-                   <p className="font-bold text-foreground">Visual Direct Association Poster</p>
-                   <p className="text-xs text-muted-foreground">Pink/Green Methodology Print-out</p>
+                   <p className="font-bold text-foreground">Visual Bilingual Action</p>
+                   <p className="text-xs text-muted-foreground">Direct Association Workbook</p>
                 </div>
                 <Button variant="ghost" size="icon" asChild>
-                  <a href="/pdf/methodology-poster.pdf" download><Download className="h-5 w-5" /></a>
+                  <a href="/pdf/Visual_Bilingual_English_Action.pdf" download><Download className="h-5 w-5" /></a>
+                </Button>
+             </div>
+             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
+                <div>
+                   <p className="font-bold text-foreground">English Action Guide</p>
+                   <p className="text-xs text-muted-foreground">Zero-Second Response Manual</p>
+                </div>
+                <Button variant="ghost" size="icon" asChild>
+                  <a href="/pdf/Visual_English_Action_Guide.pdf" download><Download className="h-5 w-5" /></a>
+                </Button>
+             </div>
+             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
+                <div>
+                   <p className="font-bold text-foreground">Logic Language Systems</p>
+                   <p className="text-xs text-muted-foreground">High-Dimensional Linguistic Theory</p>
+                </div>
+                <Button variant="ghost" size="icon" asChild>
+                  <a href="/pdf/Visual_Logic_Language_Systems.pdf" download><Download className="h-5 w-5" /></a>
+                </Button>
+             </div>
+             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
+                <div>
+                   <p className="font-bold text-foreground">Travel Syntax Guide</p>
+                   <p className="text-xs text-muted-foreground">Survival Dialogues for Jakarta</p>
+                </div>
+                <Button variant="ghost" size="icon" asChild>
+                  <a href="/pdf/Visual_Travel_Syntax_Guide.pdf" download><Download className="h-5 w-5" /></a>
+                </Button>
+             </div>
+             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
+                <div>
+                   <p className="font-bold text-foreground">Jakarta Survival Guide</p>
+                   <p className="text-xs text-muted-foreground">Master Teacher Notes (2026)</p>
+                </div>
+                <Button variant="ghost" size="icon" asChild>
+                  <a href="/pdf/jakarta-survival-guide.pdf" download><Download className="h-5 w-5" /></a>
                 </Button>
              </div>
           </CardContent>
@@ -263,7 +299,6 @@ export default function ScenariosPage() {
             fill
             className="object-cover"
             onError={(e) => {
-              // Fallback to placeholder if local file is missing
               const target = e.target as HTMLImageElement;
               target.src = `https://picsum.photos/seed/${currentSlide.id}/1200/800`;
             }}
