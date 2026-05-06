@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -29,22 +30,23 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from '@/components/ui/badge';
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 const learningSections = [
-  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: '/images/section-alphabet.png', imageHint: 'Colorful friendly alphabet blocks arranged playfully educational illustration style' },
-  { title: 'Numbers & Colors', description: 'Learn numbers and basic colors.', href: '/numbers-colors', icon: Hash, image: '/images/section-numbers-colors.png', imageHint: 'Colorful numbers and color swatches arranged neatly educational graphic' },
-  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: '/images/section-vocabulary.png', imageHint: 'open illustrated children book showing vibrant pictures of common objects animals bright engaging' },
-  { title: 'Scenario Lessons', description: 'Mastery-verified real-world scenario training.', href: '/scenarios', icon: MapPin, image: 'https://picsum.photos/seed/scenarios/600/400', imageHint: 'Busy city street scenario educational illustration', certified: true },
-  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: '/images/section-sentences.png', imageHint: 'Children happily arranging large colorful word blocks form simple sentence sunny illustrative scene' },
-  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: '/images/section-pronunciation.png', imageHint: 'Stylized sound waves emanating friendly cartoon mouth musical notes clear modern educational graphic' },
-  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: '/images/section-translation.png', imageHint: 'Two speech bubbles one English flag one Indonesian flag connected friendly arrow global communication concept' },
-  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: '/images/section-identify-object.png', imageHint: 'curious child looking through magnifying glass common household object like apple bright illustrative educational style' },
-  { title: 'Word Match Game', description: 'Drag words to their matching pictures.', href: '/match-game', icon: Puzzle, image: '/images/section-match-game.png', imageHint: 'Colorful puzzle pieces with simple icons like apple dog car being assembled by children hands educational game concept' },
-  { title: 'Interactive Flipbook', description: 'Flip through pages of household items.', href: '/flipbook', icon: BookCopy, image: '/images/section-flipbook.png', imageHint: 'Animated flipbook icon showing pages turning interactive learning symbol' },
-  { title: 'Cultural & Language Guides', description: 'Learn important cultural nuances.', href: '/infographics', icon: Lightbulb, image: '/images/infographic-dislike-hate.png', imageHint: 'Educational infographic about word choice', buttonText: "View Guides" },
-  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: '/images/section-advanced-learner.png', imageHint: 'stack books graduation cap top against inspiring subtly patterned background academic achievement theme' },
-  { title: 'How to Use LearnLink', description: 'Get help on how to use each section of the app.', href: '/how-to-use', icon: HelpCircle, image: '/images/section-how-to-use.png', imageHint: 'friendly question mark icon with gears and cogs learning process symbol' },
-  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://sites.google.com/view/kohe-embassy-gov/home', icon: Info, image: '/images/section-contact-us.png', imageHint: 'Clean professional icon representing official contact point embassy trustworthy clear graphic', external: true, buttonText: 'Visit Website' },
+  { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: placeholderImages.alphabet.url, imageHint: placeholderImages.alphabet.hint },
+  { title: 'Numbers & Colors', description: 'Learn numbers and basic colors.', href: '/numbers-colors', icon: Hash, image: placeholderImages.numbers_colors.url, imageHint: placeholderImages.numbers_colors.hint },
+  { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: placeholderImages.vocabulary.url, imageHint: placeholderImages.vocabulary.hint },
+  { title: 'Scenario Lessons', description: 'Mastery-verified real-world scenario training.', href: '/scenarios', icon: MapPin, image: placeholderImages.scenarios.url, imageHint: placeholderImages.scenarios.hint, certified: true },
+  { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: placeholderImages.sentences.url, imageHint: placeholderImages.sentences.hint },
+  { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: placeholderImages.pronunciation.url, imageHint: placeholderImages.pronunciation.hint },
+  { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: placeholderImages.translation.url, imageHint: placeholderImages.translation.hint },
+  { title: 'Identify Objects', description: 'Upload a picture to identify objects in it.', href: '/identify-object', icon: ScanSearch, image: placeholderImages.identify_object.url, imageHint: placeholderImages.identify_object.hint },
+  { title: 'Word Match Game', description: 'Drag words to their matching pictures.', href: '/match-game', icon: Puzzle, image: placeholderImages.match_game.url, imageHint: placeholderImages.match_game.hint },
+  { title: 'Interactive Flipbook', description: 'Flip through pages of household items.', href: '/flipbook', icon: BookCopy, image: placeholderImages.flipbook.url, imageHint: placeholderImages.flipbook.hint },
+  { title: 'Cultural & Language Guides', description: 'Learn important cultural nuances.', href: '/infographics', icon: Lightbulb, image: placeholderImages.advanced.url, imageHint: placeholderImages.advanced.hint, buttonText: "View Guides" },
+  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: placeholderImages.advanced.url, imageHint: placeholderImages.advanced.hint },
+  { title: 'How to Use LearnLink', description: 'Get help on how to use each section of the app.', href: '/how-to-use', icon: HelpCircle, image: placeholderImages.how_to_use.url, imageHint: placeholderImages.how_to_use.hint },
+  { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://sites.google.com/view/kohe-embassy-gov/home', icon: Info, image: placeholderImages.contact_us.url, imageHint: placeholderImages.contact_us.hint, external: true, buttonText: 'Visit Website' },
 ];
 
 interface WordOfTheDayItem {
@@ -99,10 +101,11 @@ export default function HomePage() {
           <div className="flex flex-col items-center justify-center gap-8 mt-6 max-w-6xl mx-auto p-4">
             <div className="flex-shrink-0">
               <Image
-                src="/images/sight-logo.png"
+                src={placeholderImages.logo.url}
                 alt="LearnLink Sight Logo"
                 width={300} 
                 height={300} 
+                data-ai-hint={placeholderImages.logo.hint}
                 className="rounded-full shadow-lg object-contain"
               />
             </div>
@@ -152,17 +155,17 @@ export default function HomePage() {
                         <p className="text-secondary-foreground text-lg">Download verified lesson plans for Jakarta and Global English curricula.</p>
                         <div className="flex flex-col space-y-2">
                            <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="/lesson-plan-beginner.pdf" download="LearnLink-Lesson-Plan-Beginner.pdf">
+                                <a href="#" download="LearnLink-Lesson-Plan-Beginner.pdf">
                                     <Download className="mr-2 h-4 w-4" /> Download Beginner Plan
                                 </a>
                             </Button>
                              <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="/lesson-plan-intermediate.pdf" download="LearnLink-Lesson-Plan-Intermediate.pdf">
+                                <a href="#" download="LearnLink-Lesson-Plan-Intermediate.pdf">
                                     <Download className="mr-2 h-4 w-4" /> Download Intermediate Plan
                                 </a>
                             </Button>
                              <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="/lesson-plan-advanced.pdf" download="LearnLink-Lesson-Plan-Advanced.pdf">
+                                <a href="#" download="LearnLink-Lesson-Plan-Advanced.pdf">
                                     <Download className="mr-2 h-4 w-4" /> Download Advanced Plan
                                 </a>
                             </Button>
@@ -179,13 +182,14 @@ export default function HomePage() {
           const IconComponent = section.icon;
           return (
             <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground relative">
-              {(section as any).certified && (
+              {section.certified && (
                 <div className="absolute top-2 right-2 z-10 w-20 h-20 pointer-events-none">
                    <Image 
-                    src="/images/human-verified-seal.png" 
+                    src={placeholderImages.verified_seal.url} 
                     alt="LearnLink Human Verified Seal" 
                     width={80} 
                     height={80} 
+                    data-ai-hint={placeholderImages.verified_seal.hint}
                     className="object-contain drop-shadow-lg"
                    />
                 </div>

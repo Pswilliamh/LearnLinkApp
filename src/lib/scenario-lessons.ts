@@ -1,4 +1,6 @@
 
+import placeholderImages from '@/app/lib/placeholder-images.json';
+
 export interface FocusZone {
   type: 'pink' | 'green';
   label: string;
@@ -52,8 +54,8 @@ export const scenarioLessons: ScenarioLesson[] = [
       {
         id: "s1",
         type: "precision_scenario",
-        image_url: "https://picsum.photos/seed/airport1/800/600",
-        image_hint: "Busy airport terminal with signs",
+        image_url: placeholderImages.airport_slide_1.url,
+        image_hint: placeholderImages.airport_slide_1.hint,
         focus_zones: [
           { type: "pink", label: "Lost Traveler", top: 40, left: 10, width: 20, height: 40 },
           { type: "green", label: "Information Sign", top: 10, left: 60, width: 30, height: 20 }
@@ -66,8 +68,8 @@ export const scenarioLessons: ScenarioLesson[] = [
       {
         id: "s2",
         type: "precision_scenario",
-        image_url: "https://picsum.photos/seed/airport2/800/600",
-        image_hint: "Check-in counter at airport",
+        image_url: placeholderImages.airport_slide_2.url,
+        image_hint: placeholderImages.airport_slide_2.hint,
         focus_zones: [
           { type: "pink", label: "Passport Needed", top: 50, left: 30, width: 15, height: 20 },
           { type: "green", label: "Helpful Staff", top: 20, left: 70, width: 20, height: 50 }
@@ -84,6 +86,7 @@ export const scenarioLessons: ScenarioLesson[] = [
     theme: "Ordering at a Restaurant",
     description: "Learn how to order food and ask questions about the menu.",
     is_premium: true,
+    verification_status: 'Verified',
     verification: {
       status: 'Verified',
       verified_by: 'William - Master Teacher',
@@ -94,8 +97,8 @@ export const scenarioLessons: ScenarioLesson[] = [
       {
         id: "r1",
         type: "precision_scenario",
-        image_url: "https://picsum.photos/seed/rest1/800/600",
-        image_hint: "Modern restaurant interior with menus",
+        image_url: placeholderImages.restaurant_slide_1.url,
+        image_hint: placeholderImages.restaurant_slide_1.hint,
         focus_zones: [
           { type: "pink", label: "Hungry Customer", top: 30, left: 20, width: 25, height: 60 },
           { type: "green", label: "Menu Options", top: 15, left: 65, width: 20, height: 30 }
