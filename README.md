@@ -4,7 +4,7 @@
 LearnLink is a high-dimensional English learning platform designed for schools and students, focusing on the "Precision Protocol" and "Direct Association" methodology.
 
 ## ⚠️ IMPORTANT: Directory Structure
-To ensure images and PDFs load correctly, the `public` folder must be at the root of the project.
+To ensure images and PDFs load correctly, the `public` folder must be at the root of the project (outside of `src`).
 
 ### Correct Structure:
 ```text
@@ -46,7 +46,7 @@ Ensure these files are in `public/images/`:
 ## Tech Stack
 - **Frontend**: Next.js 15, React 18, Tailwind CSS
 - **UI Components**: ShadCN UI
-- **AI Engine**: Genkit with Gemini 1.5 Flash
+- **AI Engine**: Genkit with Gemini 1.5 Flash (Standardized)
 - **Icons**: Lucide React
 
 ## Deployment

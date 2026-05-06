@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, Share2, Globe, Trophy, UserCheck, ShieldCheck, Zap } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 interface CertificateProps {
   lessonName: string;
@@ -39,19 +40,9 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/90 backdrop-blur-md animate-in fade-in duration-300">
       <Card className="relative w-full max-w-5xl overflow-hidden border-8 border-primary bg-gradient-to-br from-card to-secondary/30 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-        {/* Background Decorative Element */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <Image 
-            src="https://picsum.photos/seed/jakarta/1200/800" 
-            alt="Jakarta Background" 
-            fill 
-            className="object-cover"
-          />
-        </div>
-
         <div className="relative p-8 md:p-12 flex flex-col md:flex-row gap-8">
           {/* Left Visual */}
-          <div className="hidden md:flex flex-col items-center justify-center w-1/4 border-4 border-green-500/50 rounded-2xl bg-green-500/10 p-6 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+          <div className="hidden md:flex flex-col items-center justify-center w-1/4 border-4 border-green-500/50 rounded-2xl bg-green-500/10 p-6">
             <h2 className="text-4xl font-bold text-green-500 tracking-widest uppercase [writing-mode:vertical-lr] rotate-180">Mastery</h2>
           </div>
 
@@ -64,7 +55,7 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
               </div>
               <h1 className="text-4xl md:text-5xl font-bold text-foreground">LearnLink Precision Protocol</h1>
               <p className="text-lg text-muted-foreground pt-4">This certifies that the student has successfully completed the module:</p>
-              <div className="text-3xl md:text-4xl font-extrabold text-accent underline decoration-primary underline-offset-8 py-4">
+              <div className="text-3xl md:text-4xl font-extrabold text-accent py-4">
                 [{lessonName}]
               </div>
             </div>
@@ -85,7 +76,7 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-bold text-foreground uppercase tracking-tight text-sm">Verification Status:</p>
+                  <p className="font-bold text-foreground uppercase tracking-tight text-sm">Status:</p>
                   <p className="text-muted-foreground">NON-AI CREATED CONTENT</p>
                 </div>
               </div>
@@ -109,28 +100,6 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
               </div>
             </div>
 
-            {/* Core Competencies */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-bold text-foreground uppercase tracking-wider">Core Competencies Verified:</h3>
-              <ul className="grid grid-cols-1 gap-2">
-                {[
-                  { label: "Direct Association", desc: "Implemented visual memory without translation fatigue" },
-                  { label: "Survival Fluency", desc: "Navigated real-world scenario interactions" },
-                  { label: "Precision Syntax", desc: "Verified interlinear dialogue structure" }
-                ].map((comp, idx) => (
-                  <li key={idx} className="flex items-center gap-2 group">
-                    <div className="bg-green-500 rounded-sm p-0.5 text-white">
-                      <CheckCircle2 className="h-4 w-4" />
-                    </div>
-                    <p className="text-sm">
-                      <span className="font-bold text-foreground">{comp.label}:</span>{" "}
-                      <span className="text-muted-foreground">{comp.desc}</span>
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
             <p className="text-center italic text-muted-foreground pt-6 border-t border-border/20">
               "Language is not a code to be translated, but a nature to be lived."
             </p>
@@ -149,10 +118,10 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
           </div>
 
           {/* Right Visual (Official Seal) */}
-          <div className="flex flex-col items-center justify-start md:w-1/4 space-y-4 relative">
-             <div className="relative w-56 h-56 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform rotate-6 transition-transform hover:rotate-0 duration-500">
+          <div className="flex flex-col items-center justify-start md:w-1/4 space-y-4">
+             <div className="relative w-56 h-56">
                <Image 
-                src="/images/human-verified-seal.png" 
+                src={placeholderImages.verified_seal.url} 
                 alt="LearnLink Human Verified Seal" 
                 fill 
                 className="object-contain"

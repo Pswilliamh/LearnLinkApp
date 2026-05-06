@@ -2,10 +2,6 @@
 'use server';
 /**
  * @fileOverview An AI agent for providing detailed feedback on a user's spoken phrase.
- *
- * - evaluateSpeech - A function that compares a user's spoken attempt to a target phrase and provides corrections.
- * - EvaluateSpeechInput - The input type for the evaluateSpeech function.
- * - EvaluateSpeechOutput - The return type for the evaluateSpeech function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -23,7 +19,6 @@ const EvaluateSpeechOutputSchema = z.object({
 });
 export type EvaluateSpeechOutput = z.infer<typeof EvaluateSpeechOutputSchema>;
 
-
 const TUTOR_PROMPT = `
 You are 'Guru Bahasa' (Language Teacher), an expert, friendly, and patient English and Indonesian language tutor for the LearnLink app. Your primary goal is to help the user achieve native-like fluency in English.
 
@@ -37,11 +32,10 @@ You are 'Guru Bahasa' (Language Teacher), an expert, friendly, and patient Engli
 4.  **Next Step:** After the correction, provide a new, short, related conversational question to continue the lesson.
 5.  **Format:** Your entire response must be professional, encouraging, and delivered **in English**.
 
-**User's Data:**
+User's Data:
 User's Attempt (Transcribed): "{{userAttempt}}"
 Target Phrase: "{{targetPhrase}}"
 `;
-
 
 export async function evaluateSpeech(input: EvaluateSpeechInput): Promise<EvaluateSpeechOutput> {
   return evaluateSpeechFlow(input);
@@ -67,7 +61,7 @@ const evaluateSpeechFlow = ai.defineFlow(
   async (input) => {
     const {output} = await prompt(input);
     if (!output) {
-      throw new Error('Failed to get a response from the AI model for speech evaluation.');
+      throw new Error('Failed to get a response from the AI model.');
     }
     return output;
   }
