@@ -156,6 +156,7 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
                 alt="LearnLink Human Verified Seal" 
                 fill 
                 className="object-contain"
+                onError={(e) => { (e.target as any).src = "https://picsum.photos/seed/seal/200/200"; }}
                />
              </div>
              <div className="text-center space-y-1 pt-4 border-t-2 border-primary/50 w-full">

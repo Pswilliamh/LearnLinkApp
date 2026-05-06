@@ -184,12 +184,12 @@ export default function ScenariosPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {scenarioLessons.map((lesson) => (
             <Card key={lesson.lesson_id} className="hover:shadow-xl transition-all border-t-4 border-accent relative flex flex-col">
-              <div className="absolute top-2 right-2 z-10 w-16 h-16">
+              <div className="absolute top-2 right-2 z-10 w-20 h-20">
                  <Image 
                   src="/images/human-verified-seal.png" 
                   alt="LearnLink Human Verified Seal" 
-                  width={64} 
-                  height={64} 
+                  width={80} 
+                  height={80} 
                   className="object-contain drop-shadow"
                   onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/48/48'; }}
                  />
@@ -220,13 +220,12 @@ export default function ScenariosPage() {
                 <CardTitle className="text-2xl text-primary flex items-center gap-2">
                   <FileText className="h-7 w-7 text-accent" /> Teacher Resource Hub
                 </CardTitle>
-                <CardDescription className="text-foreground font-semibold flex items-center gap-2">
-                  <HeartHandshake className="h-4 w-4 text-accent" /> 
+                <CardDescription className="text-foreground font-semibold">
                   These high-dimensional methodology guides are donation-based assets.
                 </CardDescription>
               </div>
               <div className="bg-primary/40 p-4 rounded-lg border border-accent/50 flex flex-col items-center gap-2 max-w-sm">
-                <div className="relative w-24 h-24 shrink-0">
+                <div className="relative w-32 h-32 shrink-0">
                   <Image 
                     src="/images/human-verified-seal.png" 
                     alt="LearnLink Human Verified Seal" 

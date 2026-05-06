@@ -24,7 +24,6 @@ import {
   Download,
   BookMarked,
   MapPin,
-  ShieldCheck,
   Lock,
   HeartHandshake,
 } from 'lucide-react';
@@ -160,7 +159,7 @@ export default function HomePage() {
                         <p className="text-secondary-foreground text-lg">Access verified lesson plans and methodology guides (Donation-Based).</p>
                         
                         <div className="bg-primary/20 p-4 rounded-lg border border-accent/30 flex flex-col items-center gap-3">
-                          <div className="relative w-24 h-24">
+                          <div className="relative w-32 h-32">
                             <Image 
                               src="/images/human-verified-seal.png" 
                               alt="LearnLink Human Verified Seal" 
