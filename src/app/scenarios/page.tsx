@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -6,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScenarioLesson, scenarioLessons } from '@/lib/scenario-lessons';
-import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, CheckCircle, Eye, Mic, Loader2, CheckCircle2, Download, FileText, Lock, ShieldCheck, HeartHandshake, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, Eye, Mic, Loader2, CheckCircle2, FileText, Lock, ShieldCheck, HeartHandshake, ExternalLink } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -39,7 +38,7 @@ export default function ScenariosPage() {
       setIsAuthenticated(true);
       toast({ title: "Access Granted", description: "Welcome to Premium Scenario Lessons." });
     } else {
-      toast({ variant: "destructive", title: "Access Denied", description: "Incorrect password. Please contact support." });
+      toast({ variant: "destructive", title: "Access Denied", description: "Incorrect password. Please use '2026'." });
     }
   };
 
@@ -68,7 +67,7 @@ export default function ScenariosPage() {
             setIsListening(false);
         };
     }
-  }, [activeLesson, currentSlideIndex]);
+  }, [activeLesson, currentSlideIndex, toast]);
 
   const handleStartLesson = (lesson: ScenarioLesson) => {
     setActiveLesson(lesson);
@@ -353,7 +352,7 @@ export default function ScenariosPage() {
             >
               <div className={`absolute -top-8 px-2 py-1 rounded text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap
                 ${zone.type === 'pink' ? 'bg-pink-600' : 'bg-green-600'}`}>
-                {zone.type === 'pink' ? <AlertCircle className="inline h-3 w-3 mr-1" /> : <CheckCircle className="inline h-3 w-3 mr-1" />}
+                {zone.type === 'pink' ? <AlertCircle className="inline h-3 w-3 mr-1" /> : <CheckCircle2 className="inline h-3 w-3 mr-1" />}
                 {zone.label}
               </div>
             </div>

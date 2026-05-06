@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -7,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { BookMarked, MessageSquareQuote, Brain, Loader2, AlertCircle, Search, Languages, Volume2, RotateCcw, CheckSquare } from 'lucide-react';
+import { BookMarked, MessageSquareQuote, Brain, Loader2, AlertCircle, Search, Languages, Volume2, RotateCcw, CheckSquare, Lock, ShieldCheck } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { getWordInfo, GetWordInfoOutput } from '@/ai/flows/get-word-info-flow';
 import { useToast } from "@/hooks/use-toast";
@@ -46,49 +45,7 @@ const sampleDialogues: DialogueStory[] = [
       { speaker: "Alex", english: "Me too! I heard the sand is really soft and the water is crystal clear.", bahasa: "Saya juga! Saya dengar pasirnya sangat lembut dan airnya bening seperti kristal." },
       { speaker: "Sam", english: "I heard that too! And the sunsets are supposed to be amazing. I've always wanted to see a California sunset on the beach.", bahasa: "Saya juga mendengar itu! Dan matahari terbenamnya diharapkan menakjubkan. Saya selalu ingin melihat matahari terbenam di pantai California." },
       { speaker: "Alex", english: "That sounds perfect. Let's plan a trip there soon!", bahasa: "Itu terdengar sempurna. Mari kita rencanakan perjalanan ke sana segera!" },
-      { speaker: "Sam", english: "Definitely, let's do it! I can't wait to see the dolphins and sea lions that live there.", bahasa: "Pasti, mari kita lakukan! Saya tidak sabar ingin melihat lumba-lumba dan singa laut yang hidup di sana." },
-      { speaker: "Alex", english: "I want to go swimming at the beach.", bahasa: "Saya ingin berenang di pantai." },
-      { speaker: "Sam", english: "The waves were so big today.", bahasa: "Ombaknya sangat besar hari ini." },
-      { speaker: "Alex", english: "I love the feeling of the sand between my toes.", bahasa: "Saya suka perasaan pasir di antara jari kaki saya." },
-      { speaker: "Sam", english: "The beach was crowded with tourists.", bahasa: "Pantai itu ramai dengan wisatawan." },
-      { speaker: "Alex", english: "Let's rent a beach umbrella to shade ourselves.", bahasa: "Mari sewa payung pantai untuk melindungi diri kita dari terik matahari." },
-      { speaker: "Sam", english: "I can't wait to see the sunset over the ocean.", bahasa: "Saya tidak sabar untuk melihat matahari terbenam di atas laut." },
-      { speaker: "Alex", english: "I want to collect some shells on the beach.", bahasa: "Saya ingin mengumpulkan beberapa kerang di pantai." },
-      { speaker: "Sam", english: "The beach is my favorite place to relax.", bahasa: "Pantai adalah tempat favorit saya untuk beristirahat." },
-      { speaker: "Alex", english: "I heard that the beach has great surf spot.", bahasa: "Saya dengar pantai ini memiliki tempat ombak yang bagus." },
-      { speaker: "Sam", english: "I'm excited to try parasailing at the beach.", bahasa: "Saya bersemangat untuk mencoba parasailing di pantai." }
-    ]
-  },
-  {
-    title: "Spicy Chili Sauce Chat",
-    characters: ["Lina", "Rian"],
-    turns: [
-      { speaker: "Lina", english: "Wow, this chili sauce is really spicy. Why is it so hot?", bahasa: "Wow, saus cabe ini sangat pedas. Mengapa begitu pedas?" },
-      { speaker: "Rian", english: "I think it's because they use a lot of bird's eye chili in it. That's what gives it its heat.", bahasa: "Saya pikir itu karena mereka menggunakan banyak cabe rawit di dalamnya. Itulah yang memberikan rasa pedasnya." }
-    ]
-  },
-  {
-    title: "Learning English in Class",
-    characters: ["Anna", "Ben", "Chris"],
-    turns: [
-      { speaker: "Anna", english: "Hi, I'm Anna. It's nice to meet you both. I'm excited to start learning English.", bahasa: "Hai, saya Anna. Senang bertemu dengan kalian berdua. Saya bersemangat untuk mulai belajar bahasa Inggris." },
-      { speaker: "Ben", english: "Hi Anna, I'm Ben. I'm looking forward to improving my English too. Hi, Chris!", bahasa: "Hai Anna, saya Ben. Saya juga menantikan untuk meningkatkan bahasa Inggris saya. Hai, Chris!" },
-      { speaker: "Chris", english: "Hello Anna, Ben. Welcome to our Conversational English class! I'm Chris, and I'll be your teacher. Let's start by introducing ourselves. Anna, can you tell us a little about yourself?", bahasa: "Halo Anna, Ben. Selamat datang di kelas Bahasa Inggris Konversasi kami! Saya Chris, dan saya akan menjadi guru kalian. Mari kita mulai dengan memperkenalkan diri. Anna, bisakah kamu ceritakan sedikit tentang dirimu?" },
-      { speaker: "Anna", english: "Sure! I’m from Brazil, and I work as a software developer. I want to learn English so that I can communicate better with my colleagues and clients.", bahasa: "Tentu! Saya dari Brasil, dan saya bekerja sebagai pengembang perangkat lunak. Saya ingin belajar bahasa Inggris agar bisa berkomunikasi lebih baik dengan kolega dan klien saya." },
-      { speaker: "Chris", english: "That's great, Anna. How about you, Ben?", bahasa: "Bagus sekali, Anna. Bagaimana denganmu, Ben?" },
-      { speaker: "Ben", english: "I'm from Germany, and I'm studying marketing. I need to improve my English for my studies and future career.", bahasa: "Saya dari Jerman, dan saya sedang belajar pemasaran. Saya perlu meningkatkan bahasa Inggris saya untuk studi dan karier masa depan saya." },
-      { speaker: "Chris", english: "Excellent. Both of you have good reasons for learning English. In this course, we will practice speaking in different situations, to help you gain confidence. Let's begin with some basic greetings. Anna, how do you greet someone in English?", bahasa: "Luar biasa. Kalian berdua memiliki alasan yang bagus untuk belajar bahasa Inggris. Dalam kursus ini, kita akan berlatih berbicara dalam berbagai situasi untuk membantu kalian mendapatkan kepercayaan diri. Mari kita mulai dengan beberapa sapaan dasar. Anna, bagaimana cara menyapa seseorang dalam bahasa Inggris?" },
-      { speaker: "Anna", english: "You can say 'Hello' or 'Hi.'", bahasa: "Kamu bisa mengatakan 'Halo' atau 'Hai.'" },
-      { speaker: "Chris", english: "Exactly. And Ben, how would you introduce yourself?", bahasa: "Tepat sekali. Dan Ben, bagaimana kamu akan memperkenalkan diri?" },
-      { speaker: "Ben", english: "I would say, 'Hi, my name is Ben. Nice to meet you.'", bahasa: "Saya akan bilang, 'Hai, nama saya Ben. Senang bertemu denganmu.'" },
-      { speaker: "Chris", english: "Perfect! Now let's practice a short conversation. Anna, you start by greeting Ben.", bahasa: "Sempurna! Sekarang mari kita berlatih percakapan singkat. Anna, kamu mulai dengan menyapa Ben." },
-      { speaker: "Anna", english: "Hi, my name is Anna. Nice to meet you.", bahasa: "Hai, nama saya Anna. Senang bertemu denganmu." },
-      { speaker: "Ben", english: "Hi Anna, I’m Ben. Nice to meet you too. Where are you from?", bahasa: "Hai Anna, saya Ben. Senang bertemu denganmu juga. Kamu dari mana?" },
-      { speaker: "Anna", english: "I’m from Brazil. How about you?", bahasa: "Saya dari Brasil. Kamu dari mana?" },
-      { speaker: "Ben", english: "I’m from Germany. What do you do?", bahasa: "Saya dari Jerman. Kamu bekerja sebagai apa?" },
-      { speaker: "Anna", english: "I’m a software developer. And you?", bahasa: "Saya pengembang perangkat lunak. Kalau kamu?" },
-      { speaker: "Ben", english: "I’m studying marketing.", bahasa: "Saya sedang belajar pemasaran." },
-      { speaker: "Chris", english: "Very good! That was a great start. We'll continue practicing and learning new phrases to help you in different situations. Keep up the good work!", bahasa: "Bagus sekali! Itu adalah awal yang sangat baik. Kita akan terus berlatih dan mempelajari frasa baru untuk membantu kalian dalam berbagai situasi. Pertahankan kerja bagusnya!" }
+      { speaker: "Sam", english: "Definitely, let's do it! I can't wait to see the dolphins and sea lions that live there.", bahasa: "Pasti, mari kita lakukan! Saya tidak sabar ingin melihat lumba-lumba dan singa laut yang hidup di sana." }
     ]
   }
 ];
@@ -98,7 +55,7 @@ interface QuizQuestion {
   questionText: string;
   type: 'multiple-choice' | 'find-word';
   options?: string[];
-  sentence?: string; // For find-word type
+  sentence?: string;
   correctAnswer: string;
 }
 
@@ -117,18 +74,13 @@ const sampleQuizQuestions: QuizQuestion[] = [
     sentence: "She quickly reads the book.",
     options: ["She", "quickly", "reads", "book"], 
     correctAnswer: "reads",
-  },
-  {
-    id: 'q3',
-    questionText: "Choose the correct word: The ______ is shining brightly.",
-    type: 'multiple-choice',
-    options: ["sun", "moon", "star", "lamp"],
-    correctAnswer: "sun",
-  },
+  }
 ];
 
 
 export default function AdvancedLearnerPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
   const [wordToExplore, setWordToExplore] = useState('');
   const [wordInfo, setWordInfo] = useState<GetWordInfoOutput | null>(null);
   const [isExploring, setIsExploring] = useState(false);
@@ -137,6 +89,16 @@ export default function AdvancedLearnerPage() {
   
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [quizScores, setQuizScores] = useState<Record<string, boolean | null>>({});
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === '2026') {
+      setIsAuthenticated(true);
+      toast({ title: "Access Granted", description: "Welcome to the Advanced Learner Hub." });
+    } else {
+      toast({ variant: "destructive", title: "Access Denied", description: "Incorrect password. Please use '2026'." });
+    }
+  };
 
   const handleExploreWord = async () => {
     if (!wordToExplore.trim()) {
@@ -156,7 +118,6 @@ export default function AdvancedLearnerPage() {
       const errorMsg = e instanceof Error ? e.message : "An unknown error occurred.";
       setExploreError(`Failed to explore word: ${errorMsg}`);
       toast({ variant: "destructive", title: "Exploration Failed", description: errorMsg });
-      console.error(e);
     } finally {
       setIsExploring(false);
     }
@@ -199,14 +160,41 @@ export default function AdvancedLearnerPage() {
       utterance.lang = lang;
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(utterance);
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Pronunciation Failed",
-        description: "Speech synthesis is not supported in your browser.",
-      });
     }
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Card className="w-full max-w-md shadow-2xl border-2 border-accent">
+          <CardHeader className="text-center">
+            <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-4">
+              <Lock className="h-8 w-8 text-accent" />
+            </div>
+            <CardTitle className="text-2xl">Premium Access Required</CardTitle>
+            <CardDescription>Enter the password to access advanced lessons and the word explorer.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handlePasswordSubmit} className="space-y-4">
+              <Input 
+                type="password" 
+                placeholder="Enter access code..." 
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                className="text-center text-lg"
+              />
+              <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                Unlock Hub
+              </Button>
+            </form>
+          </CardContent>
+          <CardFooter className="text-center text-xs text-muted-foreground flex justify-center">
+             <ShieldCheck className="h-3 w-3 mr-1" /> Secure 2026 Protocol
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-12">
@@ -224,13 +212,13 @@ export default function AdvancedLearnerPage() {
           <CardTitle className="text-2xl text-primary flex items-center gap-2">
             <MessageSquareQuote className="h-7 w-7" /> Dialogue Stories
           </CardTitle>
-          <CardDescription>Practice conversations with parallel English and Bahasa Indonesia text. (More stories coming soon!)</CardDescription>
+          <CardDescription>Practice conversations with parallel English and Bahasa Indonesia text.</CardDescription>
         </CardHeader>
         <CardContent>
           <Accordion type="single" collapsible className="w-full">
             {sampleDialogues.map((dialogue, index) => (
               <AccordionItem value={`dialogue-${index}`} key={dialogue.title}>
-                <AccordionTrigger className="text-xl hover:text-accent">{dialogue.title} (Characters: {dialogue.characters.join(', ')})</AccordionTrigger>
+                <AccordionTrigger className="text-xl hover:text-accent">{dialogue.title}</AccordionTrigger>
                 <AccordionContent className="space-y-3 p-4 bg-background rounded-md">
                   {dialogue.turns.map((turn, turnIndex) => (
                     <div key={turnIndex} className="p-3 border rounded-md bg-card shadow-sm">
@@ -260,7 +248,6 @@ export default function AdvancedLearnerPage() {
                 </AccordionContent>
               </AccordionItem>
             ))}
-             {sampleDialogues.length === 0 && <p className="text-muted-foreground">No dialogue stories available yet. Check back soon!</p>}
           </Accordion>
         </CardContent>
       </Card>
@@ -270,27 +257,25 @@ export default function AdvancedLearnerPage() {
           <CardTitle className="text-2xl text-primary flex items-center gap-2">
             <BookMarked className="h-7 w-7" /> Vocabulary Quiz
           </CardTitle>
-          <CardDescription>Test your knowledge. (More questions coming soon!)</CardDescription>
+          <CardDescription>Test your knowledge with multiple choice and word identification.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {sampleQuizQuestions.map((question) => (
             <div key={question.id} className="p-4 border rounded-md bg-card shadow-sm">
               <p className="font-semibold text-foreground mb-2">{question.questionText}</p>
               {question.sentence && <p className="italic text-muted-foreground mb-3">Sentence: "{question.sentence}"</p>}
-              {(question.type === 'multiple-choice' || question.type === 'find-word') && question.options && (
-                <RadioGroup 
-                  onValueChange={(value) => handleQuizAnswerChange(question.id, value)}
-                  value={quizAnswers[question.id] || ""}
-                  className="space-y-2"
-                >
-                  {question.options.map((option) => (
-                    <div key={option} className="flex items-center space-x-3 p-2 rounded-md hover:bg-secondary transition-colors">
-                      <RadioGroupItem value={option} id={`${question.id}-${option}`} />
-                      <Label htmlFor={`${question.id}-${option}`} className="cursor-pointer flex-grow">{option}</Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              )}
+              <RadioGroup 
+                onValueChange={(value) => handleQuizAnswerChange(question.id, value)}
+                value={quizAnswers[question.id] || ""}
+                className="space-y-2"
+              >
+                {question.options?.map((option) => (
+                  <div key={option} className="flex items-center space-x-3 p-2 rounded-md hover:bg-secondary transition-colors">
+                    <RadioGroupItem value={option} id={`${question.id}-${option}`} />
+                    <Label htmlFor={`${question.id}-${option}`} className="cursor-pointer flex-grow">{option}</Label>
+                  </div>
+                ))}
+              </RadioGroup>
               <Button onClick={() => checkQuizAnswer(question.id)} className="mt-4 text-xs" size="sm" variant="outline" disabled={!quizAnswers[question.id]}>
                 Check Answer
               </Button>
@@ -301,22 +286,13 @@ export default function AdvancedLearnerPage() {
               )}
             </div>
           ))}
-          {sampleQuizQuestions.length === 0 && <p className="text-muted-foreground">No quiz questions available yet. Check back soon!</p>}
         </CardContent>
         <CardFooter className="flex flex-col items-start space-y-2 p-6 border-t">
             <div className="flex items-center gap-2 text-lg font-semibold text-primary">
                 <CheckSquare className="h-6 w-6"/>
                 <span>Quiz Summary</span>
             </div>
-            <p className="text-muted-foreground">
-                Total Questions: <span className="font-bold text-foreground">{quizSummary.totalQuestions}</span>
-            </p>
-            <p className="text-muted-foreground">
-                Attempted: <span className="font-bold text-foreground">{quizSummary.attempted}</span> / {quizSummary.totalQuestions}
-            </p>
-            <p className="text-muted-foreground">
-                Correct: <span className="font-bold text-green-600">{quizSummary.correct}</span> / {quizSummary.attempted}
-            </p>
+            <p className="text-muted-foreground">Correct: <span className="font-bold text-green-600">{quizSummary.correct}</span> / {quizSummary.attempted}</p>
             <Button onClick={resetQuiz} variant="outline" size="sm" className="mt-2">
               <RotateCcw className="mr-2 h-4 w-4" /> Reset Quiz
             </Button>
@@ -328,7 +304,7 @@ export default function AdvancedLearnerPage() {
           <CardTitle className="text-2xl text-primary flex items-center gap-2">
             <Search className="h-7 w-7" /> Word Explorer
           </CardTitle>
-          <CardDescription>Type an English word to get its definition, example sentence, and Bahasa Indonesia translations. Also, hear how they are pronounced!</CardDescription>
+          <CardDescription>Type an English word to get its definition, example sentence, and Bahasa Indonesia translations.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-2">
@@ -337,10 +313,9 @@ export default function AdvancedLearnerPage() {
               value={wordToExplore}
               onChange={(e) => { setWordToExplore(e.target.value); setExploreError(null);}}
               placeholder="Enter an English word..."
-              className="flex-grow h-11 text-base"
-              aria-label="Word to explore"
+              className="flex-grow h-11"
             />
-            <Button onClick={handleExploreWord} disabled={isExploring || !wordToExplore.trim()} className="bg-accent text-accent-foreground hover:bg-accent/90 h-11 text-base">
+            <Button onClick={handleExploreWord} disabled={isExploring || !wordToExplore.trim()} className="bg-accent text-accent-foreground hover:bg-accent/90 h-11">
               {isExploring ? <Loader2 className="animate-spin mr-2" /> : <Search className="mr-2 h-4 w-4" />}
               {isExploring ? 'Exploring...' : 'Explore Word'}
             </Button>
@@ -354,16 +329,7 @@ export default function AdvancedLearnerPage() {
           )}
         </CardContent>
         
-        {isExploring && !wordInfo && (
-          <CardContent>
-            <div className="text-center p-6">
-              <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto" />
-              <p className="mt-4 text-lg text-muted-foreground">Exploring word details, please wait...</p>
-            </div>
-          </CardContent>
-        )}
-
-        {wordInfo && !isExploring && (
+        {wordInfo && (
           <CardContent className="space-y-6 pt-4">
             <h3 className="text-2xl font-semibold text-accent flex items-center justify-between">
               {wordInfo.originalWord}
@@ -372,56 +338,20 @@ export default function AdvancedLearnerPage() {
               </Button>
             </h3>
             
-            <div className="p-4 border rounded-md bg-card shadow-sm">
-              <h4 className="font-semibold text-lg text-foreground flex items-center justify-between">
-                Definition (English)
-                <Button variant="ghost" size="icon" onClick={() => speakText(wordInfo.englishDefinition)} className="ml-2 h-7 w-7 text-primary hover:text-accent">
-                  <Volume2 className="h-5 w-5" />
-                </Button>
-              </h4>
-              <p className="text-muted-foreground mt-1 text-base">{wordInfo.englishDefinition}</p>
-            </div>
-
-            <div className="p-4 border rounded-md bg-card shadow-sm">
-              <h4 className="font-semibold text-lg text-foreground flex items-center justify-between">
-                Example (English)
-                <Button variant="ghost" size="icon" onClick={() => speakText(wordInfo.englishExample)} className="ml-2 h-7 w-7 text-primary hover:text-accent">
-                  <Volume2 className="h-5 w-5" />
-                </Button>
-              </h4>
-              <p className="text-muted-foreground mt-1 italic text-base">"{wordInfo.englishExample}"</p>
-            </div>
-
-            <Separator className="my-6"/>
-
-            <div className="p-4 border rounded-md bg-card shadow-sm">
-              <h4 className="font-semibold text-lg text-foreground flex items-center">
-                <Languages className="h-5 w-5 mr-2 text-primary" /> Translation (Bahasa Indonesia): 
-                <span className="ml-2 font-bold text-primary">{wordInfo.bahasaTranslationWord}</span>
-                <Button variant="ghost" size="icon" onClick={() => speakText(wordInfo.bahasaTranslationWord, 'id-ID')} className="ml-auto h-7 w-7 text-primary hover:text-accent">
-                  <Volume2 className="h-5 w-5" />
-                </Button>
-              </h4>
-            </div>
-            
-            <div className="p-4 border rounded-md bg-card shadow-sm">
-              <h4 className="font-semibold text-lg text-foreground flex items-center justify-between">
-                <Languages className="h-5 w-5 mr-2 text-primary" /> Definition (Bahasa Indonesia)
-                 <Button variant="ghost" size="icon" onClick={() => speakText(wordInfo.bahasaDefinition, 'id-ID')} className="ml-2 h-7 w-7 text-primary hover:text-accent">
-                  <Volume2 className="h-5 w-5" />
-                </Button>
-              </h4>
-              <p className="text-muted-foreground mt-1 text-base">{wordInfo.bahasaDefinition}</p>
-            </div>
-
-            <div className="p-4 border rounded-md bg-card shadow-sm">
-              <h4 className="font-semibold text-lg text-foreground flex items-center justify-between">
-                <Languages className="h-5 w-5 mr-2 text-primary" /> Example (Bahasa Indonesia)
-                <Button variant="ghost" size="icon" onClick={() => speakText(wordInfo.bahasaExample, 'id-ID')} className="ml-2 h-7 w-7 text-primary hover:text-accent">
-                  <Volume2 className="h-5 w-5" />
-                </Button>
-              </h4>
-              <p className="text-muted-foreground mt-1 italic text-base">"{wordInfo.bahasaExample}"</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 border rounded-md bg-card">
+                <h4 className="font-semibold text-lg">English</h4>
+                <p className="text-muted-foreground mt-2">{wordInfo.englishDefinition}</p>
+                <p className="text-muted-foreground italic mt-2">"{wordInfo.englishExample}"</p>
+              </div>
+              <div className="p-4 border rounded-md bg-secondary">
+                <h4 className="font-semibold text-lg flex items-center gap-2">
+                  <Languages className="h-5 w-5 text-primary" /> Bahasa Indonesia
+                </h4>
+                <p className="text-primary font-bold mt-2">{wordInfo.bahasaTranslationWord}</p>
+                <p className="text-muted-foreground mt-2">{wordInfo.bahasaDefinition}</p>
+                <p className="text-muted-foreground italic mt-2">"{wordInfo.bahasaExample}"</p>
+              </div>
             </div>
           </CardContent>
         )}
@@ -429,5 +359,3 @@ export default function AdvancedLearnerPage() {
     </div>
   );
 }
-
-    
