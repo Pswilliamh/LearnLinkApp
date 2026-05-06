@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -6,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScenarioLesson, scenarioLessons } from '@/lib/scenario-lessons';
-import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, Eye, Mic, Loader2, CheckCircle2, FileText, Lock, ShieldCheck, HeartHandshake, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, Eye, Mic, Loader2, CheckCircle2, FileText, Lock, ShieldCheck, ExternalLink } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -219,11 +218,11 @@ export default function ScenariosPage() {
                 <CardTitle className="text-2xl text-primary flex items-center gap-2">
                   <FileText className="h-7 w-7 text-accent" /> Teacher Resource Hub
                 </CardTitle>
-                <CardDescription className="text-foreground font-semibold">
-                  These high-dimensional methodology guides are donation-based assets.
+                <CardDescription className="text-foreground font-bold text-lg">
+                  High-dimensional methodology guides (Donation-Based Assets).
                 </CardDescription>
               </div>
-              <div className="bg-primary/40 p-4 rounded-lg border border-accent/50 flex flex-col items-center gap-2 max-w-sm">
+              <div className="bg-primary/40 p-4 rounded-lg border border-accent/50 flex flex-col items-center gap-4 max-w-sm">
                 <div className="relative w-32 h-32 shrink-0">
                   <Image 
                     src="/images/human-verified-seal.png" 
@@ -269,7 +268,7 @@ export default function ScenariosPage() {
                     </div>
                     <Button variant="ghost" size="sm" asChild className="text-accent hover:text-accent hover:bg-accent/10">
                       <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                        <HeartHandshake className="h-4 w-4 mr-1" /> Donate
+                         Donate & Access
                       </a>
                     </Button>
                  </div>
@@ -351,10 +350,6 @@ export default function ScenariosPage() {
             alt="Scenario Visual"
             fill
             className="object-cover"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = `https://picsum.photos/seed/${currentSlide.id}/1200/800`;
-            }}
           />
           
           {currentSlide.focus_zones.map((zone, idx) => (

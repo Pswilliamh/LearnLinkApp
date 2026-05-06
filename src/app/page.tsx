@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -24,7 +23,6 @@ import {
   BookMarked,
   MapPin,
   Lock,
-  HeartHandshake,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -106,10 +104,6 @@ export default function HomePage() {
                 width={300} 
                 height={300} 
                 className="rounded-full shadow-lg object-contain"
-                onError={(e) => {
-                   const target = e.target as HTMLImageElement;
-                   target.src = "https://picsum.photos/seed/logo/300/300";
-                }}
               />
             </div>
 
@@ -155,9 +149,9 @@ export default function HomePage() {
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="text-center p-5 space-y-4">
-                        <p className="text-secondary-foreground text-lg">Access verified lesson plans and methodology guides (Donation-Based).</p>
+                        <p className="text-secondary-foreground text-lg font-bold">Access verified lesson plans and methodology guides.</p>
                         
-                        <div className="bg-primary/20 p-4 rounded-lg border border-accent/30 flex flex-col items-center gap-3">
+                        <div className="bg-primary/20 p-4 rounded-lg border border-accent/30 flex flex-col items-center gap-4">
                           <div className="relative w-40 h-40">
                             <Image 
                               src="/images/human-verified-seal.png" 
@@ -176,15 +170,10 @@ export default function HomePage() {
                           </div>
                         </div>
 
-                        <div className="flex flex-col space-y-2">
+                        <div className="flex flex-col space-y-2 pt-2">
                            <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                                 <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer">
-                                    <HeartHandshake className="mr-2 h-4 w-4" /> Support & Access Lessons
-                                </a>
-                            </Button>
-                             <Button asChild variant="outline" className="w-full border-accent text-accent hover:bg-accent/10">
-                                <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer">
-                                    <Download className="mr-2 h-4 w-4" /> Donate for Curriculum
+                                    Donate for Curriculum & Access
                                 </a>
                             </Button>
                         </div>
@@ -230,7 +219,6 @@ export default function HomePage() {
                     alt={section.title}
                     fill
                     className="object-cover"
-                    onError={(e) => { (e.target as any).src = `https://picsum.photos/seed/${section.title}/600/400`; }}
                   />
                 </div>
                 {section.external ? (
