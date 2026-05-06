@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -59,7 +58,7 @@ const dailyWordsList: WordOfTheDayItem[] = [
   { word: 'Kindness', definition: 'The quality of being friendly, generous, and considerate.', exampleSentence: 'Show kindness to everyone you meet.', translationBahasa: 'Kebaikan' },
   { word: 'Explore', definition: 'To travel through an unfamiliar area in order to learn about it.', exampleSentence: 'They decided to explore the new island.', translationBahasa: 'Menjelajahi' },
   { word: 'Curious', definition: 'Eager to know or learn something.', exampleSentence: 'The cat was curious about the open box.', translationBahasa: 'Penasaran' },
-  { word: 'Courage', definition: 'The ability to do something that frightens one; bravery.', exampleSentence: 'She showed great courage in a difficult situation.', translationBahasa: 'Keberanian' },
+  { word: 'Courage', definition: 'The ability to do something that frightens one; bravery.', exampleSentence: 'She showed great courage in a difficult situation.', translationBahasa: 'Kebaranian' },
   { word: 'Imagine', definition: 'To form a mental image or concept of.', exampleSentence: 'Imagine a world full of peace and joy.', translationBahasa: 'Membayangkan' },
   { word: 'Gratitude', definition: 'The quality of being thankful; readiness to show appreciation for and to return kindness.', exampleSentence: 'He expressed his gratitude for their help.', translationBahasa: 'Rasa Syukur' },
   { word: 'Knowledge', definition: 'Facts, information, and skills acquired through experience or education.', exampleSentence: 'Knowledge is power.', translationBahasa: 'Pengetahuan' },
@@ -181,10 +180,14 @@ export default function HomePage() {
           return (
             <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground relative">
               {(section as any).certified && (
-                <div className="absolute top-2 right-2 z-10">
-                   <Badge className="bg-accent text-accent-foreground flex gap-1 items-center border-2 border-white">
-                      <ShieldCheck className="h-3 w-3" /> LearnLink Certified
-                   </Badge>
+                <div className="absolute top-2 right-2 z-10 w-20 h-20 pointer-events-none">
+                   <Image 
+                    src="/images/human-verified-seal.png" 
+                    alt="LearnLink Human Verified Seal" 
+                    width={80} 
+                    height={80} 
+                    className="object-contain drop-shadow-lg"
+                   />
                 </div>
               )}
               <CardHeader>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -130,10 +129,14 @@ export default function ScenariosPage() {
           {scenarioLessons.map((lesson) => (
             <Card key={lesson.lesson_id} className="hover:shadow-xl transition-all cursor-pointer border-t-4 border-accent relative" onClick={() => handleStartLesson(lesson)}>
               {lesson.verification.status === 'Verified' && (
-                <div className="absolute top-2 right-2 z-10">
-                   <Badge className="bg-green-600 hover:bg-green-700 flex gap-1 items-center">
-                    <ShieldCheck className="h-3 w-3" /> Verified
-                   </Badge>
+                <div className="absolute top-2 right-2 z-10 w-12 h-12">
+                   <Image 
+                    src="/images/human-verified-seal.png" 
+                    alt="Verified Seal" 
+                    width={48} 
+                    height={48} 
+                    className="object-contain drop-shadow"
+                   />
                 </div>
               )}
               <CardHeader>
@@ -201,13 +204,18 @@ export default function ScenariosPage() {
       </div>
 
       <Card className="overflow-hidden shadow-2xl border-4 border-primary relative">
-        {/* Quality Seal Overlay */}
-        <div className="absolute top-4 right-4 z-20 pointer-events-none">
-           <div className="bg-accent/90 backdrop-blur-sm border-2 border-white rounded-full p-3 shadow-xl flex flex-col items-center justify-center w-24 h-24 text-center transform rotate-12">
-              <ShieldCheck className="h-6 w-6 text-primary-foreground mb-1" />
-              <p className="text-[10px] font-bold text-primary-foreground leading-tight uppercase">Master<br/>Verified</p>
-           </div>
-        </div>
+        {/* Quality Seal Overlay - Updated with official Seal Image */}
+        {activeLesson.verification.status === 'Verified' && (
+          <div className="absolute top-4 right-4 z-20 pointer-events-none w-28 h-28">
+             <Image 
+              src="/images/human-verified-seal.png" 
+              alt="Official Human Verified Seal" 
+              width={112} 
+              height={112} 
+              className="object-contain drop-shadow-2xl transform rotate-12"
+             />
+          </div>
+        )}
 
         <div className="relative aspect-video w-full bg-secondary overflow-hidden">
           <Image
