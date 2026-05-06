@@ -3,8 +3,8 @@
 
 LearnLink is a high-dimensional English learning platform designed for schools and students, focusing on the "Precision Protocol" and "Direct Association" methodology.
 
-## ⚠️ IMPORTANT: Fix Your Directory Structure
-Your images and PDFs will not load if the `public` folder is inside `src`. **The `public` folder must be at the root of the project.**
+## ⚠️ IMPORTANT: Directory Structure
+To ensure images and PDFs load correctly, the `public` folder must be at the root of the project.
 
 ### Correct Structure:
 ```text
@@ -20,9 +20,9 @@ STUDIO (Root Directory)
 
 ## 🖼️ Image File Checklist
 Ensure these files are in `public/images/`:
-- [ ] `sight-logo.png` (Main Logo)
-- [ ] `human-verified-seal.png` (Official Seal)
-- [ ] `teacher-scenerio.png` (Scenario Hub Logo)
+- [x] `sight-logo.png` (Main Logo)
+- [x] `human-verified-seal.png` (Official Seal)
+- [x] `teacher-scenerio.png` (Scenario Hub Logo)
 - [ ] `section-numbers-colors.png` (Numbers & Colors Section)
 - [ ] `official-logo.png` (Contact Us Section)
 - [ ] `section-alphabet.png`
@@ -39,9 +39,9 @@ Ensure these files are in `public/images/`:
 ## Core Features
 - **Modular Scenario Lessons**: Real-world scenarios with visual scaffolding and Pink/Green logic.
 - **The Fading Strategy**: A three-phase learning approach (Intro, Practice, Mastery).
-- **Guru Bahasa AI**: Real-time speech evaluation using Genkit.
+- **Guru Bahasa AI**: Real-time speech evaluation using Genkit (Gemini 1.5 Flash).
 - **Teacher Resource Hub**: Donation-based access to verified professional guides.
-- **Human-Verified Quality**: Content curated and certified by Master Teachers (Non-AI created content).
+- **Human-Verified Quality**: "Human verified not AI created content. Slide Decks or AI formated content verified."
 
 ## Tech Stack
 - **Frontend**: Next.js 15, React 18, Tailwind CSS
