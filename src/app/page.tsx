@@ -25,6 +25,7 @@ import {
   BookMarked,
   MapPin,
   ShieldCheck,
+  Lock,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -35,7 +36,7 @@ const learningSections = [
   { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: placeholderImages.alphabet.url, imageHint: placeholderImages.alphabet.hint },
   { title: 'Numbers & Colors', description: 'Learn numbers and basic colors.', href: '/numbers-colors', icon: Hash, image: placeholderImages.numbers_colors.url, imageHint: placeholderImages.numbers_colors.hint },
   { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: placeholderImages.vocabulary.url, imageHint: placeholderImages.vocabulary.hint },
-  { title: 'Scenario Lessons', description: 'Mastery-verified real-world scenario training.', href: '/scenarios', icon: MapPin, image: placeholderImages.scenarios.url, imageHint: placeholderImages.scenarios.hint, certified: true },
+  { title: 'Scenario Lessons', description: 'Mastery-verified real-world scenario training.', href: '/scenarios', icon: MapPin, image: placeholderImages.scenarios.url, imageHint: placeholderImages.scenarios.hint, certified: true, premium: true },
   { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: placeholderImages.sentences.url, imageHint: placeholderImages.sentences.hint },
   { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: placeholderImages.pronunciation.url, imageHint: placeholderImages.pronunciation.hint },
   { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: placeholderImages.translation.url, imageHint: placeholderImages.translation.hint },
@@ -43,7 +44,7 @@ const learningSections = [
   { title: 'Word Match Game', description: 'Drag words to their matching pictures.', href: '/match-game', icon: Puzzle, image: placeholderImages.match_game.url, imageHint: placeholderImages.match_game.hint },
   { title: 'Interactive Flipbook', description: 'Flip through pages of household items.', href: '/flipbook', icon: BookCopy, image: placeholderImages.flipbook.url, imageHint: placeholderImages.flipbook.hint },
   { title: 'Cultural & Language Guides', description: 'Learn important cultural nuances.', href: '/infographics', icon: Lightbulb, image: placeholderImages.advanced.url, imageHint: placeholderImages.advanced.hint, buttonText: "View Guides" },
-  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: placeholderImages.advanced.url, imageHint: placeholderImages.advanced.hint },
+  { title: 'Advanced Learner', description: 'Dialogues, quizzes, and word exploration.', href: '/advanced-learner', icon: GraduationCap, image: placeholderImages.advanced.url, imageHint: placeholderImages.advanced.hint, premium: true },
   { title: 'How to Use LearnLink', description: 'Get help on how to use each section of the app.', href: '/how-to-use', icon: HelpCircle, image: placeholderImages.how_to_use.url, imageHint: placeholderImages.how_to_use.hint },
   { title: 'Contact Us', description: 'Spiritual Sciences Researcher William Hardrick', href: 'https://sites.google.com/view/kohe-embassy-gov/home', icon: Info, image: placeholderImages.contact_us.url, imageHint: placeholderImages.contact_us.hint, external: true, buttonText: 'Visit Website' },
 ];
@@ -154,21 +155,21 @@ export default function HomePage() {
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="text-center p-5 space-y-4">
-                        <p className="text-secondary-foreground text-lg">Download verified lesson plans for Jakarta and Global English curricula.</p>
+                        <p className="text-secondary-foreground text-lg">Access verified lesson plans and methodology guides (Donation-Based).</p>
                         <div className="flex flex-col space-y-2">
                            <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                                 <a href="/pdf/lesson-plan-beginner.pdf" download>
-                                    <Download className="mr-2 h-4 w-4" /> Download Beginner Plan
+                                    <Download className="mr-2 h-4 w-4" /> Beginner Plan (Donate)
                                 </a>
                             </Button>
                              <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                                 <a href="/pdf/lesson-plan-intermediate.pdf" download>
-                                    <Download className="mr-2 h-4 w-4" /> Download Intermediate Plan
+                                    <Download className="mr-2 h-4 w-4" /> Intermediate Plan (Donate)
                                 </a>
                             </Button>
                              <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                                 <a href="/pdf/lesson-plan-advanced.pdf" download>
-                                    <Download className="mr-2 h-4 w-4" /> Download Advanced Plan
+                                    <Download className="mr-2 h-4 w-4" /> Advanced Plan (Donate)
                                 </a>
                             </Button>
                         </div>
@@ -183,20 +184,22 @@ export default function HomePage() {
         {learningSections.map((section) => {
           const IconComponent = section.icon;
           return (
-            <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground relative">
+            <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground relative group overflow-hidden">
               {section.certified && (
-                <div className="absolute top-2 right-2 z-10 w-20 h-20 pointer-events-none">
+                <div className="absolute top-2 right-2 z-10 w-20 h-20 pointer-events-none group-hover:rotate-12 transition-transform">
                    <Image 
                     src="/images/human-verified-seal.png" 
                     alt="LearnLink Human Verified Seal" 
                     width={80} 
                     height={80} 
                     className="object-contain drop-shadow-lg"
-                    onError={(e) => {
-                       const target = e.target as HTMLImageElement;
-                       target.src = "https://picsum.photos/seed/seal/200/200";
-                    }}
+                    onError={(e) => { (e.target as any).src = "https://picsum.photos/seed/seal/80/80"; }}
                    />
+                </div>
+              )}
+              {section.premium && (
+                <div className="absolute top-0 left-0 bg-accent text-accent-foreground px-3 py-1 text-xs font-bold rounded-br-lg z-10 flex items-center gap-1">
+                  <Lock className="h-3 w-3" /> PREMIUM
                 </div>
               )}
               <CardHeader>
@@ -207,18 +210,16 @@ export default function HomePage() {
                 <CardDescription className="text-sm text-muted-foreground">{section.description}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Image
-                  src={section.image}
-                  alt={section.title}
-                  data-ai-hint={section.imageHint}
-                  width={600}
-                  height={400}
-                  className="rounded-md object-cover w-full h-auto aspect-[600/400]"
-                  onError={(e) => {
-                     const target = e.target as HTMLImageElement;
-                     target.src = `https://picsum.photos/seed/${section.title}/600/400`;
-                  }}
-                />
+                <div className="relative aspect-[600/400] w-full overflow-hidden rounded-md bg-secondary/30">
+                  <Image
+                    src={section.image}
+                    alt={section.title}
+                    data-ai-hint={section.imageHint}
+                    fill
+                    className="object-cover"
+                    onError={(e) => { (e.target as any).src = `https://picsum.photos/seed/${section.title}/600/400`; }}
+                  />
+                </div>
                 {section.external ? (
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                     <a href={section.href} target="_blank" rel="noopener noreferrer">
@@ -228,7 +229,7 @@ export default function HomePage() {
                 ) : (
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                     <Link href={section.href}>
-                      {section.buttonText || 'Start Learning'} <ArrowRight className="ml-2 h-4 w-4" />
+                      {section.buttonText || (section.premium ? 'Unlock & Start' : 'Start Learning')} <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
                 )}

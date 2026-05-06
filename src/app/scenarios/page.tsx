@@ -4,8 +4,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { ScenarioLesson, scenarioLessons } from '@/lib/scenario-lessons';
-import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, CheckCircle, Eye, Mic, Loader2, CheckCircle2, Download, FileText, Presentation } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, CheckCircle, Eye, Mic, Loader2, CheckCircle2, Download, FileText, Lock, ShieldCheck, HeartHandshake } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +15,8 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CertificateOfMastery } from '@/components/certificate-of-mastery';
 
 export default function ScenariosPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
   const [activeLesson, setActiveLesson] = useState<ScenarioLesson | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [learningPhase, setLearningPhase] = useState<'intro' | 'practice' | 'mastery'>('intro');
@@ -27,6 +30,16 @@ export default function ScenariosPage() {
   
   const recognitionRef = useRef<any>(null);
   const { toast } = useToast();
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === '2026') {
+      setIsAuthenticated(true);
+      toast({ title: "Access Granted", description: "Welcome to Premium Scenario Lessons." });
+    } else {
+      toast({ variant: "destructive", title: "Access Denied", description: "Incorrect password. Please contact support." });
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
@@ -119,6 +132,39 @@ export default function ScenariosPage() {
       }
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Card className="w-full max-w-md shadow-2xl border-2 border-accent">
+          <CardHeader className="text-center">
+            <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-4">
+              <Lock className="h-8 w-8 text-accent" />
+            </div>
+            <CardTitle className="text-2xl">Premium Access Required</CardTitle>
+            <CardDescription>Enter the password to access Scenarios and Teacher Resources.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handlePasswordSubmit} className="space-y-4">
+              <Input 
+                type="password" 
+                placeholder="Enter access code..." 
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                className="text-center text-lg"
+              />
+              <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                Unlock Content
+              </Button>
+            </form>
+          </CardContent>
+          <CardFooter className="text-center text-xs text-muted-foreground flex justify-center">
+             <ShieldCheck className="h-3 w-3 mr-1" /> Secure 2026 Protocol
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
+
   if (!activeLesson) {
     return (
       <div className="space-y-12">
@@ -143,6 +189,7 @@ export default function ScenariosPage() {
                   width={48} 
                   height={48} 
                   className="object-contain drop-shadow"
+                  onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/48/48'; }}
                  />
               </div>
               <CardHeader>
@@ -154,13 +201,6 @@ export default function ScenariosPage() {
                   <Sparkles className="h-4 w-4 text-accent" />
                   {lesson.slides.length} Precision Slides
                 </div>
-                {lesson.pdf_url && (
-                  <Button variant="outline" size="sm" asChild className="w-full mb-2">
-                    <a href={lesson.pdf_url} download>
-                      <Download className="mr-2 h-4 w-4" /> Download Lesson PDF
-                    </a>
-                  </Button>
-                )}
               </CardContent>
               <CardFooter>
                 <Button onClick={() => handleStartLesson(lesson)} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
@@ -176,73 +216,37 @@ export default function ScenariosPage() {
             <CardTitle className="text-2xl text-primary flex items-center gap-2">
               <FileText className="h-7 w-7 text-accent" /> Teacher Resource Hub
             </CardTitle>
-            <CardDescription>Access verified methodology guides, precision scripts, and visual slides.</CardDescription>
+            <CardDescription className="text-foreground font-semibold flex items-center gap-2">
+              <HeartHandshake className="h-4 w-4 text-accent" /> 
+              These high-dimensional methodology guides are donation-based assets.
+            </CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
-                <div>
-                   <p className="font-bold text-foreground">Three Color Sentence Logic</p>
-                   <p className="text-xs text-muted-foreground">Precision Visual Syntax Guide</p>
-                </div>
-                <Button variant="ghost" size="icon" asChild>
-                  <a href="/pdf/Three_Color_Sentence_Logic.pdf" download><Download className="h-5 w-5" /></a>
-                </Button>
-             </div>
-             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
-                <div>
-                   <p className="font-bold text-foreground">Visual Bilingual Action</p>
-                   <p className="text-xs text-muted-foreground">Direct Association Workbook</p>
-                </div>
-                <Button variant="ghost" size="icon" asChild>
-                  <a href="/pdf/Visual_Bilingual_English_Action.pdf" download><Download className="h-5 w-5" /></a>
-                </Button>
-             </div>
-             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
-                <div>
-                   <p className="font-bold text-foreground">English Action Guide</p>
-                   <p className="text-xs text-muted-foreground">Zero-Second Response Manual</p>
-                </div>
-                <Button variant="ghost" size="icon" asChild>
-                  <a href="/pdf/Visual_English_Action_Guide.pdf" download><Download className="h-5 w-5" /></a>
-                </Button>
-             </div>
-             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
-                <div>
-                   <p className="font-bold text-foreground">Logic Language Systems</p>
-                   <p className="text-xs text-muted-foreground">High-Dimensional Linguistic Theory</p>
-                </div>
-                <Button variant="ghost" size="icon" asChild>
-                  <a href="/pdf/Visual_Logic_Language_Systems.pdf" download><Download className="h-5 w-5" /></a>
-                </Button>
-             </div>
-             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
-                <div>
-                   <p className="font-bold text-foreground">Travel Syntax Guide</p>
-                   <p className="text-xs text-muted-foreground">Survival Dialogues for Jakarta</p>
-                </div>
-                <Button variant="ghost" size="icon" asChild>
-                  <a href="/pdf/Visual_Travel_Syntax_Guide.pdf" download><Download className="h-5 w-5" /></a>
-                </Button>
-             </div>
-             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
-                <div>
-                   <p className="font-bold text-foreground">Jakarta Survival Guide</p>
-                   <p className="text-xs text-muted-foreground">Master Teacher Notes (2026)</p>
-                </div>
-                <Button variant="ghost" size="icon" asChild>
-                  <a href="/pdf/jakarta-survival-guide.pdf" download><Download className="h-5 w-5" /></a>
-                </Button>
-             </div>
-             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
-                <div>
-                   <p className="font-bold text-foreground">April 2026 Visual Slides</p>
-                   <p className="text-xs text-muted-foreground">Official Class Presentation Deck</p>
-                </div>
-                <Button variant="ghost" size="icon" asChild>
-                  <a href="/pdf/English Class April2026 visual slide .pdf" download><Download className="h-5 w-5" /></a>
-                </Button>
-             </div>
+             {[
+               { name: "Three Color Sentence Logic", sub: "Precision Visual Syntax Guide", file: "Three_Color_Sentence_Logic.pdf" },
+               { name: "Visual Bilingual Action", sub: "Direct Association Workbook", file: "Visual_Bilingual_English_Action.pdf" },
+               { name: "English Action Guide", sub: "Zero-Second Response Manual", file: "Visual_English_Action_Guide.pdf" },
+               { name: "Logic Language Systems", sub: "High-Dimensional Linguistic Theory", file: "Visual_Logic_Language_Systems.pdf" },
+               { name: "Travel Syntax Guide", sub: "Survival Dialogues for Jakarta", file: "Visual_Travel_Syntax_Guide.pdf" },
+               { name: "Jakarta Survival Guide", sub: "Master Teacher Notes (2026)", file: "jakarta-survival-guide.pdf" },
+               { name: "April 2026 Visual Slides", sub: "Official Class Presentation Deck", file: "English Class April2026 visual slide .pdf" }
+             ].map((resource, i) => (
+               <div key={i} className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between group hover:border-accent transition-colors">
+                  <div>
+                    <p className="font-bold text-foreground">{resource.name}</p>
+                    <p className="text-xs text-muted-foreground">{resource.sub}</p>
+                  </div>
+                  <Button variant="ghost" size="sm" asChild className="text-accent hover:text-accent hover:bg-accent/10">
+                    <a href={`/pdf/${resource.file}`} download className="flex items-center">
+                      <Download className="h-4 w-4 mr-1" /> Donate
+                    </a>
+                  </Button>
+               </div>
+             ))}
           </CardContent>
+          <CardFooter className="bg-accent/5 p-4 justify-center">
+            <p className="text-xs italic text-muted-foreground">Thank you for supporting the Kingdom Of Heaven Embassy education mission.</p>
+          </CardFooter>
         </Card>
       </div>
     );
@@ -297,6 +301,7 @@ export default function ScenariosPage() {
               width={112} 
               height={112} 
               className="object-contain drop-shadow-2xl transform rotate-12 transition-transform"
+              onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/112/112'; }}
              />
           </div>
         )}
