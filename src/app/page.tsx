@@ -27,7 +27,6 @@ import {
   ShieldCheck,
   Lock,
   HeartHandshake,
-  CheckCircle2,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -108,7 +107,6 @@ export default function HomePage() {
                 alt="LearnLink Sight Logo"
                 width={300} 
                 height={300} 
-                data-ai-hint={placeholderImages.logo.hint}
                 className="rounded-full shadow-lg object-contain"
                 onError={(e) => {
                    const target = e.target as HTMLImageElement;
@@ -162,19 +160,23 @@ export default function HomePage() {
                         <p className="text-secondary-foreground text-lg">Access verified lesson plans and methodology guides (Donation-Based).</p>
                         
                         <div className="bg-primary/20 p-4 rounded-lg border border-accent/30 flex flex-col items-center gap-3">
-                          <div className="relative w-20 h-20">
+                          <div className="relative w-24 h-24">
                             <Image 
                               src="/images/human-verified-seal.png" 
-                              alt="Human Verified Seal" 
+                              alt="LearnLink Human Verified Seal" 
                               fill 
                               className="object-contain drop-shadow"
-                              onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/80/80'; }}
+                              onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/96/96'; }}
                             />
                           </div>
-                          <p className="text-accent font-bold text-sm leading-tight">
-                            Human verified not AI created content.<br/>
-                            <span className="text-secondary-foreground text-xs font-normal">Slide Decks or AI formated content verified.</span>
-                          </p>
+                          <div className="text-center">
+                            <p className="text-accent font-extrabold text-sm leading-tight uppercase tracking-tighter">
+                              Human verified not AI created content.
+                            </p>
+                            <p className="text-secondary-foreground text-[10px] font-medium opacity-90 mt-1">
+                              Slide Decks or AI formated content verified.
+                            </p>
+                          </div>
                         </div>
 
                         <div className="flex flex-col space-y-2">
@@ -202,12 +204,12 @@ export default function HomePage() {
           return (
             <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground relative group overflow-hidden">
               {section.certified && (
-                <div className="absolute top-2 right-2 z-10 w-20 h-20 pointer-events-none group-hover:rotate-12 transition-transform">
+                <div className="absolute top-2 right-2 z-10 w-24 h-24 pointer-events-none group-hover:rotate-12 transition-transform">
                    <Image 
                     src="/images/human-verified-seal.png" 
                     alt="LearnLink Human Verified Seal" 
-                    width={80} 
-                    height={80} 
+                    width={96} 
+                    height={96} 
                     className="object-contain drop-shadow-lg"
                     onError={(e) => { (e.target as any).src = "https://picsum.photos/seed/seal/80/80"; }}
                    />
@@ -230,7 +232,6 @@ export default function HomePage() {
                   <Image
                     src={section.image}
                     alt={section.title}
-                    data-ai-hint={section.imageHint}
                     fill
                     className="object-cover"
                     onError={(e) => { (e.target as any).src = `https://picsum.photos/seed/${section.title}/600/400`; }}

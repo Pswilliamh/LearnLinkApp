@@ -39,7 +39,7 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/90 backdrop-blur-md animate-in fade-in duration-300">
       <Card className="relative w-full max-w-5xl overflow-hidden border-8 border-primary bg-gradient-to-br from-card to-secondary/30 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-        {/* Background Decorative Element (Skyline Placeholder) */}
+        {/* Background Decorative Element */}
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <Image 
             src="https://picsum.photos/seed/jakarta/1200/800" 
@@ -77,7 +77,7 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
                 </div>
                 <div>
                   <p className="font-bold text-foreground uppercase tracking-tight text-sm">Methodology:</p>
-                  <p className="text-muted-foreground">100% Dialogue-Based English</p>
+                  <p className="text-muted-foreground">Human Verified Precision Logic</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -86,7 +86,7 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
                 </div>
                 <div>
                   <p className="font-bold text-foreground uppercase tracking-tight text-sm">Verification Status:</p>
-                  <p className="text-muted-foreground">HUMAN-AUDITED</p>
+                  <p className="text-muted-foreground">NON-AI CREATED CONTENT</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -104,19 +104,19 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
                 </div>
                 <div>
                   <p className="font-bold text-foreground uppercase tracking-tight text-sm">Certified By:</p>
-                  <p className="text-muted-foreground">{certifiedBy}</p>
+                  <p className="text-muted-foreground">William H (Jakarta | 2026)</p>
                 </div>
               </div>
             </div>
 
             {/* Core Competencies */}
             <div className="space-y-4">
-              <h3 className="text-lg font-bold text-foreground uppercase tracking-wider">Core Competencies Verified (Achieved Mastery Level):</h3>
+              <h3 className="text-lg font-bold text-foreground uppercase tracking-wider">Core Competencies Verified:</h3>
               <ul className="grid grid-cols-1 gap-2">
                 {[
                   { label: "Direct Association", desc: "Implemented visual memory without translation fatigue" },
-                  { label: "Survival Fluency", desc: "Navigated real-world 'Transport' interactions" },
-                  { label: "Zero-Second Response", desc: "Produced dialogue from visual triggers" }
+                  { label: "Survival Fluency", desc: "Navigated real-world scenario interactions" },
+                  { label: "Precision Syntax", desc: "Verified interlinear dialogue structure" }
                 ].map((comp, idx) => (
                   <li key={idx} className="flex items-center gap-2 group">
                     <div className="bg-green-500 rounded-sm p-0.5 text-white">
@@ -136,10 +136,10 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
             </p>
             
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-4">
-              <p className="text-sm font-bold text-accent">www.learnlink.edu</p>
+              <p className="text-sm font-bold text-accent">LearnLink Precision Hub</p>
               <div className="flex gap-3">
                 <Button onClick={handleShare} className="bg-white text-black hover:bg-white/90 font-bold px-8 shadow-lg">
-                  <Share2 className="mr-2 h-5 w-5" /> SHARE Achievement
+                  <Share2 className="mr-2 h-5 w-5" /> SHARE Mastery
                 </Button>
                 <Button variant="outline" onClick={onClose} className="border-primary text-primary hover:bg-primary/10">
                   Close
@@ -148,9 +148,9 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
             </div>
           </div>
 
-          {/* Right Visual (The Seal) */}
+          {/* Right Visual (Official Seal) */}
           <div className="flex flex-col items-center justify-start md:w-1/4 space-y-4 relative">
-             <div className="relative w-48 h-48 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform rotate-12 transition-transform hover:rotate-0 duration-500">
+             <div className="relative w-56 h-56 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform rotate-6 transition-transform hover:rotate-0 duration-500">
                <Image 
                 src="/images/human-verified-seal.png" 
                 alt="LearnLink Human Verified Seal" 
@@ -160,9 +160,9 @@ export function CertificateOfMastery({ lessonName, certifiedBy, onClose }: Certi
              </div>
              <div className="text-center space-y-1 pt-4 border-t-2 border-primary/50 w-full">
                 <p className="text-xs font-bold uppercase text-accent tracking-tighter">Verified By</p>
-                <p className="text-sm font-bold text-foreground">WILLIAM,</p>
-                <p className="text-xs font-medium text-muted-foreground">MASTER TEACHER</p>
-                <p className="text-xs font-medium text-muted-foreground">(JAKARTA)</p>
+                <p className="text-sm font-bold text-foreground">WILLIAM H,</p>
+                <p className="text-xs font-medium text-muted-foreground">LEARNLINK ADVISOR</p>
+                <p className="text-xs font-medium text-muted-foreground">(JAKARTA | 2026)</p>
              </div>
           </div>
         </div>

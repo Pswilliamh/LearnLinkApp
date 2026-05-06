@@ -184,12 +184,12 @@ export default function ScenariosPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {scenarioLessons.map((lesson) => (
             <Card key={lesson.lesson_id} className="hover:shadow-xl transition-all border-t-4 border-accent relative flex flex-col">
-              <div className="absolute top-2 right-2 z-10 w-12 h-12">
+              <div className="absolute top-2 right-2 z-10 w-16 h-16">
                  <Image 
                   src="/images/human-verified-seal.png" 
-                  alt="Verified Seal" 
-                  width={48} 
-                  height={48} 
+                  alt="LearnLink Human Verified Seal" 
+                  width={64} 
+                  height={64} 
                   className="object-contain drop-shadow"
                   onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/48/48'; }}
                  />
@@ -225,20 +225,24 @@ export default function ScenariosPage() {
                   These high-dimensional methodology guides are donation-based assets.
                 </CardDescription>
               </div>
-              <div className="bg-primary/40 p-3 rounded-lg border border-accent/50 flex items-center gap-4 max-w-sm">
-                <div className="relative w-16 h-16 shrink-0">
+              <div className="bg-primary/40 p-4 rounded-lg border border-accent/50 flex flex-col items-center gap-2 max-w-sm">
+                <div className="relative w-24 h-24 shrink-0">
                   <Image 
                     src="/images/human-verified-seal.png" 
-                    alt="Human Verified Seal" 
+                    alt="LearnLink Human Verified Seal" 
                     fill 
-                    className="object-contain"
+                    className="object-contain drop-shadow"
                     onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/64/64'; }}
                   />
                 </div>
-                <p className="text-accent font-bold text-xs leading-snug">
-                  Human verified not AI created content.<br/>
-                  <span className="text-secondary-foreground text-[10px] font-normal opacity-80">Slide Decks or AI formated content verified.</span>
-                </p>
+                <div className="text-center">
+                    <p className="text-accent font-extrabold text-xs leading-snug uppercase tracking-tight">
+                        Human verified not AI created content.
+                    </p>
+                    <p className="text-secondary-foreground text-[10px] font-medium opacity-90 mt-1">
+                        Slide Decks or AI formated content verified.
+                    </p>
+                </div>
               </div>
             </div>
           </CardHeader>
@@ -254,12 +258,12 @@ export default function ScenariosPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                {[
                  { name: "Three Color Sentence Logic", sub: "Precision Visual Syntax Guide" },
-                 { name: "Visual Bilingual Action", sub: "Direct Association Workbook" },
-                 { name: "English Action Guide", sub: "Zero-Second Response Manual" },
-                 { name: "Logic Language Systems", sub: "High-Dimensional Linguistic Theory" },
-                 { name: "Travel Syntax Guide", sub: "Survival Dialogues for Jakarta" },
+                 { name: "Visual Bilingual English Action", sub: "Direct Association Workbook" },
+                 { name: "Visual English Action Guide", sub: "Zero-Second Response Manual" },
+                 { name: "Visual Logic Language Systems", sub: "High-Dimensional Linguistic Theory" },
+                 { name: "Visual Travel Syntax Guide", sub: "Survival Dialogues for Jakarta" },
                  { name: "Jakarta Survival Guide", sub: "Master Teacher Notes (2026)" },
-                 { name: "April 2026 Visual Slides", sub: "Official Class Presentation Deck" }
+                 { name: "English Class April2026 visual slide ", sub: "Official Class Presentation Deck" }
                ].map((resource, i) => (
                  <div key={i} className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between group hover:border-accent transition-colors">
                     <div>
@@ -336,7 +340,7 @@ export default function ScenariosPage() {
           <div className="absolute top-4 right-4 z-20 pointer-events-none w-28 h-28">
              <Image 
               src="/images/human-verified-seal.png" 
-              alt="Official Human Verified Seal" 
+              alt="Official LearnLink Human Verified Seal" 
               width={112} 
               height={112} 
               className="object-contain drop-shadow-2xl transform rotate-12 transition-transform"
