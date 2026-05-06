@@ -33,7 +33,7 @@ export async function getWordInfo(input: GetWordInfoInput): Promise<GetWordInfoO
 
 const prompt = ai.definePrompt({
   name: 'getWordInfoPrompt',
-  model: 'googleai/gemini-1.5-flash-latest',
+  model: 'googleai/gemini-1.5-flash',
   input: {schema: GetWordInfoInputSchema},
   output: {schema: GetWordInfoOutputSchema},
   prompt: `You are an expert linguist and English-to-Bahasa Indonesia translator.
@@ -69,5 +69,3 @@ const getWordInfoFlow = ai.defineFlow(
     };
   }
 );
-
-    

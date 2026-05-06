@@ -49,7 +49,7 @@ export async function evaluateSpeech(input: EvaluateSpeechInput): Promise<Evalua
 
 const prompt = ai.definePrompt({
   name: 'evaluateSpeechPrompt',
-  model: 'googleai/gemini-1.5-flash-latest',
+  model: 'googleai/gemini-1.5-flash',
   input: {schema: EvaluateSpeechInputSchema},
   output: {schema: EvaluateSpeechOutputSchema},
   prompt: TUTOR_PROMPT,

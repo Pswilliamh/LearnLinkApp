@@ -29,7 +29,7 @@ export async function suggestSentences(input: SuggestSentencesInput): Promise<Su
 
 const prompt = ai.definePrompt({
   name: 'suggestSentencesPrompt',
-  model: 'googleai/gemini-1.5-flash-latest', // Added model
+  model: 'googleai/gemini-1.5-flash',
   input: {schema: SuggestSentencesInputSchema},
   output: {schema: SuggestSentencesOutputSchema},
   prompt: `You are an expert English teacher specializing in teaching English to non-native speakers.
@@ -55,4 +55,3 @@ const suggestSentencesFlow = ai.defineFlow(
     return output!;
   }
 );
-

@@ -39,7 +39,7 @@ export async function identifyObject(input: IdentifyObjectInput): Promise<Identi
 
 const prompt = ai.definePrompt({
   name: 'identifyObjectPrompt',
-  model: 'googleai/gemini-1.5-flash-latest',
+  model: 'googleai/gemini-1.5-flash',
   input: {schema: IdentifyObjectInputSchema},
   output: {schema: IdentifyObjectOutputSchema},
   prompt: `You are an expert object identifier and English-to-Bahasa Indonesia translator.
@@ -77,4 +77,3 @@ const identifyObjectFlow = ai.defineFlow(
     return output;
   }
 );
-

@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A translation AI agent.
@@ -28,7 +29,7 @@ export async function translateContent(input: TranslateContentInput): Promise<Tr
 
 const prompt = ai.definePrompt({
   name: 'translateContentPrompt',
-  model: 'googleai/gemini-1.5-flash-latest',
+  model: 'googleai/gemini-1.5-flash',
   input: {schema: TranslateContentInputSchema},
   output: {schema: TranslateContentOutputSchema},
   prompt: `You are a translation expert.

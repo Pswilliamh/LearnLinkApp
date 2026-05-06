@@ -28,7 +28,7 @@ export async function analyzeSentence(input: AnalyzeSentenceInput): Promise<Anal
 
 const prompt = ai.definePrompt({
   name: 'analyzeSentencePrompt',
-  model: 'googleai/gemini-1.5-flash-latest',
+  model: 'googleai/gemini-1.5-flash',
   input: {schema: AnalyzeSentenceInputSchema},
   output: {schema: AnalyzeSentenceOutputSchema},
   prompt: `You are an expert English teacher reviewing a student's sentence.
