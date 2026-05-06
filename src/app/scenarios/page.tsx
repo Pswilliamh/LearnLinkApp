@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -10,12 +11,14 @@ import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { evaluateSpeech, EvaluateSpeechOutput } from '@/ai/flows/evaluate-speech-flow';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { CertificateOfMastery } from '@/components/certificate-of-mastery';
 
 export default function ScenariosPage() {
   const [activeLesson, setActiveLesson] = useState<ScenarioLesson | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [learningPhase, setLearningPhase] = useState<'intro' | 'practice' | 'mastery'>('intro');
   const [revealIndonesian, setRevealIndonesian] = useState(false);
+  const [showCertificate, setShowCertificate] = useState(false);
   
   // AI Speech Recognition State
   const [isListening, setIsListening] = useState(false);
@@ -60,13 +63,19 @@ export default function ScenariosPage() {
     setLearningPhase('intro');
     setRevealIndonesian(false);
     setEvaluationResult(null);
+    setShowCertificate(false);
   };
 
   const handleNextSlide = () => {
-    if (activeLesson && currentSlideIndex < activeLesson.slides.length - 1) {
-      setCurrentSlideIndex(prev => prev + 1);
-      setRevealIndonesian(false);
-      setEvaluationResult(null);
+    if (activeLesson) {
+      if (currentSlideIndex < activeLesson.slides.length - 1) {
+        setCurrentSlideIndex(prev => prev + 1);
+        setRevealIndonesian(false);
+        setEvaluationResult(null);
+      } else {
+        // End of lesson reached
+        setShowCertificate(true);
+      }
     }
   };
 
@@ -103,7 +112,9 @@ export default function ScenariosPage() {
       try {
         const result = await evaluateSpeech({ userAttempt, targetPhrase });
         setEvaluationResult(result);
-        toast({ title: "Evaluation Ready!", description: "Check Guru Bahasa feedback." });
+        if (result.isCorrect) {
+          toast({ title: "Mastery Level Achieved!", description: "Visual trigger association verified." });
+        }
       } catch (e) {
         toast({ variant: "destructive", title: "Evaluation Failed", description: "Could not connect to AI." });
       } finally {
@@ -165,6 +176,14 @@ export default function ScenariosPage() {
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
+      {showCertificate && (
+        <CertificateOfMastery 
+          lessonName={activeLesson.theme}
+          certifiedBy={activeLesson.verification.verified_by}
+          onClose={() => setShowCertificate(false)}
+        />
+      )}
+
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <Button variant="ghost" onClick={() => setActiveLesson(null)} className="text-primary">
           <ChevronLeft className="mr-2 h-4 w-4" /> Back to Lessons
@@ -172,30 +191,21 @@ export default function ScenariosPage() {
         
         {/* Phase Selector - Fading Strategy Implementation */}
         <div className="flex bg-secondary p-1 rounded-lg shadow-inner">
-          <Button 
-            variant={learningPhase === 'intro' ? 'default' : 'ghost'} 
-            size="sm" 
-            onClick={() => setLearningPhase('intro')}
-            className="text-xs"
-          >
-            Phase 1: Intro
-          </Button>
-          <Button 
-            variant={learningPhase === 'practice' ? 'default' : 'ghost'} 
-            size="sm" 
-            onClick={() => setLearningPhase('practice')}
-            className="text-xs"
-          >
-            Phase 2: Practice
-          </Button>
-          <Button 
-            variant={learningPhase === 'mastery' ? 'default' : 'ghost'} 
-            size="sm" 
-            onClick={() => setLearningPhase('mastery')}
-            className="text-xs"
-          >
-            Phase 3: Mastery
-          </Button>
+          {['intro', 'practice', 'mastery'].map((phase) => (
+            <Button 
+              key={phase}
+              variant={learningPhase === phase ? 'default' : 'ghost'} 
+              size="sm" 
+              onClick={() => {
+                setLearningPhase(phase as any);
+                setEvaluationResult(null);
+                setRevealIndonesian(false);
+              }}
+              className="text-xs capitalize"
+            >
+              {phase === 'intro' ? 'Phase 1: Intro' : phase === 'practice' ? 'Phase 2: Practice' : 'Phase 3: Mastery'}
+            </Button>
+          ))}
         </div>
 
         <div className="text-lg font-bold text-accent">
@@ -204,7 +214,7 @@ export default function ScenariosPage() {
       </div>
 
       <Card className="overflow-hidden shadow-2xl border-4 border-primary relative">
-        {/* Quality Seal Overlay - Updated with official Seal Image */}
+        {/* Quality Seal Overlay */}
         {activeLesson.verification.status === 'Verified' && (
           <div className="absolute top-4 right-4 z-20 pointer-events-none w-28 h-28">
              <Image 
@@ -212,7 +222,7 @@ export default function ScenariosPage() {
               alt="Official Human Verified Seal" 
               width={112} 
               height={112} 
-              className="object-contain drop-shadow-2xl transform rotate-12"
+              className="object-contain drop-shadow-2xl transform rotate-12 transition-transform hover:rotate-0"
              />
           </div>
         )}
@@ -347,21 +357,21 @@ export default function ScenariosPage() {
           <div className="hidden md:flex gap-2">
             <Badge variant="outline" className="bg-card">Verified: {activeLesson.verification.verified_by}</Badge>
           </div>
-          <Button onClick={handleNextSlide} disabled={currentSlideIndex === activeLesson.slides.length - 1} className="bg-primary text-primary-foreground">
-            Next Slide <ChevronRight className="ml-2 h-4 w-4" />
+          <Button onClick={handleNextSlide} className="bg-primary text-primary-foreground shadow-lg transform hover:scale-105 transition-transform">
+            {currentSlideIndex === activeLesson.slides.length - 1 ? 'Finish & Certify' : 'Next Slide'} <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
         </CardFooter>
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        <Card className="p-4 bg-secondary/30">
-          <h4 className="font-bold text-accent flex items-center gap-2 mb-2"><ShieldCheck className="h-4 w-4"/> Teacher Notes</h4>
+        <Card className="p-4 bg-secondary/30 border-l-4 border-accent">
+          <h4 className="font-bold text-accent flex items-center gap-2 mb-2"><ShieldCheck className="h-4 w-4"/> Master Teacher Notes</h4>
           <p className="text-muted-foreground italic">"{activeLesson.verification.precision_notes}"</p>
         </Card>
-        <Card className="p-4 bg-secondary/30 flex items-center justify-center gap-4">
-           <div className="flex items-center gap-1"><div className="w-3 h-3 bg-pink-500 rounded"></div> Problem</div>
-           <div className="flex items-center gap-1"><div className="w-3 h-3 bg-green-500 rounded"></div> Solution</div>
-           <span className="text-muted-foreground">• Microlearning: 3 min modules</span>
+        <Card className="p-4 bg-secondary/30 flex flex-wrap items-center justify-center gap-4">
+           <div className="flex items-center gap-1"><div className="w-3 h-3 bg-pink-500 rounded"></div> Problem Area</div>
+           <div className="flex items-center gap-1"><div className="w-3 h-3 bg-green-500 rounded"></div> Solution Area</div>
+           <span className="text-muted-foreground font-medium">• 3 min Microlearning Module</span>
         </Card>
       </div>
     </div>
