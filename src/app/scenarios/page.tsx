@@ -191,7 +191,6 @@ export default function ScenariosPage() {
                   width={80} 
                   height={80} 
                   className="object-contain drop-shadow"
-                  onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/48/48'; }}
                  />
               </div>
               <CardHeader>
@@ -231,7 +230,6 @@ export default function ScenariosPage() {
                     alt="LearnLink Human Verified Seal" 
                     fill 
                     className="object-contain drop-shadow"
-                    onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/64/64'; }}
                   />
                 </div>
                 <div className="text-center">
@@ -262,7 +260,7 @@ export default function ScenariosPage() {
                  { name: "Visual Logic Language Systems", sub: "High-Dimensional Linguistic Theory" },
                  { name: "Visual Travel Syntax Guide", sub: "Survival Dialogues for Jakarta" },
                  { name: "Jakarta Survival Guide", sub: "Master Teacher Notes (2026)" },
-                 { name: "English Class April2026 visual slide ", sub: "Official Class Presentation Deck" }
+                 { name: "English Class April 2026 Visual Slide", sub: "Official Class Presentation Deck" }
                ].map((resource, i) => (
                  <div key={i} className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between group hover:border-accent transition-colors">
                     <div>
@@ -343,7 +341,6 @@ export default function ScenariosPage() {
               width={112} 
               height={112} 
               className="object-contain drop-shadow-2xl transform rotate-12 transition-transform"
-              onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/112/112'; }}
              />
           </div>
         )}

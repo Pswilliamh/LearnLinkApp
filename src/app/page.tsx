@@ -20,7 +20,6 @@ import {
   BookCopy,
   HelpCircle,
   Hash,
-  Palette,
   Download,
   BookMarked,
   MapPin,
@@ -102,7 +101,7 @@ export default function HomePage() {
           <div className="flex flex-col items-center justify-center gap-8 mt-6 max-w-6xl mx-auto p-4">
             <div className="flex-shrink-0">
               <Image
-                src={placeholderImages.logo.url}
+                src="/images/sight-logo.png"
                 alt="LearnLink Sight Logo"
                 width={300} 
                 height={300} 
@@ -159,17 +158,16 @@ export default function HomePage() {
                         <p className="text-secondary-foreground text-lg">Access verified lesson plans and methodology guides (Donation-Based).</p>
                         
                         <div className="bg-primary/20 p-4 rounded-lg border border-accent/30 flex flex-col items-center gap-3">
-                          <div className="relative w-32 h-32">
+                          <div className="relative w-40 h-40">
                             <Image 
                               src="/images/human-verified-seal.png" 
                               alt="LearnLink Human Verified Seal" 
                               fill 
-                              className="object-contain drop-shadow"
-                              onError={(e) => { (e.target as any).src = 'https://picsum.photos/seed/seal/96/96'; }}
+                              className="object-contain drop-shadow-xl"
                             />
                           </div>
-                          <div className="text-center">
-                            <p className="text-accent font-extrabold text-sm leading-tight uppercase tracking-tighter">
+                          <div className="text-center px-2">
+                            <p className="text-accent font-extrabold text-sm leading-snug uppercase tracking-tight">
                               Human verified not AI created content.
                             </p>
                             <p className="text-secondary-foreground text-[10px] font-medium opacity-90 mt-1">
@@ -210,7 +208,6 @@ export default function HomePage() {
                     width={96} 
                     height={96} 
                     className="object-contain drop-shadow-lg"
-                    onError={(e) => { (e.target as any).src = "https://picsum.photos/seed/seal/80/80"; }}
                    />
                 </div>
               )}
