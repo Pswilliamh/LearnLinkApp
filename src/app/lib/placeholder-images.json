@@ -1,75 +1,75 @@
 
 {
   "alphabet": {
-    "url": "https://picsum.photos/seed/alphabet/600/400",
+    "url": "/images/section-alphabet.png",
     "hint": "alphabet blocks"
   },
   "numbers_colors": {
-    "url": "https://picsum.photos/seed/colors/600/400",
+    "url": "/images/section-numbers-colors.png",
     "hint": "colorful numbers"
   },
   "vocabulary": {
-    "url": "https://picsum.photos/seed/vocab/600/400",
+    "url": "/images/section-vocabulary.png",
     "hint": "children book"
   },
   "scenarios": {
-    "url": "https://picsum.photos/seed/scenarios/600/400",
+    "url": "/images/section-scenarios.png",
     "hint": "city street"
   },
   "sentences": {
-    "url": "https://picsum.photos/seed/sentences/600/400",
+    "url": "/images/section-sentences.png",
     "hint": "word blocks"
   },
   "pronunciation": {
-    "url": "https://picsum.photos/seed/audio/600/400",
+    "url": "/images/section-pronunciation.png",
     "hint": "sound waves"
   },
   "translation": {
-    "url": "https://picsum.photos/seed/translate/600/400",
+    "url": "/images/section-translation.png",
     "hint": "speech bubbles"
   },
   "identify_object": {
-    "url": "https://picsum.photos/seed/identify/600/400",
+    "url": "/images/section-identify-object.png",
     "hint": "magnifying glass"
   },
   "match_game": {
-    "url": "https://picsum.photos/seed/puzzle/600/400",
+    "url": "/images/section-match-game.png",
     "hint": "puzzle pieces"
   },
   "flipbook": {
-    "url": "https://picsum.photos/seed/flipbook/600/400",
+    "url": "/images/section-flipbook.png",
     "hint": "turning pages"
   },
   "advanced": {
-    "url": "https://picsum.photos/seed/advanced/600/400",
+    "url": "/images/section-advanced-learner.png",
     "hint": "graduation cap"
   },
   "how_to_use": {
-    "url": "https://picsum.photos/seed/help/600/400",
+    "url": "/images/section-how-to-use.png",
     "hint": "question mark"
   },
   "contact_us": {
-    "url": "https://picsum.photos/seed/contact/600/400",
+    "url": "/images/official-logo.png",
     "hint": "official logo"
   },
   "logo": {
-    "url": "https://picsum.photos/seed/logo/300/300",
+    "url": "/images/logo.png",
     "hint": "app logo"
   },
   "verified_seal": {
-    "url": "https://picsum.photos/seed/seal/200/200",
+    "url": "/images/human-verified-seal.png",
     "hint": "verified seal"
   },
   "airport_slide_1": {
-    "url": "https://picsum.photos/seed/airport1/800/600",
+    "url": "/images/airport_slide_1.png",
     "hint": "airport terminal"
   },
   "airport_slide_2": {
-    "url": "https://picsum.photos/seed/airport2/800/600",
+    "url": "/images/airport_slide_2.png",
     "hint": "check-in counter"
   },
   "restaurant_slide_1": {
-    "url": "https://picsum.photos/seed/rest1/800/600",
+    "url": "/images/restaurant_slide_1.png",
     "hint": "restaurant menu"
   }
 }

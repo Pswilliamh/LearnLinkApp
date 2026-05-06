@@ -36,6 +36,7 @@ export interface ScenarioLesson {
   verification: VerificationStatus;
   is_premium: boolean;
   slides: ScenarioSlide[];
+  pdf_url?: string; // Path to the PDF lesson plan
 }
 
 export const scenarioLessons: ScenarioLesson[] = [
@@ -44,6 +45,7 @@ export const scenarioLessons: ScenarioLesson[] = [
     theme: "Airport Survival",
     description: "Navigate the airport and find your way to the check-in counter.",
     is_premium: true,
+    pdf_url: "/pdf/airport_lesson_plan.pdf",
     verification: {
       status: 'Verified',
       verified_by: 'William - Master Teacher',
@@ -54,8 +56,8 @@ export const scenarioLessons: ScenarioLesson[] = [
       {
         id: "s1",
         type: "precision_scenario",
-        image_url: placeholderImages.airport_slide_1.url,
-        image_hint: placeholderImages.airport_slide_1.hint,
+        image_url: "/images/airport_slide_1.png",
+        image_hint: "lost traveler at terminal sign",
         focus_zones: [
           { type: "pink", label: "Lost Traveler", top: 40, left: 10, width: 20, height: 40 },
           { type: "green", label: "Information Sign", top: 10, left: 60, width: 30, height: 20 }
@@ -68,8 +70,8 @@ export const scenarioLessons: ScenarioLesson[] = [
       {
         id: "s2",
         type: "precision_scenario",
-        image_url: placeholderImages.airport_slide_2.url,
-        image_hint: placeholderImages.airport_slide_2.hint,
+        image_url: "/images/airport_slide_2.png",
+        image_hint: "passport at counter",
         focus_zones: [
           { type: "pink", label: "Passport Needed", top: 50, left: 30, width: 15, height: 20 },
           { type: "green", label: "Helpful Staff", top: 20, left: 70, width: 20, height: 50 }
@@ -86,7 +88,7 @@ export const scenarioLessons: ScenarioLesson[] = [
     theme: "Ordering at a Restaurant",
     description: "Learn how to order food and ask questions about the menu.",
     is_premium: true,
-    verification_status: 'Verified',
+    pdf_url: "/pdf/restaurant_lesson_plan.pdf",
     verification: {
       status: 'Verified',
       verified_by: 'William - Master Teacher',
@@ -97,8 +99,8 @@ export const scenarioLessons: ScenarioLesson[] = [
       {
         id: "r1",
         type: "precision_scenario",
-        image_url: placeholderImages.restaurant_slide_1.url,
-        image_hint: placeholderImages.restaurant_slide_1.hint,
+        image_url: "/images/restaurant_slide_1.png",
+        image_hint: "customer looking at menu",
         focus_zones: [
           { type: "pink", label: "Hungry Customer", top: 30, left: 20, width: 25, height: 60 },
           { type: "green", label: "Menu Options", top: 15, left: 65, width: 20, height: 30 }

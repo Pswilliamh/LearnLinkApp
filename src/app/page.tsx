@@ -29,7 +29,6 @@ import {
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
-import { Badge } from '@/components/ui/badge';
 import placeholderImages from '@/app/lib/placeholder-images.json';
 
 const learningSections = [
@@ -68,7 +67,6 @@ const dailyWordsList: WordOfTheDayItem[] = [
 
 export default function HomePage() {
   const [wordOfTheDay, setWordOfTheDay] = useState<WordOfTheDayItem | null>(null);
-  const { toast } = useToast();
 
   useEffect(() => {
     const today = new Date();
@@ -107,6 +105,10 @@ export default function HomePage() {
                 height={300} 
                 data-ai-hint={placeholderImages.logo.hint}
                 className="rounded-full shadow-lg object-contain"
+                onError={(e) => {
+                   const target = e.target as HTMLImageElement;
+                   target.src = "https://picsum.photos/seed/logo/300/300";
+                }}
               />
             </div>
 
@@ -155,17 +157,17 @@ export default function HomePage() {
                         <p className="text-secondary-foreground text-lg">Download verified lesson plans for Jakarta and Global English curricula.</p>
                         <div className="flex flex-col space-y-2">
                            <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="#" download="LearnLink-Lesson-Plan-Beginner.pdf">
+                                <a href="/pdf/LearnLink-Beginner-Plan.pdf" download>
                                     <Download className="mr-2 h-4 w-4" /> Download Beginner Plan
                                 </a>
                             </Button>
                              <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="#" download="LearnLink-Lesson-Plan-Intermediate.pdf">
+                                <a href="/pdf/LearnLink-Intermediate-Plan.pdf" download>
                                     <Download className="mr-2 h-4 w-4" /> Download Intermediate Plan
                                 </a>
                             </Button>
                              <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                                <a href="#" download="LearnLink-Lesson-Plan-Advanced.pdf">
+                                <a href="/pdf/LearnLink-Advanced-Plan.pdf" download>
                                     <Download className="mr-2 h-4 w-4" /> Download Advanced Plan
                                 </a>
                             </Button>
@@ -185,12 +187,15 @@ export default function HomePage() {
               {section.certified && (
                 <div className="absolute top-2 right-2 z-10 w-20 h-20 pointer-events-none">
                    <Image 
-                    src={placeholderImages.verified_seal.url} 
+                    src="/images/human-verified-seal.png" 
                     alt="LearnLink Human Verified Seal" 
                     width={80} 
                     height={80} 
-                    data-ai-hint={placeholderImages.verified_seal.hint}
                     className="object-contain drop-shadow-lg"
+                    onError={(e) => {
+                       const target = e.target as HTMLImageElement;
+                       target.src = "https://picsum.photos/seed/seal/200/200";
+                    }}
                    />
                 </div>
               )}
@@ -209,6 +214,10 @@ export default function HomePage() {
                   width={600}
                   height={400}
                   className="rounded-md object-cover w-full h-auto aspect-[600/400]"
+                  onError={(e) => {
+                     const target = e.target as HTMLImageElement;
+                     target.src = `https://picsum.photos/seed/${section.title}/600/400`;
+                  }}
                 />
                 {section.external ? (
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">

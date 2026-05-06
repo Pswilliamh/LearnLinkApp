@@ -5,11 +5,11 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { ScenarioLesson, scenarioLessons, ScenarioSlide } from '@/lib/scenario-lessons';
-import { ChevronLeft, ChevronRight, Volume2, Info, MapPin, Sparkles, AlertCircle, CheckCircle, ShieldCheck, Eye, EyeOff, Mic, Loader2, CheckCircle2, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Volume2, Info, MapPin, Sparkles, AlertCircle, CheckCircle, ShieldCheck, Eye, EyeOff, Mic, Loader2, CheckCircle2, X, Download, FileText } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
-import { evaluateSpeech, EvaluateSpeechOutput } from '@/ai/flows/evaluate-speech-flow';
+import { evaluateSpeech } from '@/ai/flows/evaluate-speech-flow';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CertificateOfMastery } from '@/components/certificate-of-mastery';
 
@@ -20,17 +20,15 @@ export default function ScenariosPage() {
   const [revealIndonesian, setRevealIndonesian] = useState(false);
   const [showCertificate, setShowCertificate] = useState(false);
   
-  // AI Speech Recognition State
   const [isListening, setIsListening] = useState(false);
   const [isEvaluating, setIsEvaluating] = useState(false);
-  const [evaluationResult, setEvaluationResult] = useState<EvaluateSpeechOutput | null>(null);
+  const [evaluationResult, setEvaluationResult] = useState<any>(null);
   const [userTranscript, setUserTranscript] = useState<string | null>(null);
   
   const recognitionRef = useRef<any>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Setup SpeechRecognition
     if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
         const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
         recognitionRef.current = new SpeechRecognition();
@@ -73,7 +71,6 @@ export default function ScenariosPage() {
         setRevealIndonesian(false);
         setEvaluationResult(null);
       } else {
-        // End of lesson reached
         setShowCertificate(true);
       }
     }
@@ -124,7 +121,7 @@ export default function ScenariosPage() {
 
   if (!activeLesson) {
     return (
-      <div className="space-y-8">
+      <div className="space-y-12">
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="text-3xl text-primary flex items-center gap-2">
@@ -138,36 +135,70 @@ export default function ScenariosPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {scenarioLessons.map((lesson) => (
-            <Card key={lesson.lesson_id} className="hover:shadow-xl transition-all cursor-pointer border-t-4 border-accent relative" onClick={() => handleStartLesson(lesson)}>
-              {lesson.verification.status === 'Verified' && (
-                <div className="absolute top-2 right-2 z-10 w-12 h-12">
-                   <Image 
-                    src="/images/human-verified-seal.png" 
-                    alt="Verified Seal" 
-                    width={48} 
-                    height={48} 
-                    className="object-contain drop-shadow"
-                   />
-                </div>
-              )}
+            <Card key={lesson.lesson_id} className="hover:shadow-xl transition-all border-t-4 border-accent relative flex flex-col">
+              <div className="absolute top-2 right-2 z-10 w-12 h-12">
+                 <Image 
+                  src="/images/human-verified-seal.png" 
+                  alt="Verified Seal" 
+                  width={48} 
+                  height={48} 
+                  className="object-contain drop-shadow"
+                 />
+              </div>
               <CardHeader>
                 <CardTitle className="text-xl text-primary">{lesson.theme}</CardTitle>
                 <CardDescription>{lesson.description}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <CardContent className="flex-grow">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                   <Sparkles className="h-4 w-4 text-accent" />
                   {lesson.slides.length} Precision Slides
                 </div>
+                {lesson.pdf_url && (
+                  <Button variant="outline" size="sm" asChild className="w-full mb-2">
+                    <a href={lesson.pdf_url} download>
+                      <Download className="mr-2 h-4 w-4" /> Download Lesson PDF
+                    </a>
+                  </Button>
+                )}
               </CardContent>
               <CardFooter>
-                <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                  Start Lesson <ChevronRight className="ml-2 h-4 w-4" />
+                <Button onClick={() => handleStartLesson(lesson)} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                  Start Interactive Lesson <ChevronRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardFooter>
             </Card>
           ))}
         </div>
+
+        <Card className="bg-secondary/20 border-2 border-dashed border-primary/30">
+          <CardHeader>
+            <CardTitle className="text-2xl text-primary flex items-center gap-2">
+              <FileText className="h-7 w-7 text-accent" /> Teacher Resource Hub
+            </CardTitle>
+            <CardDescription>Access full PDF curriculum guides and classroom posters.</CardDescription>
+          </CardHeader>
+          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
+                <div>
+                   <p className="font-bold text-foreground">Jakarta Survival Guide (PDF)</p>
+                   <p className="text-xs text-muted-foreground">Complete 2026 Master Teacher Notes</p>
+                </div>
+                <Button variant="ghost" size="icon" asChild>
+                  <a href="/pdf/jakarta-survival-guide.pdf" download><Download className="h-5 w-5" /></a>
+                </Button>
+             </div>
+             <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between">
+                <div>
+                   <p className="font-bold text-foreground">Visual Direct Association Poster</p>
+                   <p className="text-xs text-muted-foreground">Pink/Green Methodology Print-out</p>
+                </div>
+                <Button variant="ghost" size="icon" asChild>
+                  <a href="/pdf/methodology-poster.pdf" download><Download className="h-5 w-5" /></a>
+                </Button>
+             </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -189,7 +220,6 @@ export default function ScenariosPage() {
           <ChevronLeft className="mr-2 h-4 w-4" /> Back to Lessons
         </Button>
         
-        {/* Phase Selector - Fading Strategy Implementation */}
         <div className="flex bg-secondary p-1 rounded-lg shadow-inner">
           {['intro', 'practice', 'mastery'].map((phase) => (
             <Button 
@@ -214,7 +244,6 @@ export default function ScenariosPage() {
       </div>
 
       <Card className="overflow-hidden shadow-2xl border-4 border-primary relative">
-        {/* Quality Seal Overlay */}
         {activeLesson.verification.status === 'Verified' && (
           <div className="absolute top-4 right-4 z-20 pointer-events-none w-28 h-28">
              <Image 
@@ -222,7 +251,7 @@ export default function ScenariosPage() {
               alt="Official Human Verified Seal" 
               width={112} 
               height={112} 
-              className="object-contain drop-shadow-2xl transform rotate-12 transition-transform hover:rotate-0"
+              className="object-contain drop-shadow-2xl transform rotate-12 transition-transform"
              />
           </div>
         )}
@@ -233,7 +262,11 @@ export default function ScenariosPage() {
             alt="Scenario Visual"
             fill
             className="object-cover"
-            data-ai-hint={currentSlide.image_hint}
+            onError={(e) => {
+              // Fallback to placeholder if local file is missing
+              const target = e.target as HTMLImageElement;
+              target.src = `https://picsum.photos/seed/${currentSlide.id}/1200/800`;
+            }}
           />
           
           {currentSlide.focus_zones.map((zone, idx) => (
@@ -260,7 +293,6 @@ export default function ScenariosPage() {
 
         <CardContent className="p-8 space-y-6 bg-card min-h-[200px]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* English Dialogue - Hidden in Mastery Phase */}
             <div className={`space-y-4 transition-opacity duration-500 ${learningPhase === 'mastery' ? 'opacity-0 select-none' : 'opacity-100'}`}>
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-accent">English</h3>
@@ -273,7 +305,6 @@ export default function ScenariosPage() {
               </p>
             </div>
 
-            {/* Indonesian Dialogue - Faded in Practice, Hidden in Mastery */}
             <div className={`space-y-4 border-l-0 md:border-l pl-0 md:pl-8 transition-all duration-500 
               ${learningPhase === 'mastery' ? 'opacity-0 select-none' : 'opacity-100'}`}>
               <div className="flex items-center justify-between">
@@ -305,7 +336,6 @@ export default function ScenariosPage() {
             </div>
           </div>
 
-          {/* Mastery Integration - The Speak UI */}
           {learningPhase === 'mastery' && (
             <div className="absolute inset-0 z-30 bg-card/95 backdrop-blur-sm flex flex-col items-center justify-center p-8 animate-in fade-in zoom-in duration-300">
                <div className="text-center space-y-6 max-w-md">
@@ -362,18 +392,6 @@ export default function ScenariosPage() {
           </Button>
         </CardFooter>
       </Card>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        <Card className="p-4 bg-secondary/30 border-l-4 border-accent">
-          <h4 className="font-bold text-accent flex items-center gap-2 mb-2"><ShieldCheck className="h-4 w-4"/> Master Teacher Notes</h4>
-          <p className="text-muted-foreground italic">"{activeLesson.verification.precision_notes}"</p>
-        </Card>
-        <Card className="p-4 bg-secondary/30 flex flex-wrap items-center justify-center gap-4">
-           <div className="flex items-center gap-1"><div className="w-3 h-3 bg-pink-500 rounded"></div> Problem Area</div>
-           <div className="flex items-center gap-1"><div className="w-3 h-3 bg-green-500 rounded"></div> Solution Area</div>
-           <span className="text-muted-foreground font-medium">• 3 min Microlearning Module</span>
-        </Card>
-      </div>
     </div>
   );
 }
