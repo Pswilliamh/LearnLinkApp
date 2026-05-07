@@ -33,7 +33,7 @@ Ensure these files are in `public/images/`:
 2. Select **"Download"**. This will save a `.zip` of all current files to your computer.
 
 ### 2. To Push to GitHub from here:
-Open the Terminal (Terminal > New Terminal) and run:
+Open the Terminal (Terminal > New Terminal) and run these exact commands:
 ```bash
 git init
 git add .
