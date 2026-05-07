@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview A vocabulary word sentence suggestion AI agent.
@@ -10,6 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {gemini15Flash} from '@genkit-ai/google-genai';
 
 const SuggestSentencesInputSchema = z.object({
   word: z.string().describe('The vocabulary word to generate example sentences for.'),
@@ -29,7 +29,7 @@ export async function suggestSentences(input: SuggestSentencesInput): Promise<Su
 
 const prompt = ai.definePrompt({
   name: 'suggestSentencesPrompt',
-  model: 'googleai/gemini-1.5-flash',
+  model: gemini15Flash,
   input: {schema: SuggestSentencesInputSchema},
   output: {schema: SuggestSentencesOutputSchema},
   prompt: `You are an expert English teacher specializing in teaching English to non-native speakers.

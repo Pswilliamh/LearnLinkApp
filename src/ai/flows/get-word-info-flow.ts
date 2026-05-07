@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview An AI agent for providing detailed information about an English word.
@@ -11,6 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {gemini15Flash} from '@genkit-ai/google-genai';
 
 const GetWordInfoInputSchema = z.object({
   word: z.string().describe('The English word to get information for.'),
@@ -33,7 +33,7 @@ export async function getWordInfo(input: GetWordInfoInput): Promise<GetWordInfoO
 
 const prompt = ai.definePrompt({
   name: 'getWordInfoPrompt',
-  model: 'googleai/gemini-1.5-flash',
+  model: gemini15Flash,
   input: {schema: GetWordInfoInputSchema},
   output: {schema: GetWordInfoOutputSchema},
   prompt: `You are an expert linguist and English-to-Bahasa Indonesia translator.

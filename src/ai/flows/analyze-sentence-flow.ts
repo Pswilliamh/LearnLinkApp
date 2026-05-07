@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview An AI agent for analyzing and providing feedback on English sentences.
@@ -10,6 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {gemini15Flash} from '@genkit-ai/google-genai';
 
 const AnalyzeSentenceInputSchema = z.object({
   sentence: z.string().describe('The English sentence to analyze.'),
@@ -28,7 +28,7 @@ export async function analyzeSentence(input: AnalyzeSentenceInput): Promise<Anal
 
 const prompt = ai.definePrompt({
   name: 'analyzeSentencePrompt',
-  model: 'googleai/gemini-1.5-flash',
+  model: gemini15Flash,
   input: {schema: AnalyzeSentenceInputSchema},
   output: {schema: AnalyzeSentenceOutputSchema},
   prompt: `You are an expert English teacher reviewing a student's sentence.
