@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -25,7 +24,9 @@ import {
   MapPin,
   Lock,
   Video,
-  Gift
+  Gift,
+  MessageSquare,
+  Sparkles
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -35,11 +36,12 @@ import placeholderImages from '@/app/lib/placeholder-images.json';
 const PAYPAL_DONATION_URL = "https://www.paypal.com/donate/?hosted_button_id=FP4RM3ZNGZP7Y";
 
 const learningSections = [
+  { title: 'Guru Bahasa AI Chat', description: 'Ask your AI tutor anything in English or Bahasa.', href: '/chat', icon: MessageSquare, image: "https://picsum.photos/seed/chat/600/400", premium: false, highlight: true },
   { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: placeholderImages.alphabet.url },
   { title: 'Numbers & Colors', description: 'Learn numbers and basic colors.', href: '/numbers-colors', icon: Hash, image: placeholderImages.numbers_colors.url },
   { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: placeholderImages.vocabulary.url },
   { title: 'Scenario Lessons', description: 'Mastery-verified training (Free Preview Available).', href: '/scenarios', icon: MapPin, image: placeholderImages.scenarios.url, certified: true, preview: true },
-  { title: 'Video mastery', description: 'Visual pronunciation lessons and AI generation.', href: '/video-mastery', icon: Video, image: "https://picsum.photos/seed/video/600/400" },
+  { title: 'Video Mastery', description: 'Visual pronunciation lessons and AI generation.', href: '/video-mastery', icon: Video, image: "https://picsum.photos/seed/video/600/400" },
   { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: placeholderImages.sentences.url },
   { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: placeholderImages.pronunciation.url },
   { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: placeholderImages.translation.url },
@@ -192,7 +194,12 @@ export default function HomePage() {
         {learningSections.map((section) => {
           const IconComponent = section.icon;
           return (
-            <Card key={section.title} className="hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground relative group overflow-hidden">
+            <Card key={section.title} className={`hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 bg-card text-card-foreground relative group overflow-hidden ${section.highlight ? 'border-4 border-accent shadow-accent/20' : ''}`}>
+              {section.highlight && (
+                <div className="absolute top-0 right-0 bg-accent text-accent-foreground px-4 py-1 text-xs font-bold rounded-bl-lg z-10 flex items-center gap-1 animate-pulse">
+                  <Sparkles className="h-3 w-3" /> NEW FEATURE
+                </div>
+              )}
               {section.certified && (
                 <div className="absolute top-2 right-2 z-10 w-24 h-24 pointer-events-none group-hover:rotate-12 transition-transform">
                    <Image 
@@ -216,7 +223,7 @@ export default function HomePage() {
               )}
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
-                  {IconComponent && <IconComponent className="h-10 w-10 text-accent" />}
+                  {IconComponent && <IconComponent className={`h-10 w-10 ${section.highlight ? 'text-accent animate-bounce' : 'text-accent'}`} />}
                   <CardTitle className="text-2xl text-card-foreground">{section.title}</CardTitle>
                 </div>
                 <CardDescription className="text-sm text-muted-foreground">{section.description}</CardDescription>
@@ -237,7 +244,7 @@ export default function HomePage() {
                     </a>
                   </Button>
                 ) : (
-                  <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Button asChild className={`w-full ${section.highlight ? 'bg-primary animate-pulse border-2 border-accent' : 'bg-accent'} text-accent-foreground hover:bg-accent/90`}>
                     <Link href={section.href}>
                       {section.buttonText || (section.preview ? 'Try Free Sample' : section.premium ? 'Unlock & Start' : 'Start Learning')} <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>

@@ -50,8 +50,8 @@ git push -u origin main
 ```
 
 ## Core Features
+- **Guru Bahasa AI Chat**: A bilingual AI tutor that provides answers in both English and Bahasa Indonesia.
 - **Modular Scenario Lessons**: Real-world scenarios with visual scaffolding and Pink/Green logic.
 - **The Fading Strategy**: A three-phase learning approach (Intro, Practice, Mastery).
-- **Guru Bahasa AI**: Real-time speech evaluation using Genkit (Gemini 1.5 Flash).
-- **AI Video Lab**: Experimental pronunciation generation using Veo 2.0.
+- **AI Video Lab**: Experimental pronunciation generation using Veo.
 - **Human-Verified Quality**: "Human verified not AI created content."

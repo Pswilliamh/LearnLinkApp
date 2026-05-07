@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, Rocket, ScanSearch, GraduationCap, Puzzle, BookCopy, HelpCircle, Palette, Hash, Lightbulb, MapPin, Video } from 'lucide-react';
+import { BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, Rocket, ScanSearch, GraduationCap, Puzzle, BookCopy, HelpCircle, Palette, Hash, Lightbulb, MapPin, Video, MessageSquare } from 'lucide-react';
 
 const navItems = [
   { href: '/alphabet', label: 'Alphabet', icon: SpellCheck },
@@ -10,6 +10,7 @@ const navItems = [
   { href: '/vocabulary', label: 'Vocabulary', icon: BookOpenText },
   { href: '/scenarios', label: 'Scenarios', icon: MapPin },
   { href: '/video-mastery', label: 'Video Lessons', icon: Video },
+  { href: '/chat', label: 'AI Chat', icon: MessageSquare },
   { href: '/sentences', label: 'Sentences', icon: CaseSensitive },
   { href: '/pronunciation', label: 'Pronunciation', icon: Volume2 },
   { href: '/translation', label: 'Translation', icon: Languages },
@@ -23,7 +24,7 @@ const navItems = [
 
 export function Header() {
   return (
-    <header className="bg-primary text-primary-foreground shadow-md">
+    <header className="bg-primary text-primary-foreground shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex flex-row justify-between items-center">
         <Link href="/" className="text-2xl font-bold flex items-center gap-2 hover:text-accent transition-colors">
           <Rocket className="h-8 w-8 text-accent" />
@@ -39,8 +40,8 @@ export function Header() {
             >
               <Link href={item.href} className="flex items-center gap-1">
                 <item.icon className="h-4 w-4 sm:h-5 sm:w-5" />
-                <span className="hidden lg:inline">{item.label}</span>
-                <span className="lg:hidden sr-only">{item.label}</span>
+                <span className="hidden xl:inline">{item.label}</span>
+                <span className="xl:hidden sr-only">{item.label}</span>
               </Link>
             </Button>
           ))}

@@ -1,4 +1,3 @@
-
 import { config } from 'dotenv';
 config(); // Load .env file
 
@@ -10,6 +9,7 @@ import '@/ai/flows/get-word-info-flow';
 import '@/ai/flows/analyze-sentence-flow';
 import '@/ai/flows/evaluate-speech-flow';
 import '@/ai/flows/generate-pronunciation-video';
+import '@/ai/flows/bilingual-chat-flow';
 
 
 // This ensures Genkit tools can find your flows during development.
