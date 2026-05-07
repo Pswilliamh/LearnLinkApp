@@ -35,6 +35,7 @@ export interface ScenarioLesson {
   description: string;
   verification: VerificationStatus;
   is_premium: boolean;
+  is_preview?: boolean; // Added for free access
   slides: ScenarioSlide[];
   pdf_url?: string; // Path to the PDF lesson plan
 }
@@ -45,6 +46,7 @@ export const scenarioLessons: ScenarioLesson[] = [
     theme: "Airport Survival",
     description: "Navigate the airport and find your way to the check-in counter.",
     is_premium: true,
+    is_preview: true, // Marked as free preview
     pdf_url: "/pdf/airport_lesson_plan.pdf",
     verification: {
       status: 'Verified',
@@ -56,7 +58,7 @@ export const scenarioLessons: ScenarioLesson[] = [
       {
         id: "s1",
         type: "precision_scenario",
-        image_url: "/images/airport_slide_1.png",
+        image_url: "https://picsum.photos/seed/airport1/800/450",
         image_hint: "lost traveler at terminal sign",
         focus_zones: [
           { type: "pink", label: "Lost Traveler", top: 40, left: 10, width: 20, height: 40 },
@@ -70,7 +72,7 @@ export const scenarioLessons: ScenarioLesson[] = [
       {
         id: "s2",
         type: "precision_scenario",
-        image_url: "/images/airport_slide_2.png",
+        image_url: "https://picsum.photos/seed/airport2/800/450",
         image_hint: "passport at counter",
         focus_zones: [
           { type: "pink", label: "Passport Needed", top: 50, left: 30, width: 15, height: 20 },
@@ -99,7 +101,7 @@ export const scenarioLessons: ScenarioLesson[] = [
       {
         id: "r1",
         type: "precision_scenario",
-        image_url: "/images/restaurant_slide_1.png",
+        image_url: "https://picsum.photos/seed/restaurant1/800/450",
         image_hint: "customer looking at menu",
         focus_zones: [
           { type: "pink", label: "Hungry Customer", top: 30, left: 20, width: 25, height: 60 },

@@ -2,13 +2,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, Rocket, ScanSearch, GraduationCap, Puzzle, BookCopy, HelpCircle, Palette, Hash, Lightbulb, MapPin } from 'lucide-react';
+import { BookOpenText, CaseSensitive, Languages, SpellCheck, Volume2, Rocket, ScanSearch, GraduationCap, Puzzle, BookCopy, HelpCircle, Palette, Hash, Lightbulb, MapPin, Video } from 'lucide-react';
 
 const navItems = [
   { href: '/alphabet', label: 'Alphabet', icon: SpellCheck },
   { href: '/numbers-colors', label: 'Numbers & Colors', icon: Hash },
   { href: '/vocabulary', label: 'Vocabulary', icon: BookOpenText },
   { href: '/scenarios', label: 'Scenarios', icon: MapPin },
+  { href: '/video-mastery', label: 'Video Lessons', icon: Video },
   { href: '/sentences', label: 'Sentences', icon: CaseSensitive },
   { href: '/pronunciation', label: 'Pronunciation', icon: Volume2 },
   { href: '/translation', label: 'Translation', icon: Languages },
@@ -38,8 +39,8 @@ export function Header() {
             >
               <Link href={item.href} className="flex items-center gap-1">
                 <item.icon className="h-4 w-4 sm:h-5 sm:w-5" />
-                <span className="hidden md:inline">{item.label}</span>
-                <span className="md:hidden sr-only">{item.label}</span>
+                <span className="hidden lg:inline">{item.label}</span>
+                <span className="lg:hidden sr-only">{item.label}</span>
               </Link>
             </Button>
           ))}

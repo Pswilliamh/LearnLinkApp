@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScenarioLesson, scenarioLessons } from '@/lib/scenario-lessons';
-import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, Eye, Mic, Loader2, CheckCircle2, FileText, Lock, ShieldCheck, ExternalLink, Download } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, Eye, Mic, Loader2, CheckCircle2, FileText, Lock, ShieldCheck, ExternalLink, Download, Gift } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -17,7 +17,7 @@ import { CertificateOfMastery } from '@/components/certificate-of-mastery';
 const PAYPAL_DONATION_URL = "https://www.paypal.com/donate/?hosted_button_id=FP4RM3ZNGZP7Y";
 
 export default function ScenariosPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [accessLevel, setAccessLevel] = useState<'none' | 'preview' | 'full'>('none');
   const [passwordInput, setPasswordInput] = useState('');
   const [activeLesson, setActiveLesson] = useState<ScenarioLesson | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -35,11 +35,15 @@ export default function ScenariosPage() {
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordInput === '2026') {
-      setIsAuthenticated(true);
-      toast({ title: "Access Granted", description: "Welcome to Premium Scenario Lessons." });
+    const input = passwordInput.trim().toUpperCase();
+    if (input === '2026') {
+      setAccessLevel('full');
+      toast({ title: "Full Access Granted", description: "Welcome to the Complete Scenario Hub." });
+    } else if (input === 'PREVIEW') {
+      setAccessLevel('preview');
+      toast({ title: "Preview Access Granted", description: "Enjoy your free Precision Protocol sample." });
     } else {
-      toast({ variant: "destructive", title: "Access Denied", description: "Incorrect password. Please use '2026'." });
+      toast({ variant: "destructive", title: "Access Denied", description: "Incorrect password. Use 'PREVIEW' for a free sample or '2026' for full access." });
     }
   };
 
@@ -134,33 +138,33 @@ export default function ScenariosPage() {
       }
   };
 
-  if (!isAuthenticated) {
+  if (accessLevel === 'none') {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-8">
         <Card className="w-full max-w-md shadow-2xl border-2 border-accent">
           <CardHeader className="text-center">
             <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-4">
               <Lock className="h-8 w-8 text-accent" />
             </div>
-            <CardTitle className="text-2xl">Premium Access Required</CardTitle>
-            <CardDescription>Enter the password to access Scenarios and Teacher Resources.</CardDescription>
+            <CardTitle className="text-2xl">Secure Entry Point</CardTitle>
+            <CardDescription>Enter 'PREVIEW' for a free module or '2026' for full access.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handlePasswordSubmit} className="space-y-4">
               <Input 
-                type="password" 
+                type="text" 
                 placeholder="Enter access code..." 
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
-                className="text-center text-lg"
+                className="text-center text-lg uppercase"
               />
               <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                Unlock Content
+                Verify Credentials
               </Button>
             </form>
           </CardContent>
           <CardFooter className="text-center text-xs text-muted-foreground flex justify-center">
-             <ShieldCheck className="h-3 w-3 mr-1" /> Secure 2026 Protocol
+             <ShieldCheck className="h-3 w-3 mr-1" /> Precision Protocol V2026
           </CardFooter>
         </Card>
       </div>
@@ -168,23 +172,37 @@ export default function ScenariosPage() {
   }
 
   if (!activeLesson) {
+    const visibleLessons = accessLevel === 'full' 
+      ? scenarioLessons 
+      : scenarioLessons.filter(l => l.is_preview);
+
     return (
       <div className="space-y-12">
-        <Card className="shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-3xl text-primary flex items-center gap-2">
-              <MapPin className="h-8 w-8" /> Scenario-Based Lessons
-            </CardTitle>
-            <CardDescription>
-              Immerse yourself in 2026 standard modular lessons with direct association visuals.
-            </CardDescription>
-          </CardHeader>
-        </Card>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <Card className="flex-grow shadow-lg border-l-8 border-accent">
+            <CardHeader>
+              <CardTitle className="text-3xl text-primary flex items-center gap-2">
+                <MapPin className="h-8 w-8 text-accent" /> 
+                {accessLevel === 'full' ? 'Master Scenario Hub' : 'Free Preview: Precision Lessons'}
+              </CardTitle>
+              <CardDescription>
+                High-dimensional immersive training for Jakarta's top-tier linguistic mastery.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+          {accessLevel === 'preview' && (
+            <Alert className="max-w-xs bg-accent text-accent-foreground">
+              <Gift className="h-4 w-4" />
+              <AlertTitle className="font-bold">Free Sample Active</AlertTitle>
+              <AlertDescription className="text-xs">Donate for full curriculum access.</AlertDescription>
+            </Alert>
+          )}
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {scenarioLessons.map((lesson) => (
-            <Card key={lesson.lesson_id} className="hover:shadow-xl transition-all border-t-4 border-accent relative flex flex-col">
-              <div className="absolute top-2 right-2 z-10 w-20 h-20">
+          {visibleLessons.map((lesson) => (
+            <Card key={lesson.lesson_id} className="hover:shadow-xl transition-all border-t-4 border-accent relative flex flex-col overflow-hidden group">
+               <div className="absolute top-2 right-2 z-10 w-20 h-20 opacity-90 group-hover:opacity-100 transition-opacity">
                  <Image 
                   src="/images/human-verified-seal.png" 
                   alt="LearnLink Human Verified Seal" 
@@ -194,100 +212,101 @@ export default function ScenariosPage() {
                  />
               </div>
               <CardHeader>
-                <CardTitle className="text-xl text-primary">{lesson.theme}</CardTitle>
-                <CardDescription>{lesson.description}</CardDescription>
+                <div className="flex justify-between items-start">
+                  <CardTitle className="text-xl text-primary">{lesson.theme}</CardTitle>
+                  {lesson.is_preview && <Badge className="bg-green-600">FREE PREVIEW</Badge>}
+                </div>
+                <CardDescription className="line-clamp-2">{lesson.description}</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                   <Sparkles className="h-4 w-4 text-accent" />
-                  {lesson.slides.length} Precision Slides
+                  {lesson.slides.length} Interactive Slides
                 </div>
               </CardContent>
-              <CardFooter>
-                <Button onClick={() => handleStartLesson(lesson)} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                  Start Interactive Lesson <ChevronRight className="ml-2 h-4 w-4" />
+              <CardFooter className="flex gap-2">
+                {lesson.pdf_url && (
+                  <Button variant="outline" className="flex-1 text-xs" asChild>
+                    <a href={lesson.pdf_url} download>
+                      <Download className="h-3 w-3 mr-1" /> PDF Plan
+                    </a>
+                  </Button>
+                )}
+                <Button onClick={() => handleStartLesson(lesson)} className="flex-[2] bg-accent text-accent-foreground hover:bg-accent/90">
+                  Enter Lesson
                 </Button>
               </CardFooter>
             </Card>
           ))}
         </div>
 
-        <Card className="bg-secondary/20 border-2 border-dashed border-primary/30">
-          <CardHeader>
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-              <div>
-                <CardTitle className="text-2xl text-primary flex items-center gap-2">
-                  <FileText className="h-7 w-7 text-accent" /> Teacher Resource Hub
-                </CardTitle>
-                <CardDescription className="text-foreground font-bold text-lg">
-                  High-dimensional methodology guides (Donation-Based Assets).
-                </CardDescription>
-              </div>
-              <div className="bg-primary/40 p-4 rounded-lg border border-accent/50 flex flex-col items-center gap-4 max-w-sm">
-                <div className="relative w-32 h-32 shrink-0">
-                  <Image 
-                    src="/images/teacher-scenerio.png" 
-                    alt="Teacher Scenario Logo" 
-                    fill 
-                    className="object-contain drop-shadow"
-                  />
+        {accessLevel === 'full' && (
+          <Card className="bg-secondary/20 border-2 border-dashed border-primary/30">
+            <CardHeader>
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                  <CardTitle className="text-2xl text-primary flex items-center gap-2">
+                    <FileText className="h-7 w-7 text-accent" /> Teacher Resource Hub
+                  </CardTitle>
+                  <CardDescription className="text-foreground font-bold text-lg">
+                    High-dimensional methodology guides (Verified Assets).
+                  </CardDescription>
                 </div>
-                <div className="text-center px-2">
-                    <p className="text-accent font-extrabold text-xs leading-snug uppercase tracking-tight">
-                        Human verified not AI created content.
-                    </p>
-                    <p className="text-secondary-foreground text-[10px] font-medium opacity-90 mt-1 leading-tight">
-                        Slide Decks or AI formated content verified.
-                    </p>
+                <div className="bg-primary/40 p-4 rounded-lg border border-accent/50 flex flex-col items-center gap-4 max-w-sm">
+                  <div className="relative w-32 h-32 shrink-0">
+                    <Image 
+                      src="/images/teacher-scenerio.png" 
+                      alt="Teacher Scenario Logo" 
+                      fill 
+                      className="object-contain drop-shadow"
+                    />
+                  </div>
+                  <div className="text-center px-2">
+                      <p className="text-accent font-extrabold text-xs leading-snug uppercase tracking-tight">
+                          Human verified not AI created content.
+                      </p>
+                      <p className="text-secondary-foreground text-[10px] font-medium opacity-90 mt-1 leading-tight">
+                          Slide Decks or AI formated content verified.
+                      </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <Alert className="bg-accent/10 border-accent/50">
-              <AlertCircle className="h-4 w-4 text-accent" />
-              <AlertTitle className="text-accent font-bold">Donation Required for Access</AlertTitle>
-              <AlertDescription>
-                To support the Kingdom Of Heaven Embassy education mission, please provide a donation to access these premium teacher lesson plans and guides.
-              </AlertDescription>
-            </Alert>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-               {[
-                 { name: "Three Color Sentence Logic", sub: "Precision Visual Syntax Guide", file: "Three_Color_Sentence_Logic.pdf" },
-                 { name: "Visual Bilingual English Action", sub: "Direct Association Workbook", file: "Visual_Bilingual_English_Action.pdf" },
-                 { name: "Visual English Action Guide", sub: "Zero-Second Response Manual", file: "Visual_English_Action_Guide.pdf" },
-                 { name: "Visual Logic Language Systems", sub: "High-Dimensional Linguistic Theory", file: "Visual_Logic_Language_Systems.pdf" },
-                 { name: "Visual Travel Syntax Guide", sub: "Survival Dialogues for Jakarta", file: "Visual_Travel_Syntax_Guide.pdf" },
-                 { name: "English Class April 2026 Visual Slide", sub: "Official Class Presentation Deck", file: "English Class April2026 visual slide .pdf" }
-               ].map((resource, i) => (
-                 <div key={i} className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between group hover:border-accent transition-colors">
-                    <div className="max-w-[150px]">
-                      <p className="font-bold text-foreground text-sm leading-tight">{resource.name}</p>
-                      <p className="text-[10px] text-muted-foreground mt-1">{resource.sub}</p>
-                    </div>
-                    <Button variant="ghost" size="sm" asChild className="text-accent hover:text-accent hover:bg-accent/10 h-auto py-2">
-                      <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center">
-                         <span className="text-[10px] font-bold">Donate & Access</span>
-                         <Download className="h-3 w-3 mt-1" />
-                      </a>
-                    </Button>
-                 </div>
-               ))}
-            </div>
-            
-            <div className="flex justify-center pt-4">
-              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 shadow-xl">
-                <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer">
-                  Support Our Mission - Official PayPal Donation <ExternalLink className="ml-2 h-5 w-5" />
-                </a>
-              </Button>
-            </div>
-          </CardContent>
-          <CardFooter className="bg-accent/5 p-4 justify-center">
-            <p className="text-xs italic text-muted-foreground">Thank you for supporting the Kingdom Of Heaven Embassy education mission.</p>
-          </CardFooter>
-        </Card>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <Alert className="bg-accent/10 border-accent/50">
+                <AlertCircle className="h-4 w-4 text-accent" />
+                <AlertTitle className="text-accent font-bold">Donation Required for Full Downloads</AlertTitle>
+                <AlertDescription>
+                  Access our complete 2026 classroom suite with a donation to our mission.
+                </AlertDescription>
+              </Alert>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                 {[
+                   { name: "Three Color Sentence Logic", sub: "Precision Visual Syntax Guide", file: "Three_Color_Sentence_Logic.pdf" },
+                   { name: "Visual Bilingual English Action", sub: "Direct Association Workbook", file: "Visual_Bilingual_English_Action.pdf" },
+                   { name: "Visual English Action Guide", sub: "Zero-Second Response Manual", file: "Visual_English_Action_Guide.pdf" },
+                   { name: "Visual Logic Language Systems", sub: "High-Dimensional Linguistic Theory", file: "Visual_Logic_Language_Systems.pdf" },
+                   { name: "Visual Travel Syntax Guide", sub: "Survival Dialogues for Jakarta", file: "Visual_Travel_Syntax_Guide.pdf" },
+                   { name: "English Class April 2026 Visual Slide", sub: "Official Class Presentation Deck", file: "English Class April2026 visual slide .pdf" }
+                 ].map((resource, i) => (
+                   <div key={i} className="p-4 bg-card rounded-lg border shadow-sm flex items-center justify-between group hover:border-accent transition-colors">
+                      <div className="max-w-[150px]">
+                        <p className="font-bold text-foreground text-sm leading-tight">{resource.name}</p>
+                        <p className="text-[10px] text-muted-foreground mt-1">{resource.sub}</p>
+                      </div>
+                      <Button variant="ghost" size="sm" asChild className="text-accent hover:text-accent hover:bg-accent/10 h-auto py-2">
+                        <a href={PAYPAL_DONATION_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center">
+                           <span className="text-[10px] font-bold">Donate</span>
+                           <Download className="h-3 w-3 mt-1" />
+                        </a>
+                      </Button>
+                   </div>
+                 ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     );
   }
@@ -306,7 +325,7 @@ export default function ScenariosPage() {
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <Button variant="ghost" onClick={() => setActiveLesson(null)} className="text-primary">
-          <ChevronLeft className="mr-2 h-4 w-4" /> Back to Lessons
+          <ChevronLeft className="mr-2 h-4 w-4" /> Exit Lesson
         </Button>
         
         <div className="flex bg-secondary p-1 rounded-lg shadow-inner">
@@ -322,7 +341,7 @@ export default function ScenariosPage() {
               }}
               className="text-xs capitalize"
             >
-              {phase === 'intro' ? 'Phase 1: Intro' : phase === 'practice' ? 'Phase 2: Practice' : 'Phase 3: Mastery'}
+              {phase === 'intro' ? 'Intro' : phase === 'practice' ? 'Recall' : 'Mastery'}
             </Button>
           ))}
         </div>

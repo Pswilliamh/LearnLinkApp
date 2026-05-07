@@ -24,6 +24,8 @@ import {
   BookMarked,
   MapPin,
   Lock,
+  Video,
+  Gift
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -36,7 +38,8 @@ const learningSections = [
   { title: 'Learn the Alphabet', description: 'Master all the letters from A to Z.', href: '/alphabet', icon: SpellCheck, image: placeholderImages.alphabet.url },
   { title: 'Numbers & Colors', description: 'Learn numbers and basic colors.', href: '/numbers-colors', icon: Hash, image: placeholderImages.numbers_colors.url },
   { title: 'Build Your Vocabulary', description: 'Discover new words and their meanings.', href: '/vocabulary', icon: BookOpenText, image: placeholderImages.vocabulary.url },
-  { title: 'Scenario Lessons', description: 'Mastery-verified real-world scenario training.', href: '/scenarios', icon: MapPin, image: placeholderImages.scenarios.url, certified: true, premium: true },
+  { title: 'Scenario Lessons', description: 'Mastery-verified training (Free Preview Available).', href: '/scenarios', icon: MapPin, image: placeholderImages.scenarios.url, certified: true, preview: true },
+  { title: 'Video mastery', description: 'Visual pronunciation lessons and AI generation.', href: '/video-mastery', icon: Video, image: "https://picsum.photos/seed/video/600/400" },
   { title: 'Form Sentences', description: 'Learn how to construct sentences correctly.', href: '/sentences', icon: CaseSensitive, image: placeholderImages.sentences.url },
   { title: 'Practice Pronunciation', description: 'Improve how you say English words.', href: '/pronunciation', icon: Volume2, image: placeholderImages.pronunciation.url },
   { title: 'Translate & Understand', description: 'Translate between English and Bahasa Indonesia.', href: '/translation', icon: Languages, image: placeholderImages.translation.url },
@@ -201,7 +204,12 @@ export default function HomePage() {
                    />
                 </div>
               )}
-              {section.premium && (
+              {section.preview && (
+                <div className="absolute top-0 left-0 bg-green-600 text-white px-3 py-1 text-xs font-bold rounded-br-lg z-10 flex items-center gap-1">
+                  <Gift className="h-3 w-3" /> FREE PREVIEW
+                </div>
+              )}
+              {!section.preview && section.premium && (
                 <div className="absolute top-0 left-0 bg-accent text-accent-foreground px-3 py-1 text-xs font-bold rounded-br-lg z-10 flex items-center gap-1">
                   <Lock className="h-3 w-3" /> PREMIUM
                 </div>
@@ -231,7 +239,7 @@ export default function HomePage() {
                 ) : (
                   <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                     <Link href={section.href}>
-                      {section.buttonText || (section.premium ? 'Unlock & Start' : 'Start Learning')} <ArrowRight className="ml-2 h-4 w-4" />
+                      {section.buttonText || (section.preview ? 'Try Free Sample' : section.premium ? 'Unlock & Start' : 'Start Learning')} <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
                 )}
