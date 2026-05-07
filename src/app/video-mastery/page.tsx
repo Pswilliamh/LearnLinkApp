@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { PlayCircle, Video, Loader2, Sparkles, Wand2, Volume2, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { PlayCircle, Video, Loader2, Sparkles, Wand2, Volume2, AlertCircle, CheckCircle2, Info } from 'lucide-react';
 import { startVideoGeneration, checkVideoStatus, GenerateVideoOutput } from '@/ai/flows/generate-pronunciation-video';
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -51,7 +51,6 @@ export default function VideoMasteryPage() {
       const start = await startVideoGeneration({ word: genWord });
       setGenStatus(start);
       
-      // Poll for status
       if (start.operationId) {
         const pollInterval = setInterval(async () => {
           const status = await checkVideoStatus(start.operationId!);
@@ -67,7 +66,9 @@ export default function VideoMasteryPage() {
       }
     } catch (e) {
       setIsGenerating(false);
-      toast({ variant: "destructive", title: "Generation Error", description: "Veo rate limit reached. Try again later." });
+      const errorMsg = "Veo rate limit reached or service is busy. Please try again in a few minutes.";
+      setGenStatus({ status: 'failed', error: errorMsg });
+      toast({ variant: "destructive", title: "Generation Error", description: errorMsg });
     }
   };
 
@@ -85,7 +86,6 @@ export default function VideoMasteryPage() {
       </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Prebuilt Lessons */}
         <div className="lg:col-span-2 space-y-6">
           <h2 className="text-2xl font-bold text-primary flex items-center gap-2">
             <PlayCircle className="h-6 w-6" /> Lesson Library
@@ -122,7 +122,6 @@ export default function VideoMasteryPage() {
           )}
         </div>
 
-        {/* AI Generator Lab */}
         <div className="space-y-6">
           <h2 className="text-2xl font-bold text-primary flex items-center gap-2">
             <Sparkles className="h-6 w-6 text-accent" /> AI Visual Lab (Veo)
@@ -133,6 +132,13 @@ export default function VideoMasteryPage() {
               <CardDescription>Enter a difficult word to generate a 5-second pronunciation guide.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              <Alert className="bg-accent/10 border-accent/50 text-accent-foreground py-2">
+                <Info className="h-4 w-4" />
+                <AlertDescription className="text-[10px] leading-tight">
+                  Veo AI has a global rate limit. If generation fails, please wait 5 minutes before trying again.
+                </AlertDescription>
+              </Alert>
+
               <Input 
                 placeholder="Enter word (e.g., 'Thorough')" 
                 value={genWord} 
@@ -159,7 +165,7 @@ export default function VideoMasteryPage() {
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
                   <AlertTitle>Generation Failed</AlertTitle>
-                  <AlertDescription>{genStatus.error}</AlertDescription>
+                  <AlertDescription className="text-xs">{genStatus.error}</AlertDescription>
                 </Alert>
               )}
 
