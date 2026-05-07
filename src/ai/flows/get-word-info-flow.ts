@@ -10,7 +10,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import {gemini15Flash} from '@genkit-ai/google-genai';
 
 const GetWordInfoInputSchema = z.object({
   word: z.string().describe('The English word to get information for.'),
@@ -33,7 +32,7 @@ export async function getWordInfo(input: GetWordInfoInput): Promise<GetWordInfoO
 
 const prompt = ai.definePrompt({
   name: 'getWordInfoPrompt',
-  model: gemini15Flash,
+  model: 'googleai/gemini-1.5-flash',
   input: {schema: GetWordInfoInputSchema},
   output: {schema: GetWordInfoOutputSchema},
   prompt: `You are an expert linguist and English-to-Bahasa Indonesia translator.

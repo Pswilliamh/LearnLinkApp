@@ -7,7 +7,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import {gemini15Flash} from '@genkit-ai/google-genai';
 
 const BilingualChatInputSchema = z.object({
   userQuery: z.string().describe('The user question or message in English or Bahasa Indonesia.'),
@@ -31,7 +30,7 @@ export async function bilingualChat(input: BilingualChatInput): Promise<Bilingua
 
 const prompt = ai.definePrompt({
   name: 'bilingualChatPrompt',
-  model: gemini15Flash,
+  model: 'googleai/gemini-1.5-flash',
   input: {schema: BilingualChatInputSchema},
   output: {schema: BilingualChatOutputSchema},
   prompt: `You are 'Guru Bahasa' (Language Teacher), an expert, friendly, and patient English and Indonesian language tutor for the LearnLink platform.

@@ -9,7 +9,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import {gemini15Flash} from '@genkit-ai/google-genai';
 
 const IdentifyObjectInputSchema = z.object({
   photoDataUri: z
@@ -39,7 +38,7 @@ export async function identifyObject(input: IdentifyObjectInput): Promise<Identi
 
 const prompt = ai.definePrompt({
   name: 'identifyObjectPrompt',
-  model: gemini15Flash,
+  model: 'googleai/gemini-1.5-flash',
   input: {schema: IdentifyObjectInputSchema},
   output: {schema: IdentifyObjectOutputSchema},
   prompt: `You are an expert object identifier and English-to-Bahasa Indonesia translator.

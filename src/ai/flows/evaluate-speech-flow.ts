@@ -5,7 +5,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import {gemini15Flash} from '@genkit-ai/google-genai';
 
 const EvaluateSpeechInputSchema = z.object({
   userAttempt: z.string().describe("The user's spoken phrase, transcribed to text."),
@@ -43,7 +42,7 @@ export async function evaluateSpeech(input: EvaluateSpeechInput): Promise<Evalua
 
 const prompt = ai.definePrompt({
   name: 'evaluateSpeechPrompt',
-  model: gemini15Flash,
+  model: 'googleai/gemini-1.5-flash',
   input: {schema: EvaluateSpeechInputSchema},
   output: {schema: EvaluateSpeechOutputSchema},
   prompt: TUTOR_PROMPT,
