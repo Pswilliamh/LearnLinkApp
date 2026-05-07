@@ -1,5 +1,3 @@
-
-// src/app/pronunciation/page.tsx
 'use client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -54,9 +52,8 @@ export default function PronunciationPage() {
   };
   
   useEffect(() => {
-    // Setup SpeechRecognition
     if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
         recognitionRef.current = new SpeechRecognition();
         recognitionRef.current.continuous = false;
         recognitionRef.current.lang = 'en-US';
@@ -71,6 +68,9 @@ export default function PronunciationPage() {
         };
 
         recognitionRef.current.onerror = (event: any) => {
+            // Ignore 'aborted' as it's often a manual stop or a side effect of cleanup
+            if (event.error === 'aborted') return;
+            
             console.error("Speech recognition error", event.error);
             toast({ variant: "destructive", title: "Recognition Error", description: `Could not recognize speech: ${event.error}` });
             setIsListening(false);
@@ -84,10 +84,14 @@ export default function PronunciationPage() {
     return () => {
       cancelSpeech();
       if (recognitionRef.current) {
-        recognitionRef.current.abort();
+        try {
+          recognitionRef.current.abort();
+        } catch (e) {
+          // Ignore errors during cleanup
+        }
       }
     };
-  }, [practiceTarget]); // Rerun effect if practiceTarget changes
+  }, [practiceTarget]);
 
   const speakAndHighlight = (sentenceText: string, sentenceKey: string) => {
     if (typeof window === 'undefined' || !window.speechSynthesis) {
@@ -136,13 +140,17 @@ export default function PronunciationPage() {
         toast({ variant: "destructive", title: "Unsupported Browser", description: "Speech recognition is not available in your browser." });
         return;
     }
-    cancelSpeech(); // Stop any text-to-speech
+    cancelSpeech();
     setPracticeTarget(item);
     setEvaluationResult(null);
     setEvaluationError(null);
     setUserTranscript(null);
     setIsListening(true);
-    recognitionRef.current.start();
+    try {
+      recognitionRef.current.start();
+    } catch (e) {
+      // If already started, ignore
+    }
   };
 
   const handleEvaluate = async (userAttempt: string, targetPhrase: string) => {
@@ -182,6 +190,11 @@ export default function PronunciationPage() {
     setUserTranscript(null);
     setIsListening(false);
     setIsEvaluating(false);
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.abort();
+      } catch (e) {}
+    }
   }
   
   return (

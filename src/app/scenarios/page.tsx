@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -64,6 +63,7 @@ export default function ScenariosPage() {
         };
 
         recognitionRef.current.onerror = (event: any) => {
+            if (event.error === 'aborted') return;
             setIsListening(false);
             toast({ variant: "destructive", title: "Recognition Error", description: event.error });
         };
@@ -72,6 +72,14 @@ export default function ScenariosPage() {
             setIsListening(false);
         };
     }
+    
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch (e) {}
+      }
+    };
   }, [activeLesson, currentSlideIndex, toast]);
 
   const handleStartLesson = (lesson: ScenarioLesson) => {
@@ -120,7 +128,9 @@ export default function ScenariosPage() {
     setEvaluationResult(null);
     setUserTranscript(null);
     setIsListening(true);
-    recognitionRef.current.start();
+    try {
+      recognitionRef.current.start();
+    } catch (e) {}
   };
 
   const handleEvaluate = async (userAttempt: string, targetPhrase: string) => {
