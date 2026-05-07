@@ -46,7 +46,13 @@ Your mission is to help students learn English through direct association and pr
 5. Provide helpful example sentences when explaining vocabulary or grammar.
 6. Your tone should be encouraging and professional (Jakarta 2026 standard).
 
-User Query: "{{userQuery}}"
+**CONVERSATION HISTORY:**
+{{#each history}}
+{{role}}: {{{text}}}
+{{/each}}
+
+**NEW USER QUERY:**
+user: "{{userQuery}}"
 `,
 });
 
