@@ -4,27 +4,34 @@
 LearnLink is a high-dimensional English learning platform designed for schools and students, focusing on the "Precision Protocol" and "Direct Association" methodology.
 
 ## ⚠️ IMPORTANT: Directory Structure
-To ensure images and PDFs load correctly, the `public` folder must be at the root of the project (outside of `src`).
+To ensure images, PDFs, and videos load correctly, the `public` folder must be at the root of the project (outside of `src`).
 
 ### Correct Structure:
 ```text
 STUDIO (Root Directory)
 ├── public/              <-- OUTSIDE of src
 │   ├── images/          (All .png files)
-│   └── pdf/             (Your methodology PDFs)
+│   ├── pdf/             (Your methodology PDFs)
+│   └── video/           (Your pre-created .mp4 pronunciation videos)
 ├── src/                 (Your code)
 ├── next.config.ts       <-- OUTSIDE of src
 ├── package.json
 └── README.md
 ```
 
-## 🖼️ Image File Checklist
-Ensure these files are in `public/images/`:
+## 🖼️ Image & Asset Checklist
+Ensure these files are in your `public` folders:
+
+### Images (`public/images/`)
 - [x] `sight-logo.png` (Main Logo)
 - [x] `human-verified-seal.png` (Official Seal)
 - [x] `teacher-scenerio.png` (Scenario Hub Logo)
 - [ ] `section-numbers-colors.png` (Numbers & Colors Section)
 - [ ] `official-logo.png` (Contact Us Section)
+
+### Videos (`public/video/`)
+- [ ] `th-sound-mastery.mp4` (Example pre-created video)
+- [ ] `silent-k-mastery.mp4` (Example pre-created video)
 
 ## 🚀 How to Sync & Deploy
 
@@ -46,11 +53,5 @@ git push -u origin main
 - **Modular Scenario Lessons**: Real-world scenarios with visual scaffolding and Pink/Green logic.
 - **The Fading Strategy**: A three-phase learning approach (Intro, Practice, Mastery).
 - **Guru Bahasa AI**: Real-time speech evaluation using Genkit (Gemini 1.5 Flash).
-- **Teacher Resource Hub**: Donation-based access to verified professional guides.
-- **Human-Verified Quality**: "Human verified not AI created content. Slide Decks or AI formated content verified."
-
-## Tech Stack
-- **Frontend**: Next.js 15, React 18, Tailwind CSS
-- **UI Components**: ShadCN UI
-- **AI Engine**: Genkit with Gemini 1.5 Flash (Standardized)
-- **Icons**: Lucide React
+- **AI Video Lab**: Experimental pronunciation generation using Veo 2.0.
+- **Human-Verified Quality**: "Human verified not AI created content."
