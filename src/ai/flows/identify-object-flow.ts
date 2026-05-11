@@ -51,15 +51,7 @@ Analyze the provided image.
 
 Image: {{media url=photoDataUri}}
 
-Provide your response as a JSON object strictly matching this schema:
-{
-  "objectName": "string (The name of the primary object identified in the photo.)",
-  "definition": "string (A concise definition of the identified object in English.)",
-  "exampleSentences": ["string (Example sentence 1)", "string (Example sentence 2)", "string (Example sentence 3)"],
-  "bahasaDefinition": "string (The concise definition of the identified object, translated into Bahasa Indonesia.)",
-  "bahasaExampleSentences": ["string (Translated example sentence 1)", "string (Translated example sentence 2)", "string (Translated example sentence 3)"]
-}
-Do not include any other text or explanations outside of this JSON object.`,
+Provide your response as a JSON object strictly matching this schema.`,
 });
 
 const identifyObjectFlow = ai.defineFlow(
@@ -71,7 +63,7 @@ const identifyObjectFlow = ai.defineFlow(
   async input => {
     const {output} = await prompt(input);
     if (!output) {
-      throw new Error('Failed to get a valid response from the AI model for object identification.');
+      throw new Error('Failed to identify the object in the image.');
     }
     return output;
   }

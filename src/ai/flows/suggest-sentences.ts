@@ -51,6 +51,15 @@ const suggestSentencesFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
-    return output!;
+    if (!output) {
+      return {
+        sentences: [
+          `I like to use the word ${input.word}.`,
+          `The word ${input.word} is very interesting.`,
+          `Can you explain what ${input.word} means?`
+        ]
+      };
+    }
+    return output;
   }
 );

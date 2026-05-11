@@ -61,7 +61,6 @@ const getWordInfoFlow = ai.defineFlow(
     if (!output) {
       throw new Error('Failed to get a response from the AI model for word information.');
     }
-    // Ensure the original word is part of the output, even if the model omits it.
     return {
         ...output,
         originalWord: input.word 

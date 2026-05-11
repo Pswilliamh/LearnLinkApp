@@ -60,7 +60,10 @@ const evaluateSpeechFlow = ai.defineFlow(
   async (input) => {
     const {output} = await prompt(input);
     if (!output) {
-      throw new Error('Failed to get a response from the AI model.');
+      return {
+        feedback: "I couldn't hear that very clearly. Could you try saying it one more time?",
+        isCorrect: false
+      };
     }
     return output;
   }

@@ -48,7 +48,7 @@ const translateContentFlow = ai.defineFlow(
   async input => {
     const {output} = await prompt(input);
     if (!output) {
-      throw new Error('Failed to get a response from the AI model for translation.');
+      throw new Error('Failed to translate the content.');
     }
     return output;
   }

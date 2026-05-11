@@ -65,7 +65,11 @@ const bilingualChatFlow = ai.defineFlow(
   async (input) => {
     const {output} = await prompt(input);
     if (!output) {
-      throw new Error('Failed to get a response from Guru Bahasa.');
+      return {
+        englishResponse: "I'm sorry, I couldn't process that request. Let's try talking about something else!",
+        bahasaResponse: "Maaf, saya tidak bisa memproses permintaan itu. Mari kita bicarakan hal lain!",
+        suggestions: ["Hello!", "How are you?", "Help me learn English"]
+      };
     }
     return output;
   }

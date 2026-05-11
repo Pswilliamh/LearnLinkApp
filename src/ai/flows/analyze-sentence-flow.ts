@@ -52,7 +52,10 @@ const analyzeSentenceFlow = ai.defineFlow(
   async (input) => {
     const {output} = await prompt(input);
     if (!output) {
-      throw new Error('Failed to get a response from the AI model for sentence analysis.');
+      return {
+        feedback: "Guru Bahasa is having trouble analyzing this sentence right now. Please try again.",
+        isCorrect: false
+      };
     }
     return output;
   }
