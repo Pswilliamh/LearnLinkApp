@@ -231,9 +231,20 @@ export default function AlphabetPage() {
               </Alert>
           )}
           {translatedWord && (
-            <div className="text-center p-4 mt-2 bg-secondary rounded-lg">
-                <p className="text-sm text-muted-foreground">Bahasa Indonesia Translation:</p>
-                <p className="text-2xl font-bold text-accent">{translatedWord}</p>
+            <div className="text-center p-6 mt-4 bg-secondary border-2 border-accent/20 rounded-xl relative group">
+                <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Bahasa Indonesia Translation</p>
+                <div className="flex items-center justify-center gap-4">
+                  <p className="text-3xl font-bold text-accent">{translatedWord}</p>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => speakText(translatedWord, { lang: 'id-ID' })} 
+                    className="text-primary hover:text-accent hover:bg-accent/10"
+                    title="Pronounce in Bahasa Indonesia"
+                  >
+                    <Volume2 className="h-7 w-7" />
+                  </Button>
+                </div>
             </div>
           )}
         </CardContent>

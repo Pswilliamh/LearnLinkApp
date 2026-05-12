@@ -1,5 +1,4 @@
 
-// src/app/vocabulary/page.tsx
 'use client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -77,10 +76,10 @@ export default function VocabularyPage() {
   const [revealedTranslations, setRevealedTranslations] = useState<Record<string, boolean>>({});
   const { toast } = useToast();
 
-  const handlePronunciation = (text: string) => {
+  const handlePronunciation = (text: string, lang: 'en-US' | 'id-ID' = 'en-US') => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
+      utterance.lang = lang;
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(utterance);
     } else {
@@ -138,7 +137,18 @@ export default function VocabularyPage() {
                         </Button>
                       </div>
                       {revealedTranslations[translationKey] ? (
-                        <p className="text-md text-accent">{item.bahasa}</p>
+                        <div className="flex items-center justify-between border-t border-accent/10 pt-2 mt-2">
+                          <p className="text-md text-accent font-semibold">{item.bahasa}</p>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            onClick={() => handlePronunciation(item.bahasa, 'id-ID')}
+                            className="text-primary hover:text-accent h-8 w-8"
+                            title="Hear in Bahasa Indonesia"
+                          >
+                            <Volume2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                       ) : (
                         <Button 
                           variant="outline" 
@@ -167,11 +177,6 @@ export default function VocabularyPage() {
             </p>
           </CardContent>
         </Card>
-      )}
-      {categorizedVocabulary.length > 0 && categorizedVocabulary.length < 10 && (
-        <p className="text-muted-foreground text-center py-4">
-          You can add many more categories and items to the <code>categorizedVocabulary</code> list in this file!
-        </p>
       )}
     </div>
   );
