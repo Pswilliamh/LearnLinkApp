@@ -26,41 +26,23 @@ Ensure these files are in your `public` folders:
 - [x] `sight-logo.png` (Main Logo)
 - [x] `human-verified-seal.png` (Official Seal)
 - [x] `teacher-scenerio.png` (Scenario Hub Logo)
-- [ ] `section-numbers-colors.png` (Numbers & Colors Section)
-- [ ] `official-logo.png` (Contact Us Section)
+- [x] `section-numbers-colors.png` (Numbers & Colors Section)
+- [x] `official-logo.png` (Contact Us Section)
 
 ### Videos (`public/video/`)
 - [ ] `th-sound-mastery.mp4` (Example pre-created video)
 - [ ] `silent-k-mastery.mp4` (Example pre-created video)
 
-## 🚀 How to Sync & Deploy to GitHub
+## 🚀 How to Sync & Deploy to GitHub (All-in-One Command)
+Open the Terminal (**Terminal > New Terminal**) and paste this block to sync your project:
 
-Open the Terminal (**Terminal > New Terminal**) and run these exact commands one by one:
-
-1. **Initialize the repository:**
-   ```bash
-   git init
-   ```
-
-2. **Stage all files:**
-   ```bash
-   git add .
-   ```
-
-3. **Commit the changes:**
-   ```bash
-   git commit -m "Final Build: LearnLink 2026 Precision Protocol"
-   ```
-
-4. **Connect to your GitHub repo:**
-   ```bash
-   git remote add origin https://github.com/Pswilliamh/LearnLinkApp.git
-   ```
-
-5. **Push to the main branch:**
-   ```bash
-   git push -u origin main
-   ```
+```bash
+git init
+git add .
+git commit -m "Final Build: LearnLink 2026 Precision Protocol"
+git remote add origin https://github.com/Pswilliamh/LearnLinkApp.git
+git push -u origin main
+```
 
 ## 📥 How to Download a Backup
 1. In the left sidebar (Explorer), **right-click** on the top-level project folder (`STUDIO`).
