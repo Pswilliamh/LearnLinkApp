@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -5,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScenarioLesson, scenarioLessons } from '@/lib/scenario-lessons';
-import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, Eye, Mic, Loader2, CheckCircle2, FileText, Lock, ShieldCheck, ExternalLink, Download, Gift } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Volume2, MapPin, Sparkles, AlertCircle, Eye, Mic, Loader2, CheckCircle2, FileText, Lock, ShieldCheck, Download, Gift } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -15,9 +16,61 @@ import { CertificateOfMastery } from '@/components/certificate-of-mastery';
 
 const PAYPAL_DONATION_URL = "https://www.paypal.com/donate/?hosted_button_id=FP4RM3ZNGZP7Y";
 
+/**
+ * Isolated Password Guard component to prevent full-page re-renders during typing.
+ */
+function PasswordGuard({ onVerify }: { onVerify: (level: 'preview' | 'full') => void }) {
+  const [passwordInput, setPasswordInput] = useState('');
+  const { toast } = useToast();
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const input = passwordInput.trim().toUpperCase();
+    if (input === '2026') {
+      onVerify('full');
+      toast({ title: "Full Access Granted", description: "Welcome to the Complete Scenario Hub." });
+    } else if (input === 'PREVIEW') {
+      onVerify('preview');
+      toast({ title: "Preview Access Granted", description: "Enjoy your free Precision Protocol sample." });
+    } else {
+      toast({ variant: "destructive", title: "Access Denied", description: "Incorrect password. Use 'PREVIEW' or '2026'." });
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-8">
+      <Card className="w-full max-w-md shadow-2xl border-2 border-accent">
+        <CardHeader className="text-center">
+          <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-4">
+            <Lock className="h-8 w-8 text-accent" />
+          </div>
+          <CardTitle className="text-2xl">Secure Entry Point</CardTitle>
+          <CardDescription>Enter 'PREVIEW' for a free module or '2026' for full access.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handlePasswordSubmit} className="space-y-4">
+            <Input 
+              type="text" 
+              placeholder="Enter access code..." 
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              className="text-center text-lg uppercase"
+            />
+            <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+              Verify Credentials
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="text-center text-xs text-muted-foreground flex justify-center">
+           <ShieldCheck className="h-3 w-3 mr-1" /> Precision Protocol V2026
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}
+
 export default function ScenariosPage() {
   const [accessLevel, setAccessLevel] = useState<'none' | 'preview' | 'full'>('none');
-  const [passwordInput, setPasswordInput] = useState('');
   const [activeLesson, setActiveLesson] = useState<ScenarioLesson | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [learningPhase, setLearningPhase] = useState<'intro' | 'practice' | 'mastery'>('intro');
@@ -31,20 +84,6 @@ export default function ScenariosPage() {
   
   const recognitionRef = useRef<any>(null);
   const { toast } = useToast();
-
-  const handlePasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const input = passwordInput.trim().toUpperCase();
-    if (input === '2026') {
-      setAccessLevel('full');
-      toast({ title: "Full Access Granted", description: "Welcome to the Complete Scenario Hub." });
-    } else if (input === 'PREVIEW') {
-      setAccessLevel('preview');
-      toast({ title: "Preview Access Granted", description: "Enjoy your free Precision Protocol sample." });
-    } else {
-      toast({ variant: "destructive", title: "Access Denied", description: "Incorrect password. Use 'PREVIEW' for a free sample or '2026' for full access." });
-    }
-  };
 
   useEffect(() => {
     if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
@@ -149,36 +188,7 @@ export default function ScenariosPage() {
   };
 
   if (accessLevel === 'none') {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-8">
-        <Card className="w-full max-w-md shadow-2xl border-2 border-accent">
-          <CardHeader className="text-center">
-            <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-4">
-              <Lock className="h-8 w-8 text-accent" />
-            </div>
-            <CardTitle className="text-2xl">Secure Entry Point</CardTitle>
-            <CardDescription>Enter 'PREVIEW' for a free module or '2026' for full access.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handlePasswordSubmit} className="space-y-4">
-              <Input 
-                type="text" 
-                placeholder="Enter access code..." 
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                className="text-center text-lg uppercase"
-              />
-              <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                Verify Credentials
-              </Button>
-            </form>
-          </CardContent>
-          <CardFooter className="text-center text-xs text-muted-foreground flex justify-center">
-             <ShieldCheck className="h-3 w-3 mr-1" /> Precision Protocol V2026
-          </CardFooter>
-        </Card>
-      </div>
-    );
+    return <PasswordGuard onVerify={setAccessLevel} />;
   }
 
   if (!activeLesson) {
@@ -212,21 +222,29 @@ export default function ScenariosPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {visibleLessons.map((lesson) => (
             <Card key={lesson.lesson_id} className="hover:shadow-xl transition-all border-t-4 border-accent relative flex flex-col overflow-hidden group">
-               <div className="absolute top-2 right-2 z-10 w-20 h-20 opacity-90 group-hover:opacity-100 transition-opacity">
+               {/* Polished seal placement: smaller and doesn't fight with the preview badge */}
+               <div className="absolute -top-1 -right-1 z-10 w-16 h-16 opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all">
                  <Image 
                   src="/images/human-verified-seal.png" 
                   alt="LearnLink Human Verified Seal" 
-                  width={80} 
-                  height={80} 
-                  className="object-contain drop-shadow"
+                  width={64} 
+                  height={64} 
+                  className="object-contain drop-shadow-md"
                  />
               </div>
               <CardHeader>
-                <div className="flex justify-between items-start">
-                  <CardTitle className="text-xl text-primary">{lesson.theme}</CardTitle>
-                  {lesson.is_preview && <Badge className="bg-green-600">FREE PREVIEW</Badge>}
+                <div className="flex flex-col gap-2">
+                  <div className="flex justify-between items-center pr-12">
+                    <CardTitle className="text-xl text-primary">{lesson.theme}</CardTitle>
+                  </div>
+                  {lesson.is_preview && (
+                    <div className="flex items-center gap-2">
+                       <Badge className="bg-green-600 font-bold tracking-tighter text-[10px]">FREE PREVIEW</Badge>
+                       <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">v.2026</span>
+                    </div>
+                  )}
                 </div>
-                <CardDescription className="line-clamp-2">{lesson.description}</CardDescription>
+                <CardDescription className="line-clamp-2 mt-2">{lesson.description}</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
