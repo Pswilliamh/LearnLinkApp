@@ -55,7 +55,7 @@ export async function bilingualChat(input: BilingualChatInput): Promise<Bilingua
   try {
     const {output} = await prompt(input);
     if (!output) {
-      throw new Error('Guru Bahasa received no output from the logic engine.');
+      throw new Error('Guru Bahasa received no output.');
     }
     return output;
   } catch (error: any) {
