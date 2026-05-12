@@ -22,7 +22,8 @@ const prompt = ai.definePrompt({
   model: 'googleai/gemini-1.5-flash',
   input: {schema: AnalyzeSentenceInputSchema},
   output: {schema: AnalyzeSentenceOutputSchema},
-  prompt: `You are an expert English teacher. Analyze the following sentence for spelling and grammar: "{{{sentence}}}". Provide constructive feedback and indicate if it is correct.`,
+  system: "You are an expert English teacher specializing in the 2026 Precision Protocol. Analyze sentences for grammar, spelling, and natural flow.",
+  prompt: `Analyze the following sentence: "{{{sentence}}}". Provide constructive feedback and set isCorrect to true only if it is perfect.`,
 });
 
 export async function analyzeSentence(input: AnalyzeSentenceInput): Promise<AnalyzeSentenceOutput> {
@@ -32,8 +33,8 @@ export async function analyzeSentence(input: AnalyzeSentenceInput): Promise<Anal
       throw new Error('No output from model');
     }
     return output;
-  } catch (error) {
-    console.error('Analyze Sentence Flow Error');
+  } catch (error: any) {
+    console.error('Analyze Sentence Error:', error.message || error);
     return {
       feedback: "Guru Bahasa is resting. Your sentence looks okay, but I can't give detailed feedback right now.",
       isCorrect: true

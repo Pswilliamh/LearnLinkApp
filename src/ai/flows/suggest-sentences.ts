@@ -7,7 +7,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const SuggestSentencesInputSchema = z.object({
-  word: z.string().describe('The vocabulary word.'),
+  word: z.string().describe('The vocabulary word to use in sentences.'),
 });
 export type SuggestSentencesInput = z.infer<typeof SuggestSentencesInputSchema>;
 
@@ -21,29 +21,24 @@ const prompt = ai.definePrompt({
   model: 'googleai/gemini-1.5-flash',
   input: {schema: SuggestSentencesInputSchema},
   output: {schema: SuggestSentencesOutputSchema},
-  prompt: `Generate 3 example sentences for the word: "{{{word}}}".`,
+  system: "Generate natural, useful English sentences for students using the provided vocabulary word.",
+  prompt: `Generate 3 diverse example sentences for the word: "{{{word}}}".`,
 });
 
 export async function suggestSentences(input: SuggestSentencesInput): Promise<SuggestSentencesOutput> {
   try {
     const {output} = await prompt(input);
     if (!output || !output.sentences) {
-      return {
-        sentences: [
-          `I want to learn more about ${input.word}.`,
-          `Can you use ${input.word} in a sentence?`,
-          `${input.word} is a useful word.`
-        ]
-      };
+      throw new Error('No valid sentences returned from model.');
     }
     return output;
-  } catch (error) {
-    console.error('Suggest Sentences Flow Error');
+  } catch (error: any) {
+    console.error('Suggest Sentences Error:', error.message || error);
     return {
       sentences: [
-        `System is currently busy, but ${input.word} is a great word!`,
-        `Let's try again in a moment.`,
-        `Practice makes perfect with ${input.word}.`
+        `I am practicing the word "${input.word}".`,
+        `Can you help me use "${input.word}" correctly?`,
+        `Learning "${input.word}" is part of my 2026 mastery.`
       ]
     };
   }

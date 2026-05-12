@@ -1,13 +1,13 @@
 'use server';
 /**
- * @fileOverview An AI agent for identifying objects in images.
+ * @fileOverview An AI agent for identifying objects in images for the 2026 Precision Protocol.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const IdentifyObjectInputSchema = z.object({
-  photoDataUri: z.string(),
+  photoDataUri: z.string().describe("A photo as a data URI. Format: 'data:<mimetype>;base64,<encoded_data>'."),
 });
 export type IdentifyObjectInput = z.infer<typeof IdentifyObjectInputSchema>;
 
@@ -25,7 +25,8 @@ const prompt = ai.definePrompt({
   model: 'googleai/gemini-1.5-flash',
   input: {schema: IdentifyObjectInputSchema},
   output: {schema: IdentifyObjectOutputSchema},
-  prompt: `Identify the object in this image: {{media url=photoDataUri}}. Provide definition and examples in English and Bahasa.`,
+  system: "Identify the primary object in the image and provide educational context in both English and Bahasa Indonesia.",
+  prompt: `Identify the object in this image: {{media url=photoDataUri}}. Provide full bilingual details.`,
 });
 
 export async function identifyObject(input: IdentifyObjectInput): Promise<IdentifyObjectOutput> {
@@ -35,11 +36,11 @@ export async function identifyObject(input: IdentifyObjectInput): Promise<Identi
       throw new Error('No output from model');
     }
     return output;
-  } catch (error) {
-    console.error('Identify Object Flow Error');
+  } catch (error: any) {
+    console.error('Identify Object Error:', error.message || error);
     return {
       objectName: "Unknown Object",
-      definition: "I could not identify this object right now.",
+      definition: "I could not identify this object at this time.",
       exampleSentences: ["The object is in the picture."],
       bahasaDefinition: "Saya tidak dapat mengidentifikasi objek ini saat ini.",
       bahasaExampleSentences: ["Objek ada di dalam gambar."]

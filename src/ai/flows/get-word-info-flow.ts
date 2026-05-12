@@ -7,7 +7,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GetWordInfoInputSchema = z.object({
-  word: z.string().describe('The English word.'),
+  word: z.string().describe('The English word to explore.'),
 });
 export type GetWordInfoInput = z.infer<typeof GetWordInfoInputSchema>;
 
@@ -26,7 +26,8 @@ const prompt = ai.definePrompt({
   model: 'googleai/gemini-1.5-flash',
   input: {schema: GetWordInfoInputSchema},
   output: {schema: GetWordInfoOutputSchema},
-  prompt: `Provide info for word: "{{{word}}}". Include definition, example, and Bahasa translations.`,
+  system: "You are a bilingual lexicographer. Provide detailed definitions and examples in both English and Bahasa Indonesia.",
+  prompt: `Provide high-dimensional linguistic info for the word: "{{{word}}}".`,
 });
 
 export async function getWordInfo(input: GetWordInfoInput): Promise<GetWordInfoOutput> {
@@ -36,14 +37,14 @@ export async function getWordInfo(input: GetWordInfoInput): Promise<GetWordInfoO
       throw new Error('No output from model');
     }
     return output;
-  } catch (error) {
-    console.error('Get Word Info Flow Error');
+  } catch (error: any) {
+    console.error('Get Word Info Error:', error.message || error);
     return {
       originalWord: input.word,
-      englishDefinition: "Definition currently unavailable.",
+      englishDefinition: "Information is temporarily unavailable in the logic engine.",
       englishExample: "Example currently unavailable.",
       bahasaTranslationWord: "Terjemahan tidak tersedia.",
-      bahasaDefinition: "Definisi tidak tersedia.",
+      bahasaDefinition: "Informasi tidak tersedia saat ini.",
       bahasaExample: "Contoh tidak tersedia."
     };
   }

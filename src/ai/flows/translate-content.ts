@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview A translation AI agent.
+ * @fileOverview A translation AI agent for the LearnLink platform.
  */
 
 import {ai} from '@/ai/genkit';
@@ -23,6 +23,7 @@ const prompt = ai.definePrompt({
   model: 'googleai/gemini-1.5-flash',
   input: {schema: TranslateContentInputSchema},
   output: {schema: TranslateContentOutputSchema},
+  system: "You are a precise bilingual translator. Translate the text exactly while maintaining its educational intent.",
   prompt: `Translate from {{{sourceLanguage}}} to {{{targetLanguage}}}: {{{textContent}}}`,
 });
 
@@ -33,8 +34,8 @@ export async function translateContent(input: TranslateContentInput): Promise<Tr
       return { translatedText: input.textContent };
     }
     return output;
-  } catch (error) {
-    console.error('Translate Content Flow Error');
-    return { translatedText: `[Translation Error: ${input.textContent}]` };
+  } catch (error: any) {
+    console.error('Translate Content Error:', error.message || error);
+    return { translatedText: `[Translation System Busy: ${input.textContent}]` };
   }
 }
