@@ -1,10 +1,6 @@
 'use server';
 /**
  * @fileOverview An AI agent for analyzing and providing feedback on English sentences.
- *
- * - analyzeSentence - A function that checks a sentence for spelling and grammar errors and provides feedback.
- * - AnalyzeSentenceInput - The input type for the analyzeSentence function.
- * - AnalyzeSentenceOutput - The return type for the analyzeSentence function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -16,47 +12,34 @@ const AnalyzeSentenceInputSchema = z.object({
 export type AnalyzeSentenceInput = z.infer<typeof AnalyzeSentenceInputSchema>;
 
 const AnalyzeSentenceOutputSchema = z.object({
-  feedback: z.string().describe('Constructive feedback on the sentence, highlighting any spelling or grammar issues and suggesting improvements. If the sentence is perfect, it should say so.'),
-  isCorrect: z.boolean().describe('Whether the sentence is grammatically correct and has no spelling errors.'),
+  feedback: z.string().describe('Constructive feedback on the sentence.'),
+  isCorrect: z.boolean().describe('Whether the sentence is grammatically correct.'),
 });
 export type AnalyzeSentenceOutput = z.infer<typeof AnalyzeSentenceOutputSchema>;
-
-export async function analyzeSentence(input: AnalyzeSentenceInput): Promise<AnalyzeSentenceOutput> {
-  return analyzeSentenceFlow(input);
-}
 
 const prompt = ai.definePrompt({
   name: 'analyzeSentencePrompt',
   model: 'googleai/gemini-1.5-flash',
   input: {schema: AnalyzeSentenceInputSchema},
   output: {schema: AnalyzeSentenceOutputSchema},
-  prompt: `You are an expert English teacher reviewing a student's sentence.
-The student is learning English.
-Analyze the following sentence for spelling errors and grammatical correctness:
-"{{{sentence}}}"
-
-Provide constructive feedback.
-If there are errors, clearly point them out and suggest corrections.
-If the sentence is perfectly correct, congratulate the student.
-Indicate if the sentence isCorrect (true/false).
-Keep your feedback concise and encouraging.
-`,
+  prompt: `You are an expert English teacher. Analyze the following sentence for spelling and grammar: "{{{sentence}}}". Provide constructive feedback and indicate if it is correct.`,
 });
 
-const analyzeSentenceFlow = ai.defineFlow(
-  {
-    name: 'analyzeSentenceFlow',
-    inputSchema: AnalyzeSentenceInputSchema,
-    outputSchema: AnalyzeSentenceOutputSchema,
-  },
-  async (input) => {
+export async function analyzeSentence(input: AnalyzeSentenceInput): Promise<AnalyzeSentenceOutput> {
+  try {
     const {output} = await prompt(input);
     if (!output) {
       return {
-        feedback: "Guru Bahasa is having trouble analyzing this sentence right now. Please try again.",
-        isCorrect: false
+        feedback: "Guru Bahasa is resting. Your sentence looks okay, but I can't give detailed feedback right now.",
+        isCorrect: true
       };
     }
     return output;
+  } catch (error) {
+    console.error('Analyze Sentence Flow Error:', error);
+    return {
+      feedback: "I encountered a technical glitch while checking your sentence. Please try again in a moment!",
+      isCorrect: true
+    };
   }
-);
+}

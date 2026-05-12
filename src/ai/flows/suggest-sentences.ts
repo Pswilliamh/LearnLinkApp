@@ -1,65 +1,50 @@
 'use server';
 /**
  * @fileOverview A vocabulary word sentence suggestion AI agent.
- *
- * - suggestSentences - A function that suggests example sentences for a given vocabulary word.
- * - SuggestSentencesInput - The input type for the suggestSentences function.
- * - SuggestSentencesOutput - The return type for the suggestSentences function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const SuggestSentencesInputSchema = z.object({
-  word: z.string().describe('The vocabulary word to generate example sentences for.'),
+  word: z.string().describe('The vocabulary word.'),
 });
 export type SuggestSentencesInput = z.infer<typeof SuggestSentencesInputSchema>;
 
 const SuggestSentencesOutputSchema = z.object({
-  sentences: z
-    .array(z.string())
-    .describe('An array of example sentences for the vocabulary word.'),
+  sentences: z.array(z.string()),
 });
 export type SuggestSentencesOutput = z.infer<typeof SuggestSentencesOutputSchema>;
-
-export async function suggestSentences(input: SuggestSentencesInput): Promise<SuggestSentencesOutput> {
-  return suggestSentencesFlow(input);
-}
 
 const prompt = ai.definePrompt({
   name: 'suggestSentencesPrompt',
   model: 'googleai/gemini-1.5-flash',
   input: {schema: SuggestSentencesInputSchema},
   output: {schema: SuggestSentencesOutputSchema},
-  prompt: `You are an expert English teacher specializing in teaching English to non-native speakers.
-
-You will generate 3 example sentences for the given vocabulary word that are:
-
-*   grammatically correct
-*   contextually relevant
-*   easy to understand
-
-Word: {{{word}}}
-Sentences:`,
+  prompt: `Generate 3 example sentences for the word: "{{{word}}}".`,
 });
 
-const suggestSentencesFlow = ai.defineFlow(
-  {
-    name: 'suggestSentencesFlow',
-    inputSchema: SuggestSentencesInputSchema,
-    outputSchema: SuggestSentencesOutputSchema,
-  },
-  async input => {
+export async function suggestSentences(input: SuggestSentencesInput): Promise<SuggestSentencesOutput> {
+  try {
     const {output} = await prompt(input);
-    if (!output) {
+    if (!output || !output.sentences) {
       return {
         sentences: [
-          `I like to use the word ${input.word}.`,
-          `The word ${input.word} is very interesting.`,
-          `Can you explain what ${input.word} means?`
+          `I want to learn more about ${input.word}.`,
+          `Can you use ${input.word} in a sentence?`,
+          `${input.word} is a useful word.`
         ]
       };
     }
     return output;
+  } catch (error) {
+    console.error('Suggest Sentences Flow Error:', error);
+    return {
+      sentences: [
+        `System is currently busy, but ${input.word} is a great word!`,
+        `Let's try again in a moment.`,
+        `Practice makes perfect with ${input.word}.`
+      ]
+    };
   }
-);
+}
