@@ -29,16 +29,13 @@ export async function analyzeSentence(input: AnalyzeSentenceInput): Promise<Anal
   try {
     const {output} = await prompt(input);
     if (!output) {
-      return {
-        feedback: "Guru Bahasa is resting. Your sentence looks okay, but I can't give detailed feedback right now.",
-        isCorrect: true
-      };
+      throw new Error('No output from model');
     }
     return output;
   } catch (error) {
-    console.error('Analyze Sentence Flow Error:', error);
+    console.error('Analyze Sentence Flow Error');
     return {
-      feedback: "I encountered a technical glitch while checking your sentence. Please try again in a moment!",
+      feedback: "Guru Bahasa is resting. Your sentence looks okay, but I can't give detailed feedback right now.",
       isCorrect: true
     };
   }

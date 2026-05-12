@@ -36,7 +36,7 @@ export async function identifyObject(input: IdentifyObjectInput): Promise<Identi
     }
     return output;
   } catch (error) {
-    console.error('Identify Object Flow Error:', error);
+    console.error('Identify Object Flow Error');
     return {
       objectName: "Unknown Object",
       definition: "I could not identify this object right now.",

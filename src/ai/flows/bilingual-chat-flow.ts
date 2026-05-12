@@ -41,19 +41,15 @@ export async function bilingualChat(input: BilingualChatInput): Promise<Bilingua
   try {
     const {output} = await prompt(input);
     if (!output) {
-      return {
-        englishResponse: "I'm having a little trouble thinking right now. Could you ask me something else?",
-        bahasaResponse: "Saya sedang sedikit kesulitan berpikir saat ini. Bisakah Anda menanyakan hal lain?",
-        suggestions: ["Hello!", "Help me learn English"]
-      };
+      throw new Error('No output from model');
     }
     return output;
   } catch (error) {
-    console.error('Bilingual Chat Flow Error:', error);
+    console.error('Bilingual Chat Flow Error');
     return {
-      englishResponse: "Technical systems are reloading. Please wait a moment.",
-      bahasaResponse: "Sistem teknis sedang memuat ulang. Mohon tunggu sebentar.",
-      suggestions: ["Try again"]
+      englishResponse: "I'm having a little trouble thinking right now. Could you ask me something else?",
+      bahasaResponse: "Saya sedang sedikit kesulitan berpikir saat ini. Bisakah Anda menanyakan hal lain?",
+      suggestions: ["Hello!", "Help me learn English"]
     };
   }
 }

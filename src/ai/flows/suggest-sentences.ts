@@ -38,7 +38,7 @@ export async function suggestSentences(input: SuggestSentencesInput): Promise<Su
     }
     return output;
   } catch (error) {
-    console.error('Suggest Sentences Flow Error:', error);
+    console.error('Suggest Sentences Flow Error');
     return {
       sentences: [
         `System is currently busy, but ${input.word} is a great word!`,

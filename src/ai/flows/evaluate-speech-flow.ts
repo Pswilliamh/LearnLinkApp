@@ -30,16 +30,13 @@ export async function evaluateSpeech(input: EvaluateSpeechInput): Promise<Evalua
   try {
     const {output} = await prompt(input);
     if (!output) {
-      return {
-        feedback: "I heard you, but I can't analyze it right now. Good effort!",
-        isCorrect: true
-      };
+      throw new Error('No output from model');
     }
     return output;
   } catch (error) {
-    console.error('Evaluate Speech Flow Error:', error);
+    console.error('Evaluate Speech Flow Error');
     return {
-      feedback: "Speech systems are currently busy. Try again soon!",
+      feedback: "I heard you, but I can't analyze it right now. Good effort!",
       isCorrect: true
     };
   }

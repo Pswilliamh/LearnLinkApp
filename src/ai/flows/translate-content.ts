@@ -34,7 +34,7 @@ export async function translateContent(input: TranslateContentInput): Promise<Tr
     }
     return output;
   } catch (error) {
-    console.error('Translate Content Flow Error:', error);
+    console.error('Translate Content Flow Error');
     return { translatedText: `[Translation Error: ${input.textContent}]` };
   }
 }

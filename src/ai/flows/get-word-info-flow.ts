@@ -37,7 +37,7 @@ export async function getWordInfo(input: GetWordInfoInput): Promise<GetWordInfoO
     }
     return output;
   } catch (error) {
-    console.error('Get Word Info Flow Error:', error);
+    console.error('Get Word Info Flow Error');
     return {
       originalWord: input.word,
       englishDefinition: "Definition currently unavailable.",
